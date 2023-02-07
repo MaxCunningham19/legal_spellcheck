@@ -17,16 +17,19 @@ This will be shown through the following workflows:
 
 ### Flow 1 : Edit existing document
 
-**Step I** : The user edit an existing file by browsing in the Browse tab in the *Navigation Panel*.
+**Step I** : The user may edit or view an existing file by browsing in the Browse tab in the *Navigation Panel*.
+![](src/browse-database.png)
+
+**Step II** : The user by clicking on the relevant file in the Database opens the *Document editor*.
 ![](src/browse-static.png)
 
-**Step II** : The user may edit or further interact (save/validate) a single paragraph by pressing on the paragraph window.
+**Step III** : The user may edit or further interact (save/validate) a single paragraph by pressing on the paragraph window.
 ![](src/browse-selected.png)
 
-**Step III** : The user may run *spellcheck functions* on a single paragraph by pressing on the validate button. Similarly, the user may *save* the paragraph with or without prior spellcheck validation.
+**Step IV** : The user may run *spellcheck functions* on a single paragraph by pressing on the validate button. Similarly, the user may *save* the paragraph with or without prior spellcheck validation.
 ![](src/browse-validated.png)
 
-**Step IV** : By pressing the Validate button in the *Header* (top-right corner) the user may run spellcheck functions *on all* the paragraphs in the document or save the document.
+**Step V** : By pressing the Validate button in the *Header* (top-right corner) the user may run spellcheck functions *on all* the paragraphs in the document or save the document.
 ![](src/browse-validate-all.png)
 
 
