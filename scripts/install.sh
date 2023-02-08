@@ -1,11 +1,16 @@
 #!/bin/bash
-DJANGO_PROJECT_ROOT="$(dirname $(dirname $(realpath $0)))"
-cd "$DJANGO_PROJECT_ROOT"
+# Make sure that this script is being executed in the project root.
+if [ ! -e manage.py ]
+then
+    echo You must execute this script in the root of the repository!
+    exit 1
+fi
+export DJANGO_PROJECT_ROOT="$(pwd)"
 # Source VENV
 source env/bin/activate
 # Add node binaries to PATH if they have not been added already. (if
 # they exist at all).
-([ -d client/node_modules ] && [[ $PATH =~ client/node_modules ]])\
+([ -d client/node_modules ] && [[ $PATH =~ client/node_modules ]]) \
     || PATH+=:$(realpath client/node_modules/.bin/)
 # Define manage function that automatically loads the models we
 # use. Use this instead of 'python3 mange.py'. When ran without any
