@@ -1,7 +1,7 @@
 
 FROM alpine:latest AS setup-venv
 WORKDIR /var/www/apache
-COPY scripts ./scripts
+COPY scripts/setup-venv.sh ./scripts/setup-venv.sh
 RUN apk add py3-pip python3 && sh ./scripts/setup-venv.sh
  
 FROM alpine:latest AS with-venv
@@ -14,6 +14,7 @@ RUN cat httpd-suffix.conf >> /etc/apache2/httpd.conf ; \
 WORKDIR /var/www/apache
 COPY --from=setup-venv /var/www/apache/env ./env
 COPY scripts ./scripts
+
 COPY manage.py ./manage.py
 COPY server ./server
 COPY client ./client
@@ -23,7 +24,7 @@ RUN . env/bin/activate && echo yes | python3 manage.py collectstatic
 
 USER root:root
 
-ENTRYPOINT [ "/bin/bash" ]
-CMD [ "-c", "httpd -D FOREGROUND" ]
+ENTRYPOINT [ "bash", "scripts/run-production.bash" ]
+
 EXPOSE 80
 EXPOSE 5432
