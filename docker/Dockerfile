@@ -7,7 +7,10 @@ RUN apk add py3-pip python3 && sh ./scripts/setup-venv.sh
 FROM alpine:latest AS with-venv
 RUN apk add apache2 apache2-mod-wsgi bash
 SHELL [ "/bin/bash", "-c" ]
-COPY docker/httpd.conf /etc/apache2/httpd.conf
+RUN sed -i 's/localhost\/htdocs//' /etc/apache2/httpd.conf
+COPY docker/httpd-suffix.conf httpd-suffix.conf
+RUN cat httpd-suffix.conf >> /etc/apache2/httpd.conf ; \
+    rm httpd-suffix.conf
 WORKDIR /var/www/apache
 COPY --from=setup-venv /var/www/apache/env ./env
 COPY scripts ./scripts
