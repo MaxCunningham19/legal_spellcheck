@@ -21,10 +21,9 @@ RUN chown -R apache:apache ./
 USER apache:apache
 RUN . env/bin/activate && echo yes | python3 manage.py collectstatic
 
-ENTRYPOINT [ "/bin/bash" ]
-CMD [ "-c", "httpd" ]
-
 USER root:root
 
-EXPOSE 8080
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "-c", "httpd -D FOREGROUND" ]
+EXPOSE 80
 EXPOSE 5432
