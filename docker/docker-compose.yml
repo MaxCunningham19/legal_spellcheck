@@ -14,6 +14,8 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
     environment: *env
+    ports:
+      - 8080:80
     links:
         - database:database
 volumes:
