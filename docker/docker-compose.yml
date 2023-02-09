@@ -3,20 +3,27 @@ services:
     image: postgres:14.5
     volumes:
       - sweng-db:/var/lib/postgresql/data
-    environment: &env
+    environment: &environment
       POSTGRES_HOST: ${POSTGRES_HOST:-database}
       POSTGRES_USER: ${POSTGRES_USER:-dev}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dev}
       POSTGRES_PORT: ${POSTGRES_PORT:-5432}
       POSTGRES_DB: ${POSTGRES_DB:-database}
-  webserver:
+  webserver: &webserver
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    environment: *env
+    environment: *environment
     ports:
       - 8080:80
     links:
         - database:database
+  webserver-local:
+    <<: *webserver
+    volumes:
+      - ../client:/var/www/apache/client:ro
+      - ../server:/var/www/apache/server:ro
+      - ../static:/var/www/apache/static:ro
+    entrypoint: [ "bash", "scripts/run-local.bash" ]
 volumes:
   sweng-db:

@@ -1,35 +1,21 @@
 #!/bin/bash
-
-# You should invoke this script via:
-#
-#      . scripts/install.sh
-#
-# It should set up the project root directory for you.
-
-DJANGO_PROJECT_ROOT="$(dirname $(dirname $(realpath $0)))"
-alias pushdq='1>/dev/null pushd'
-alias popdq='1>/dev/null popd'
-
-pushdq "$DJANGO_PROJECT_ROOT"
-
-# Set up VENV if VENV does not already exist
-[ ! -d env ] && sh scripts/setup-venv.sh
-
+# Make sure that this script is being executed in the project root.
+if [ ! -e manage.py ]
+then
+    echo You must execute this script in the root of the repository!
+    exit 1
+fi
+export DJANGO_PROJECT_ROOT="$(pwd)"
 # Source VENV
 source env/bin/activate
-
-# Add node binaries to PATH if they have not been added already.
-pushdq client
-[[ $PATH =~ client/node_modules ]] || PATH+=:$(npm bin)
-popdq
-
+# Add node binaries to PATH if they have not been added already. (if
+# they exist at all).
+([ -d client/node_modules/.bin/ ] && [[ ! $PATH =~ client/node_modules ]]) \
+    && PATH+=:$(realpath client/node_modules/.bin/)
 # Define manage function that automatically loads the models we
 # use. Use this instead of 'python3 mange.py'. When ran without any
 # arguments, launches the shell.
 manage() {
-    pushdq "$DJANGO_PROJECT_ROOT"
-    PYTHONSTARTUP=./scripts/managerc.py python3 manage.py "${@:-shell}"
-    popdq
+    (cd "$DJANGO_PROJECT_ROOT";
+     PYTHONSTARTUP=./scripts/managerc.py python3 manage.py "${@:-shell}")
 }
-
-popdq
