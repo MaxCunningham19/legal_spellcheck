@@ -1,0 +1,11 @@
+.Header {
+    composes: Header from '../App.module.css';
+    background-color: var(--light-background);
+}
+
+    .header-container {
+        composes: Header;
+        display: flex;
+        flex-direction: column;
+    }
+

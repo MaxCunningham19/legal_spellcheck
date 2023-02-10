@@ -1,0 +1,30 @@
+.App {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 70px 890px;
+  grid-template-areas: 
+    "title header"
+    "navbar editor";
+  margin: -10px;
+}
+
+.Navbar {
+  grid-area: navbar;
+}
+
+.Editor {
+  grid-area: editor;
+}
+
+.Header {
+  grid-area: header;
+}
+
+.title {
+  background-color: var(--text-dark);
+  grid-area: title;
+  color: white;
+  font-weight: bold;
+  padding: 20px;
+  padding-top: 25px;
+}

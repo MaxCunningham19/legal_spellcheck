@@ -1,0 +1,20 @@
+/* @font-face {
+    font-family: "Source Sans";
+    src: url("./fonts/SourceSansPro/SourceSansPro-Regular.ttf") format('ttf');
+}
+*/
+:root {
+
+    /* palette */
+    --dark-background: #1D3663;
+    --light-background: #F0F7FA;
+    --action-button: #F37A32;
+    --passive-button: #748DBA;
+    --text-dark: #10254A;
+
+}
+
+body {  
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+

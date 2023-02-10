@@ -1,0 +1,24 @@
+.btn-default {
+    background-color: orange;
+    border-radius: 2px;
+    width: 200px;
+}
+
+    .navbar-button {
+        composes: btn-default;
+        background-color: red;
+    }
+
+        .navbar-selected {
+            composes: navbar-button;
+            background-color: aqua;
+        }
+
+        .navbar-plain {
+            composes: navbar-button;
+            background-color: green  ;
+        }
+    
+    .normal-button {
+        
+    }

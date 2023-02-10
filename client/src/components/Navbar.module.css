@@ -1,0 +1,13 @@
+.Navbar {
+    composes: Navbar from '../App.module.css';
+    background-color: var(--dark-background);
+}
+
+    .navbar-container {
+        composes: Navbar;
+        display: flex;
+    }
+
+.nav-item {
+
+}
