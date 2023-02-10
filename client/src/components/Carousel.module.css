@@ -1,0 +1,18 @@
+.Carousel {
+    composes: Carousel from './Editor.module.css';
+}
+
+    .carousel-container {
+        composes: Carousel;
+        display: flex;
+        flex-direction: column;
+        padding: 4rem;
+        padding-bottom: 0;
+        gap: 2rem;
+    }
+
+
+
+
+
+
