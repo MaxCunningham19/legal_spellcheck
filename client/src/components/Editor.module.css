@@ -1,0 +1,8 @@
+.Editor {
+    composes: Editor from '../App.module.css';
+    background-color: var(--light-background);
+}
+
+    .editor-container {
+        composes: Editor;
+    }
