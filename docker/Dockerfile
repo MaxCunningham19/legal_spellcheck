@@ -5,7 +5,7 @@ COPY scripts/setup-venv.sh ./scripts/setup-venv.sh
 RUN apk add py3-pip python3 && sh ./scripts/setup-venv.sh
  
 FROM alpine:latest AS with-venv
-RUN apk add apache2 apache2-mod-wsgi bash
+RUN apk add apache2 apache2-mod-wsgi bash tzdata nodejs aspell aspell-en
 SHELL [ "/bin/bash", "-c" ]
 RUN sed -i 's/localhost\/htdocs//' /etc/apache2/httpd.conf
 COPY docker/httpd-suffix.conf httpd-suffix.conf
