@@ -1,15 +1,31 @@
-import React, {useState} from 'react'
+import React, { useState, useRef } from 'react'
+import useAutosizeTextArea from '../hooks/useAutosizeTextArea'
 import { Button } from './Button'
 import styles from './TextBox.module.css'
 
 export const TextBox = ({
-    type
+    boxStyle,
+    id,
+    content,
+    onChangeInput
 }) => {
+
+    const textAreaRef = useRef()
+
+    useAutosizeTextArea(textAreaRef.current, content) 
+
     return (
       <>
         <div className={styles['TextBox']}>
-          <div className={styles[type]}>
-            <text className='text'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet a ea at repellendus consectetur saepe qui architecto itaque perspiciatis id. Unde et sunt nemo natus exercitationem. Alias incidunt sequi, voluptate quis est id fugit illo deleniti aperiam porro fugiat corporis beatae similique, consectetur impedit obcaecati quae delectus sunt excepturi veniam?</text>
+          <div className={styles[boxStyle]}>
+            <textarea
+              className={styles['textarea']}
+              value={content}
+              onChange={(e) => onChangeInput(e, id)} 
+              placeHolder="Start typing"
+              ref={textAreaRef}
+              rows={1}
+            /> 
           </div>
         </div>
       </>

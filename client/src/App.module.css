@@ -1,7 +1,8 @@
 .App {
   display: grid;
+  height: 100vh;
   grid-template-columns: 260px 1fr;
-  grid-template-rows: 70px 890px;
+  grid-template-rows: 70px 1fr;
   grid-template-areas: 
     "title header"
     "navbar editor";
@@ -14,6 +15,7 @@
 
 .Editor {
   grid-area: editor;
+  overflow: auto;
 }
 
 .Header {
