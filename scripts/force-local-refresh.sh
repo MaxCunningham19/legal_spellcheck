@@ -1,4 +1,5 @@
 #!/bin/bash
+. scripts/install.sh
 # Copy updated static files
 echo yes | python3 manage.py collectstatic
 # Recompile javascript bundle
