@@ -1,0 +1,37 @@
+name: Static File Connectivity Test
+
+on: [ push ]
+    
+jobs:
+  static_file_connectivity_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Docker
+        run: sudo apt-get -y install docker-compose curl nodejs
+      - uses: actions/checkout@v3
+      - name: Mock NodeJS Bundle
+        run: |
+          mkdir -p static/client/js
+          touch static/client/js/main.js
+      - name: Build Webserver Docker Image
+        run: |
+          cd docker
+          sudo docker-compose build
+      - name: Run Connectivity Test
+        run: |
+          cd docker
+          sudo docker-compose up webserver > /tmp/webserver &
+          while [ "$(curl localhost:8080/if-you-create-this-file-the-world-will-end -o /dev/null -s -w '%{http_code}')" = 000 ] ; do sleep 0.5; done
+          cd ..
+          bash scripts/test-connectivity.sh > /tmp/connectivity || exit 1
+
+          echo '## Connectivity Results' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat /tmp/connectivity >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          echo '## Docker Compose Output' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat /tmp/webserver >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          
