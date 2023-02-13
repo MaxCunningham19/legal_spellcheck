@@ -18,11 +18,8 @@ COPY scripts ./scripts
 COPY manage.py ./manage.py
 COPY server ./server
 COPY client ./client
-<<<<<<< HEAD
-COPY static/client/js/ ./static/client/js/
-=======
 COPY api ./api
->>>>>>> 5d3a877 (Restructure files)
+COPY static/client/js/ ./static/client/js/
 RUN chown -R apache:apache ./
 USER apache:apache
 RUN . env/bin/activate && echo yes | python3 manage.py collectstatic
