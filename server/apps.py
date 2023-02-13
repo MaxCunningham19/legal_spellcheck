@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class QaqApiConfig(AppConfig):
+class ServerApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'QAQ_api'
+    name = 'server'
