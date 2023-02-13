@@ -16,6 +16,7 @@ source env/bin/activate
 # use. Use this instead of 'python3 mange.py'. When ran without any
 # arguments, launches the shell.
 manage() {
-    (cd "$DJANGO_PROJECT_ROOT";
+    (cd "$DJANGO_PROJECT_ROOT"
+     . scripts/set-postgres-host.sh
      PYTHONSTARTUP=./scripts/managerc.py python3 manage.py "${@:-shell}")
 }
