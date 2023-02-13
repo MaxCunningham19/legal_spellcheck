@@ -18,6 +18,7 @@ COPY scripts ./scripts
 COPY manage.py ./manage.py
 COPY server ./server
 COPY client ./client
+COPY static/client/js/ ./static/client/js/
 RUN chown -R apache:apache ./
 USER apache:apache
 RUN . env/bin/activate && echo yes | python3 manage.py collectstatic

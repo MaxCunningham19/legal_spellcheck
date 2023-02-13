@@ -4,6 +4,10 @@
 
 Install docker compose.
 
+Create a webpack bundle in `../static/client/js/main.js`.
+This will be the initial javascript file served to the client.
+If building the production image, it will be the javascript file served to the user.
+
 ## Running the production server
 
 In the 'docker' directory, run:
