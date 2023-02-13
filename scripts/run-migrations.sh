@@ -6,6 +6,11 @@
 # script temporarily starts the database, and runs a specified script,
 # which is 'migrate' by default.
 #
+# Note that I assume you are running the database already. To start the
+# database, navigate to dockeer/ and run:
+#
+# $ docker compose up database
+#
 # Example Usage
 # =============
 #
@@ -25,7 +30,6 @@
 #   > COMMIT;
 
 . scripts/install.sh
-cd docker; docker compose up -d database; cd ../
 container=$(docker container list | awk '/database/ { print $1 }')
 host=$(docker inspect -f '{{ range .NetworkSettings.Networks }}{{ .IPAddress }}{{end}}' $container)
 export POSTGRES_HOST=$host
@@ -36,4 +40,3 @@ export POSTGRES_HOST=$host
  else
      python3 manage.py "$@"
  fi)
-docker compose down database
