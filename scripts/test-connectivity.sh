@@ -5,7 +5,7 @@ LSC_URL=$LSC_HOST${LSC_PORT/#/:}
 container=$(docker container ls | awk '/webserver/ { print $1 }')
 
 for static_file in \
-        $(cd docker; docker compose exec $container find static -type f) \
+        $(cd docker; docker exec $container find static -type f) \
         $(find client/static static -type f -printf 'static/%P\n')
 do
     echo -n Checking $static_file ...' '
