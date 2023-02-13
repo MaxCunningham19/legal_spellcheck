@@ -7,7 +7,8 @@ export const TextBox = ({
     boxStyle,
     id,
     content,
-    onChangeInput
+    onChangeInput,
+
 }) => {
 
     const textAreaRef = useRef()

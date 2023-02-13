@@ -17,6 +17,7 @@
 .textarea {
     border: none;
     resize: none;
+    font-family: inherit;
 }
 
 .textarea:focus {
