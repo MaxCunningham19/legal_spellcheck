@@ -17,6 +17,6 @@ source env/bin/activate
 # arguments, launches the shell.
 manage() {
     (cd "$DJANGO_PROJECT_ROOT"
-     2>/dev/null . scripts/set-postgres-host.sh
+     . scripts/set-postgres-host.sh
      PYTHONSTARTUP=./scripts/managerc.py python3 manage.py "${@:-shell}")
 }
