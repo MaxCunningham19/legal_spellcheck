@@ -5,4 +5,11 @@
 
     .editor-container {
         composes: Editor;
+
+        
     }
+
+.Carousel {
+    
+}
+

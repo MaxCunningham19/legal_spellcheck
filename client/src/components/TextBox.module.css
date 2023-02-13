@@ -1,0 +1,25 @@
+.TextBox {
+    display: grid;
+}
+
+    .default-text-box {
+        composes: TextBox;
+        background-color: white;
+    }
+
+        .paragraph-text-box {
+            composes: default-text-box;
+            padding: 2rem;
+
+        }
+
+
+.textarea {
+    border: none;
+    resize: none;
+    font-family: inherit;
+}
+
+.textarea:focus {
+    outline: none;
+}
