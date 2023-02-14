@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Post
+from api.models import Document
 
-admin.site.register(Post)
+admin.site.register(Document)
 # Register your models here.
