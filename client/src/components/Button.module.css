@@ -4,18 +4,18 @@
     width: 200px;
 }
 
-    .navbar-button {
+    .navbar-default {
         composes: btn-default;
         background-color: red;
     }
 
         .navbar-selected {
-            composes: navbar-button;
+            composes: navbar-default;
             background-color: aqua;
         }
 
         .navbar-plain {
-            composes: navbar-button;
+            composes: navbar-default;
             background-color: green  ;
         }
     
