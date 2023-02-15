@@ -4,19 +4,40 @@
     width: 200px;
 }
 
-    .navbar-button {
+    .navbar-default {
         composes: btn-default;
         background-color: red;
     }
 
         .navbar-selected {
-            composes: navbar-button;
+            composes: navbar-default;
             background-color: aqua;
         }
 
         .navbar-plain {
-            composes: navbar-button;
+            composes: navbar-default;
             background-color: green  ;
+        }
+    
+    .actionbar-default{
+        composes: btn-default;
+        color: var(--text-dark);
+        font-weight: bold;
+        font-size: 15px;
+        width: 130px;
+        height: 35px;
+        border-radius: 4px;
+        border: none;
+    }
+
+        .actionbar-validate{
+            composes: actionbar-default;
+            background-color: var(--action-button);
+
+        }
+        .actionbar-save{
+            composes:actionbar-default;
+            background-color: var(--passive-button);
         }
     
     .normal-button {

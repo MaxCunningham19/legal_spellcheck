@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Header from './components/Header';
 import Editor from './components/Editor';
 import styles from './App.module.css';
+import { Button } from './components/Button';
 
 function App() {
 

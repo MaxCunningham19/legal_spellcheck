@@ -5,7 +5,28 @@
 
     .header-container {
         composes: Header;
-        display: flex;
+        display: grid;
         flex-direction: column;
+        grid-template-columns: 1fr 150px 305px;
+        grid-template-rows: 70px;
+        grid-template-areas: 
+          "empty icons action"
     }
+
+        .empty-container{
+            grid-area: empty;
+        }
+
+        .icons-container{
+            grid-area: icons;
+        }
+
+        .action-container{
+            grid-area: action;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+        }
 

@@ -3,14 +3,15 @@ import styles from './Button.module.css'
 
 export const Button = ({
     onClick,
-    buttonStyle
+    buttonStyle,
+    text
 }) => {
     return (
         <button 
         className={styles[buttonStyle]} 
         onClick={onClick}
-        >
-            This is a button
+        > 
+            {text}
         </button>
     )
 }
