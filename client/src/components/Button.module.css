@@ -23,6 +23,11 @@
         composes: btn-default;
         color: var(--text-dark);
         font-weight: bold;
+        font-size: 15px;
+        width: 130px;
+        height: 35px;
+        border-radius: 4px;
+        border: none;
     }
 
         .actionbar-validate{

@@ -11,7 +11,7 @@ export const Button = ({
         className={styles[buttonStyle]} 
         onClick={onClick}
         > 
-        {text}
+            {text}
         </button>
     )
 }

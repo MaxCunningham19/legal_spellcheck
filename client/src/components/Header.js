@@ -14,8 +14,8 @@ function Header() {
             
           </div>
           <div className={styles['action-container']}>
-            <Button buttonStyle="actionbar-save" text="Save"></Button>
-            <Button buttonStyle="actionbar-validate" text="Validate"></Button>
+            <Button buttonStyle="actionbar-save" text="Save all"></Button>
+            <Button buttonStyle="actionbar-validate" text="Validate all"></Button>
 
           </div>
         </div>
