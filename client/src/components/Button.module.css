@@ -19,18 +19,19 @@
             background-color: green  ;
         }
     
-    .header-default{
+    .actionbar-default{
         composes: btn-default;
         color: var(--text-dark);
         font-weight: bold;
     }
 
-        .header-validate{
-            composes: header-default;
+        .actionbar-validate{
+            composes: actionbar-default;
             background-color: var(--action-button);
+
         }
-        .header-save{
-            composes:header-default;
+        .actionbar-save{
+            composes:actionbar-default;
             background-color: var(--passive-button);
         }
     
