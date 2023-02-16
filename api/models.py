@@ -30,7 +30,7 @@ class Block(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.block_content[:10]
+        return self.block_content
 
     def spellcheck(self) -> list[spellcheck.Mistake]:
         """
