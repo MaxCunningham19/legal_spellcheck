@@ -7,5 +7,5 @@
 # Example Usage:
 #  > sh scripts/shell.sh
 #  $ (env) ....
-container=$(docker container list | awk '/webserver-local/ { print $1 }')
+container=$(docker container list | awk '/webserver/ { print $1 }')
 docker container exec -it $container bash -c '. scripts/install.sh && exec bash -i'
