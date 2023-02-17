@@ -1,18 +1,27 @@
-from django.shortcuts import render
+import rest_framework
+from django.shortcuts import render, get_list_or_404
 from rest_framework import generics
-from . import models
-from . import serializers
+from rest_framework.decorators import api_view
+from .models import Document, Block
+from .serializers import DocumentSerializer, BlockSerializer, MistakeSerializer
 
-class PostList(generics.ListAPIView):
-    queryset = models.Post.objects.all()
-    serializer_class = serializers.PostSerializer
+class DocumentList(generics.ListAPIView):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
 
-class PostDetail(generics.RetrieveAPIView):
-    queryset = models.Post.objects.all()
-    serializer_class = serializers.PostSerializer
+class DocumentDetail(generics.RetrieveAPIView):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
 
+@api_view()
+def get_document_blocks(request, pk):
+    blocks = Block.objects.filter(block_document=pk)
+    serializer = BlockSerializer(blocks, many=True)
+    return rest_framework.response.Response(serializer.data, status=200)
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Post.objects.all()
-    serializer_class = serializers.PostSerializer
-# Create your views here.
+@api_view()
+def check_document_blocks(request, pk):
+    mistakes = [dict(block_order=block.block_order,
+                     mistakes=MistakeSerializer(block.spellcheck(), many=True).data) \
+                for block in Block.objects.filter(block_document=pk)]
+    return rest_framework.response.Response(mistakes, status=200)
