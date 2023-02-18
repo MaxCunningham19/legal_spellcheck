@@ -4,11 +4,11 @@
 
     .default-text-box {
         composes: TextBox;
-        background-color: white;
     }
 
         .paragraph-text-box {
             composes: default-text-box;
+            background-color: white;
             grid-template-columns: 1fr;
             grid-template-rows: 1fr 20px;
             grid-template-areas:
@@ -18,12 +18,18 @@
             padding-bottom: 1rem;
         }    
 
+            .paragraph-text-box-onfocus {
+                composes: paragraph-text-box;
+                background-color: var(--medium-background);
+            }
+
 
 .textarea {
     grid-area: textarea;
     border: none;
     resize: none;
     font-family: inherit;
+    background-color: inherit;
 }
 
 .textarea:focus {

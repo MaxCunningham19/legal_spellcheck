@@ -35,8 +35,8 @@
     
             .icon-add-component-textarea {
                 composes: icon-add-component-default;
-                background-color: var(--medium-background);
-                color: var(--passive-button);
+                background-color: var(--area-button);
+                color: var(--text-medium);
                 padding: 2rem;
                 height: 100px;
                 width: inherit;
@@ -50,7 +50,7 @@
                 .icon-add-component-textarea-icon {
                     height: 60px;
                     width: 60px;
-                    fill: var(--passive-button);
+                    fill: var(--text-medium);
                 }
 
                 .icon-add-component-textarea-text {

@@ -68,7 +68,7 @@ export const Carousel = () => {
           <Button 
             buttonStyle="icon-add-component-textarea" 
             onClick={onAddParagraphClick}
-            text="Click to start typing" 
+            text="Click to add paragraph" 
             icon={<PlusIcon className={styles['icon-add-component-textarea-icon']} />}
           />
         </div>

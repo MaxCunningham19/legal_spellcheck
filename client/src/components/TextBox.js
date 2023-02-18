@@ -12,14 +12,38 @@ export const TextBox = ({
     onRemoveClick
 }) => {
     
+    const [isHovering, setIsHovering] = useState(false)
+    const [onFocus, setOnFocus] = useState(false)
     const textAreaRef = useRef()
 
-    useAutosizeTextArea(textAreaRef.current, content) 
+    useAutosizeTextArea(textAreaRef.current, content)
+    
+    const handleMouseOver = () => {
+      setIsHovering(true)
+    }
+
+    const handleMouseOut = () => {
+      setIsHovering(false)
+    }
+
+    const handleOnFocus = () => {
+      setOnFocus(true)
+    }
+
+    const handleOutOfFocus = () => {
+      setOnFocus(false)
+    }
 
     return (
       <>
-        <div className={styles['TextBox']}>
-          <div className={styles[boxStyle]}>
+        <div 
+          className={styles['TextBox']}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+          onFocus={handleOnFocus}
+          onBlur={handleOutOfFocus}
+        >
+          <div className={ onFocus ? styles[boxStyle + "-onfocus"] : styles[boxStyle]}>
             <textarea
               className={styles['textarea']}
               value={content}
@@ -28,11 +52,13 @@ export const TextBox = ({
               ref={textAreaRef}
             /> 
             <div className={styles['icons-container']}>
-              <Button 
-                buttonStyle="icon-single-textbox" 
-                onClick={(e) => onRemoveClick(e, id)}
-                icon={<CloseIcon className={styles['icon-single-textbox-icon']} />}
-              />  
+              {(isHovering || onFocus) && (
+                <Button 
+                  buttonStyle="icon-single-textbox" 
+                  onClick={(e) => onRemoveClick(e, id)}
+                  icon={<CloseIcon className={styles['icon-single-textbox-icon']} />}
+                />  
+              )}
             </div>
           </div>
         </div>
