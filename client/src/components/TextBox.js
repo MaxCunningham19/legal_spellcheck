@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect } from 'react'
 import useAutosizeTextArea from '../hooks/useAutosizeTextArea'
 import { Button } from './Button'
 import styles from './TextBox.module.css'
+import { ReactComponent as CloseIcon } from "../icons/close.svg"
 
 export const TextBox = ({
     boxStyle,
     id,
     content,
     onChangeInput,
-
+    onRemoveClick
 }) => {
     
     const textAreaRef = useRef()
@@ -26,6 +27,13 @@ export const TextBox = ({
               placeHolder="Start typing"
               ref={textAreaRef}
             /> 
+            <div className={styles['icons-container']}>
+              <Button 
+                buttonStyle="icon-single-textbox" 
+                onClick={(e) => onRemoveClick(e, id)}
+                icon={<CloseIcon className={styles['icon-single-textbox-icon']} />}
+              />  
+            </div>
           </div>
         </div>
       </>

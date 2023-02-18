@@ -38,6 +38,15 @@ export const Carousel = () => {
     mapCarouselComponents()
   }
 
+  const onRemoveParagraphClick = (e, id) => {
+    console.log(id);
+    setCarouselData(
+      carouselData.filter(item =>
+        item.id !== id)
+    )
+    mapCarouselComponents()
+  }
+
   const mapCarouselComponents = () => {
     return carouselData.map(({ id, content }) => (
       <TextBox 
@@ -46,6 +55,7 @@ export const Carousel = () => {
         id={id}
         content={content} 
         onChangeInput={onChangeInput}
+        onRemoveClick={onRemoveParagraphClick}
       /> 
     ))
   }
