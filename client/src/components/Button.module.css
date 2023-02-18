@@ -5,6 +5,10 @@
     align-items: center;
 }
 
+.btn-default:hover {
+    cursor: pointer;
+}
+
     .icon-default {
         composes: btn-default;
     }

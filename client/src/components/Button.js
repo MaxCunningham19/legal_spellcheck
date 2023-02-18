@@ -11,7 +11,7 @@ export const Button = ({
         <>
             <button 
             className={styles[buttonStyle]}
-            onClick={onClick}
+            onClick={(e) => onClick(e)}
             >
                 <span>
                     {icon}
