@@ -16,5 +16,6 @@
 
 body {  
     font-family: 'Source Sans Pro', Geneva, Verdana, sans-serif;
+    overflow: hidden;
 }
 

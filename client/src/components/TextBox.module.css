@@ -23,13 +23,13 @@
                 background-color: var(--medium-background);
             }
 
-
 .textarea {
     grid-area: textarea;
     border: none;
     resize: none;
     font-family: inherit;
     background-color: inherit;
+    font-size: 17px;
 }
 
 .textarea:focus {
