@@ -6,19 +6,17 @@
         composes: TextBox;
         background-color: white;
     }
+
       .paragraph-text-box {
         composes: default-text-box;
         padding: 2rem;
-
     }
-
-      
-
 
 .textarea {
     border: none;
     resize: none;
     font-family: inherit;
+    font-size: 17px;
 }
 
 .textarea:focus {

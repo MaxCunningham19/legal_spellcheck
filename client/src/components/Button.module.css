@@ -36,7 +36,7 @@
 
         }
         .actionbar-save{
-            composes:actionbar-default;
+            composes: actionbar-default;
             background-color: var(--passive-button);
         }
     
