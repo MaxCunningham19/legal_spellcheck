@@ -1,26 +1,74 @@
 .btn-default {
-    background-color: orange;
-    border-radius: 2px;
     width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-    .navbar-default {
+    .icon-default {
         composes: btn-default;
-        background-color: red;
     }
 
-        .navbar-selected {
-            composes: navbar-default;
-            background-color: aqua;
+        .icon-navbar-default {
+            composes: icon-default;
         }
 
-        .navbar-plain {
-            composes: navbar-default;
-            background-color: green  ;
+            .icon-navbar-selected {
+                composes: icon-navbar-default;
+                background-color: aqua;
+            }
+
+            .icon-navbar-plain {
+                composes: icon-navbar-default;
+                background-color: green  ;
+            }
+
+        .icon-add-component-default {
+            composes: icon-default;
+            border: none;
+            border-radius: 0px;
         }
+    
+            .icon-add-component-textarea {
+                composes: icon-add-component-default;
+                background-color: var(--medium-background);
+                color: var(--passive-button);
+                padding: 2rem;
+                height: 100px;
+                width: inherit;
+                text-align: left;
+                justify-content: left;
+                gap: 15px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+                .icon-add-component-textarea-icon {
+                    height: 60px;
+                    width: 60px;
+                    fill: var(--passive-button);
+                }
+
+                .icon-add-component-textarea-text {
+                }
+
+        .icon-single-default {
+            composes: icon-default;
+        }
+
+            .icon-single-header {
+                composes: icon-single-default;
+            }
+
+                .icon-single-header-icon {
+
+                }
+
+
     
     .actionbar-default{
         composes: btn-default;
+        border-radius: 2px;
         color: var(--text-dark);
         font-weight: bold;
         font-size: 15px;
@@ -36,10 +84,6 @@
 
         }
         .actionbar-save{
-            composes:actionbar-default;
+            composes: actionbar-default;
             background-color: var(--passive-button);
         }
-    
-    .normal-button {
-        
-    }

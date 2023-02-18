@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from './Button'
 import styles from './Carousel.module.css'
 import TextBox from './TextBox'
+import { ReactComponent as PlusIcon } from "../icons/plus.svg"
 
 const data = [
   {
@@ -42,6 +43,11 @@ export const Carousel = () => {
               onChangeInput={onChangeInput}
             /> 
           ))}
+          <Button 
+            buttonStyle="icon-add-component-textarea" 
+            text="Click to start typing" 
+            icon={<PlusIcon className={styles['icon-add-component-textarea-icon']} />}
+          />
         </div>
       </section>
     </>
