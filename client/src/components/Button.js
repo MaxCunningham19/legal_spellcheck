@@ -10,6 +10,7 @@ export const Button = ({
         <button 
         className={styles[buttonStyle]} 
         onClick={onClick}
+        style={{ cursor: 'pointer' }}
         > 
             {text}
         </button>

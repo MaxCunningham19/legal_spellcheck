@@ -6,17 +6,23 @@
 
     .navbar-default {
         composes: btn-default;
-        background-color: red;
+        color: var(--light-background);
+        font-size: 15px;
+        width: 260px;
+        height: 45px;
+        border-radius: 4px;
+        border: none;
+        background-color: var(--dark-background);
+        text-align-last: left;
     }
 
         .navbar-selected {
             composes: navbar-default;
-            background-color: aqua;
+
         }
 
         .navbar-plain {
             composes: navbar-default;
-            background-color: green  ;
         }
     
     .actionbar-default{
@@ -28,6 +34,7 @@
         height: 35px;
         border-radius: 4px;
         border: none;
+        align-items: start;
     }
 
         .actionbar-validate{
