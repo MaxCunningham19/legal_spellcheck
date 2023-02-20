@@ -5,23 +5,12 @@
 
     .navbar-container {
         composes: Navbar;
-        display: flex;
-        flex-direction: column;
-        grid-template-columns: 100px 1fr;
-        grid-template-rows:  100px 1fr;
-        grid-template-areas:
-        "empty empty" 
-        "empty buttons"
     }
-
-.nav-item {
-
-}
 
 .buttons-container{
     grid-area: buttons;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 7px;
