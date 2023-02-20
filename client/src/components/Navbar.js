@@ -10,11 +10,11 @@ function Navbar() {
             <div className={styles['empty-container']}>
               </div>
               <div className={styles['buttons-container']}>
-                <Button buttonStyle="navbar-plain" text=" 🗎 My Documents"></Button>
+                <Button buttonStyle="icon-navbar-plain" text=" 🗎 My Documents"></Button>
 
               </div>
               <div className={styles['buttons2-container']}>
-                <Button buttonStyle="navbar-plain" text=" 🗀 Browse"></Button>
+                <Button buttonStyle="icon-navbar-plain" text=" 🗀 Browse"></Button>
 
               </div>
               <div className={styles['empty-container']}>
