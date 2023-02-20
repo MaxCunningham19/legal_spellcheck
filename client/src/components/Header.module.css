@@ -30,3 +30,14 @@
             gap: 7px;
         }
 
+        .message {
+            position: absolute;
+            top: 5;
+            left: 90%;
+            transform: translateX(-50%);
+            background-color: var(--passive-button);
+            padding: 10px;
+            border: 1px solid var(--light-background);
+          }
+
+

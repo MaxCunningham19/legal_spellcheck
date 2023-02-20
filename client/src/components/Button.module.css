@@ -15,17 +15,36 @@
 
         .icon-navbar-default {
             composes: icon-default;
+            color: var(--light-background);
+            font-size: 15px;
+            width: 260px;
+            height: 45px;
+            border-radius: 4px;
+            border: none;
+            background-color: var(--dark-background);
+            justify-content: left;
         }
+
+            .icon-navbar-default-text {
+            }
 
             .icon-navbar-selected {
                 composes: icon-navbar-default;
-                background-color: aqua;
             }
+
+                .icon-navbar-selected-text {
+                    composes: icon-navbar-default-text;
+                }
 
             .icon-navbar-plain {
                 composes: icon-navbar-default;
-                background-color: green  ;
             }
+
+                .icon-navbar-plain-text {
+                    composes: icon-navbar-default-text;
+                }            
+
+
 
         .icon-add-component-default {
             composes: icon-default;
