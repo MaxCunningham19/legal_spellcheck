@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import { Button } from './Button'
 import styles from './Header.module.css'
 
@@ -35,6 +35,5 @@ function Header() {
     </>
   )
 }
-
 
 export default Header
