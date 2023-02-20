@@ -30,7 +30,8 @@ function Header() {
             <Button buttonStyle="actionbar-validate" text="Validate all"></Button>
           </div>
         </div>
-        {saved && <div className={styles['message']}>{message}</div>}      </header>
+        {saved && <div className={styles['message']}>{message}</div>}      
+      </header>
     </>
   )
 }
