@@ -5,9 +5,28 @@
 
     .navbar-container {
         composes: Navbar;
-        display: flex;
     }
 
-.nav-item {
-
+.buttons-container{
+    grid-area: buttons;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.empty-container{
+    grid-area: empty;
+}
+
+.icon-navbar-default-icon {
+    composes: icon-navbar-default-icon from './Button.module.css';
+}
+
+    .icon-navbar-plain-icon {
+        composes: icon-navbar-plain-icon from './Button.module.css';
+    }
+
+    .icon-navbar-selected-icon {
+        composes: icon-navbar-selected-icon from './Button.module.css';
+    }
