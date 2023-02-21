@@ -1,0 +1,37 @@
+name: Django Tests
+
+on: [ push ]
+    
+jobs:
+  django_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Docker
+        run: sudo apt-get -y install docker-compose curl nodejs
+      - uses: actions/checkout@v3
+      - name: Mock NodeJS Bundle
+        run: |
+          mkdir -p static/client/js
+          touch static/client/js/main.js
+      - name: Build Webserver Docker Image
+        run: |
+          cd docker
+          sudo docker-compose build
+      - name: Run Django Tests
+        run: |
+          cd docker
+          sudo docker-compose up -d webserver
+          sudo docker-compose exec -T webserver bash -c '. scripts/install.sh; python3 manage.py test' > /tmp/django-test-result || error=1
+          
+          echo '# Django Test Output' > $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat /tmp/django-test-result >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          
+          echo '# Webserver Output' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          docker-compose logs webserver >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          exit $error
+          
