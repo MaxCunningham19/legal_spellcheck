@@ -13,12 +13,16 @@ export const Button = ({
             className={styles[buttonStyle]}
             onClick={(e) => onClick(e)}
             >
-                <span>
-                    {icon}
-                </span>
-                <span className={styles[buttonStyle + "-text"]}>
-                    {text}
-                </span>
+                { icon &&
+                    <span>
+                        {icon}
+                    </span>
+                }
+                { text &&
+                    <span className={styles[buttonStyle + "-text"]}>
+                        {text}
+                    </span>
+                }
             </button>
         </>
 
