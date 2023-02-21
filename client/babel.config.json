@@ -1,0 +1,9 @@
+{
+    "presets" : [
+        [ "@babel/env", { "targets" : { "node" : 10 } } ],
+        "@babel/react"
+    ],
+    "plugins" : [
+        "@babel/proposal-class-properties"
+    ]
+}
