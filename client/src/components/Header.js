@@ -19,7 +19,10 @@ function Header() {
     <>
       <header className={styles['Header']}>
         <div className={styles['header-container']}>
-          <div className={styles['empty-container']}>
+          <div className={styles['history-container']}>
+
+          </div>
+          <div className={styles['title-container']}>
 
           </div>
           <div className={styles['icons-container']}>
