@@ -6,8 +6,8 @@
     grid-template-columns: 260px 1fr;
     grid-template-rows: 70px 1fr;
     grid-template-areas: 
-      "title header"
-      "navbar editor";
+      "title icon-explorer"
+      "navbar icon-explorer";
 }
 
 .Navbar {
@@ -15,15 +15,10 @@
     grid-area: navbar;
   }
   
-.Editor {
-    composes: Editor from "../App.module.css";
-    grid-area: editor;
+.IconExplorer {
+    composes: IconExplorer from "../App.module.css";
+    grid-area: icon-explorer;
 }
-  
-.Header {
-    composes: Header from "../App.module.css";
-    grid-area: header;
-  }
   
 .title {
     composes: title from "../App.module.css";

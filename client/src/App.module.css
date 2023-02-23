@@ -17,6 +17,10 @@
   grid-area: header;
 }
 
+.IconExplorer {
+  grid-area: icon-explorer;
+}
+
 .title {
   background-color: var(--darkest-background);
   grid-area: title;
