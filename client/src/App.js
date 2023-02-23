@@ -1,20 +1,17 @@
 import React from 'react'
-import Navbar from './components/Navbar';
-import Header from './components/Header';
-import Editor from './components/Editor';
+import { Route, Routes } from "react-router-dom";
+import { Browse } from "./pages/Browse";
+import { MyDocuments } from "./pages/MyDocuments";
 import styles from './App.module.css';
-import { Button } from './components/Button';
 
 function App() {
 
   return (
     <>
-      <div className={styles['App']}>
-        <div className={styles['title']}>LEGAL SPELL CHECK</div>
-        <Header className={styles['Header']}/>
-        <Navbar className={styles['Navbar']}/>
-        <Editor className={styles['Editor']}/>
-      </div>
+      <Routes>
+        <Route path="/" element={<Browse />} />
+        <Route path="/my-documents" element={<MyDocuments />} />
+      </Routes>
     </>
   );
 

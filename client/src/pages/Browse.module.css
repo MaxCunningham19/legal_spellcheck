@@ -1,0 +1,31 @@
+.Browse {
+    composes: App from "../App.module.css";
+    display: grid;
+    height: 100vh;
+    margin: -10px;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: 70px 1fr;
+    grid-template-areas: 
+      "title header"
+      "navbar editor";
+}
+
+.Navbar {
+    composes: Navbar from "../App.module.css";
+    grid-area: navbar;
+  }
+  
+.Editor {
+    composes: Editor from "../App.module.css";
+    grid-area: editor;
+}
+  
+.Header {
+    composes: Header from "../App.module.css";
+    grid-area: header;
+  }
+  
+.title {
+    composes: title from "../App.module.css";
+    grid-area: title;
+}
