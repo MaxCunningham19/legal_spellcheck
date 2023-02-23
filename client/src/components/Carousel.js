@@ -54,6 +54,7 @@ export const Carousel = () => {
         key={id}
         id={id}
         content={content} 
+        placeHolder="Start typing"
         onChangeInput={onChangeInput}
         onRemoveClick={onRemoveParagraphClick}
       /> 

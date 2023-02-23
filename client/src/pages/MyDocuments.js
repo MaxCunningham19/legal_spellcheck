@@ -8,6 +8,7 @@ export function MyDocuments() {
         <>
           <div className={styles['MyDocuments']}>
             <div className={styles['title']}>LEGAL SPELL CHECK</div>
+            <div className={styles['page-title-container']}>My Documents</div>
             <Navbar className={styles['Navbar']}/>
             <IconExplorer className={styles['IconExplorer']}/>
           </div>
