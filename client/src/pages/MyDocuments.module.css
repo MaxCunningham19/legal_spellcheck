@@ -7,7 +7,7 @@
     grid-template-rows: 70px 1fr;
     grid-template-areas: 
       "title page-title"
-      "navbar icon-explorer";
+      "navbar explorer";
 }
 
 .Navbar {
@@ -15,9 +15,9 @@
     grid-area: navbar;
 }
   
-.IconExplorer {
-    composes: IconExplorer from "../App.module.css";
-    grid-area: icon-explorer;
+.Explorer {
+    composes: Explorer from "../App.module.css";
+    grid-area: explorer;
 }
   
 .title {

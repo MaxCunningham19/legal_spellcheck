@@ -17,8 +17,8 @@
   grid-area: header;
 }
 
-.IconExplorer {
-  grid-area: icon-explorer;
+.Explorer {
+  grid-area: explorer;
 }
 
 .title {

@@ -1,0 +1,12 @@
+.ExplorerPreview {
+    composes: Explorer from './Explorer.module.css';
+    height: 100vh;
+}
+
+    .explorer-container {
+        composes: ExplorerPreview;
+
+    }
+
+
+
