@@ -6,7 +6,7 @@
     .explorer-container {
         composes: ExplorerPreview;
         display: flex;
-        gap: 20px;
+        gap: 30px;
         padding: 2rem;
         padding-top: 1rem;
     }
