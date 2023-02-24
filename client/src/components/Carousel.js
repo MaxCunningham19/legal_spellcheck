@@ -4,9 +4,9 @@ import styles from './Carousel.module.css'
 import TextBox from './TextBox'
 import { ReactComponent as PlusIcon } from "../icons/plus.svg"
 
-export const Carousel = (data) => {
+export const Carousel = ({ data }) => {
 
-  const [carouselData, setCarouselData] = useState(data.data.paragraphs)    // TODO: solve double parent nesting
+  const [carouselData, setCarouselData] = useState(data)
 
   const onChangeInput = (e, id) => {
     const newContent = e.target.value;

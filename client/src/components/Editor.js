@@ -4,14 +4,17 @@ import Carousel from './Carousel'
 import styles from './Editor.module.css'
 import documentData from '../data/documentsData.json' 
 
-function Editor() {
+export const Editor = ({ document }) => {
+
+  console.log(document);
+
   return (
     <>
       <section className={styles['Editor']}>
         <div className={styles['editor-container']}>
           <Carousel 
             className={styles['Carousel']} 
-            data={documentData.documents[0]}    // TODO: defaulted to 0
+            data={document.paragraphs}
           />
         </div>
       </section>
