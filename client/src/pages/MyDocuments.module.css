@@ -1,0 +1,26 @@
+.MyDocuments {
+    composes: App from "../App.module.css";
+    display: grid;
+    height: 100vh;
+    margin: -10px;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: 70px 1fr;
+    grid-template-areas: 
+      "title icon-explorer"
+      "navbar icon-explorer";
+}
+
+.Navbar {
+    composes: Navbar from "../App.module.css";
+    grid-area: navbar;
+  }
+  
+.IconExplorer {
+    composes: IconExplorer from "../App.module.css";
+    grid-area: icon-explorer;
+}
+  
+.title {
+    composes: title from "../App.module.css";
+    grid-area: title;
+}

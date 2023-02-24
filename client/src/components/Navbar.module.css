@@ -30,3 +30,7 @@
     .icon-navbar-selected-icon {
         composes: icon-navbar-selected-icon from './Button.module.css';
     }
+
+a {
+    text-decoration: none;
+}

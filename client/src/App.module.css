@@ -1,11 +1,6 @@
 .App {
   display: grid;
   height: 100vh;
-  grid-template-columns: 260px 1fr;
-  grid-template-rows: 70px 1fr;
-  grid-template-areas: 
-    "title header"
-    "navbar editor";
   margin: -10px;
 }
 
@@ -22,8 +17,12 @@
   grid-area: header;
 }
 
+.IconExplorer {
+  grid-area: icon-explorer;
+}
+
 .title {
-  background-color: var(--text-dark);
+  background-color: var(--darkest-background);
   grid-area: title;
   color: white;
   font-weight: bold;
