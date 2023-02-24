@@ -8,20 +8,14 @@ function Explorer() {
 
   const [explorerData, setExplorerData] = useState(documentsData.documents)
 
-  const mapExplorerIcons = () => {
-    return explorerData.map( document => (
-      <div>{document.title}</div>
-    ))
-  }
-
   return (
     <>
       <section className={styles['Explorer']}>
         <div className={styles['explorer-container']}>
           <ExplorerPreview 
-            content={mapExplorerIcons()}
+            explorerData={explorerData}
           />
-          {/*ExplorerPreview can then be swapped to ExplorerList*/}
+          {/*TODO: ExplorerPreview can then be swapped to ExplorerList*/}
         </div>
       </section>
     </>

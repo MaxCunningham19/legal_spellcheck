@@ -5,8 +5,15 @@
 
     .explorer-container {
         composes: ExplorerPreview;
-
+        display: flex;
+        gap: 20px;
+        padding: 2rem;
+        padding-top: 1rem;
     }
+
+.icon-add-component-document-icon {
+    composes: icon-add-component-document-icon from './Button.module.css';
+}
 
 
 
