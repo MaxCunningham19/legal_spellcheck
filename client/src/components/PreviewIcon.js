@@ -7,6 +7,13 @@ export const PreviewIcon = ({
     title,
     body
 }) => {
+
+    const generatePreview = (body) => {
+        return (
+            (body.length) > 20 ? body.split(' ').slice(0, 20).join(" ") : body
+        )
+    }
+
     return (
         <>
             <button 
@@ -18,7 +25,7 @@ export const PreviewIcon = ({
                 </div>
                 { body &&
                     <div className={styles[previewStyle + "-body"]}>
-                        {body}
+                        {generatePreview(body)}
                     </div>
                 }
             </button>

@@ -11,10 +11,10 @@ export const ExplorerPreview = ({
   const generatePreviews = () => {
     return explorerData.map(document => (
       <PreviewIcon
-        previewStyle="preview-icon-default"
+        previewStyle="preview-icon-explorer"
         key={document.documentId}
         title={document.title}
-        body="TODO:"
+        body={document.paragraphs[0].content}
       />
     ))
   }

@@ -1,12 +1,31 @@
 .preview-icon-default {
-    height: 192px;
-    width: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    color: var(--text-medium);
 }
 
-    .preview-icon-default-title {
-
+    .preview-icon-explorer {
+        composes: preview-icon-default;
+        height: 192px;
+        width: 120px;
+        border: none;
+        background-color: white;
+        padding: 1rem;
+        padding-bottom: 1rem;
     }
 
-    .preview-icon-default-body {
+        .preview-icon-explorer-title {
+            font-weight: bold;
+        }
 
-    }
+        .preview-icon-explorer-body {
+            text-align: left;
+            height: 140px;
+            overflow: hidden;
+
+        }
+
+.preview-icon-default:hover {
+    cursor: pointer;
+}
