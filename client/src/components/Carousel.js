@@ -7,7 +7,6 @@ import { ReactComponent as PlusIcon } from "../icons/plus.svg"
 export const Carousel = (data) => {
 
   const [carouselData, setCarouselData] = useState(data.data.paragraphs)    // TODO: solve double parent nesting
-  console.log(carouselData);
 
   const onChangeInput = (e, id) => {
     const newContent = e.target.value;
