@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from './PreviewIcon.module.css'
 
+const PREVIEW_CHAR_LIMIT = 130
+
 export const PreviewIcon = ({
     onClick,
     previewStyle,
@@ -8,9 +10,11 @@ export const PreviewIcon = ({
     body
 }) => {
 
-    const generatePreview = (body) => {
+    const adaptToPreview = (body) => {
         return (
-            (body.length) > 20 ? body.split(' ').slice(0, 20).join(" ") : body
+            (body.length) > PREVIEW_CHAR_LIMIT 
+                ? body.substring(0, PREVIEW_CHAR_LIMIT)
+                : body
         )
     }
 
@@ -25,7 +29,7 @@ export const PreviewIcon = ({
                 </div>
                 { body &&
                     <div className={styles[previewStyle + "-body"]}>
-                        {generatePreview(body)}
+                        {adaptToPreview(body)}
                     </div>
                 }
             </button>

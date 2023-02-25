@@ -1,3 +1,7 @@
+:root {
+    --preview-line-number: 8;
+}
+
 .preview-icon-default {
     display: flex;
     flex-direction: column;
@@ -20,10 +24,13 @@
         }
 
         .preview-icon-explorer-body {
+            display: -webkit-box;
+            -webkit-line-clamp: var(--preview-line-number);
+            -webkit-box-orient: vertical;
+            overflow: hidden;
             text-align: left;
             height: 140px;
-            overflow: hidden;
-
+            hyphens: auto;
         }
 
 .preview-icon-default:hover {
