@@ -9,7 +9,8 @@ export const TextBox = ({
     id,
     content,
     onChangeInput,
-    onRemoveClick
+    onRemoveClick,
+    placeHolder
 }) => {
     
     const [isHovering, setIsHovering] = useState(false)
@@ -48,7 +49,7 @@ export const TextBox = ({
               className={styles['textarea']}
               value={content}
               onChange={(e) => onChangeInput(e, id)} 
-              placeHolder="Start typing"
+              placeHolder={placeHolder}
               ref={textAreaRef}
             /> 
             <div className={styles['icons-container']}>

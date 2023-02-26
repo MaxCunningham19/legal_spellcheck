@@ -1,0 +1,37 @@
+:root {
+    --preview-line-number: 11;
+}
+
+.preview-icon-default {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    color: var(--text-medium);
+}
+
+    .preview-icon-explorer {
+        composes: preview-icon-default;
+        height: 192px;
+        width: 120px;
+        border: none;
+        background-color: white;
+        padding: 1rem;
+        padding-bottom: 1rem;
+    }
+
+        .preview-icon-explorer-title {
+            font-weight: bold;
+        }
+
+        .preview-icon-explorer-body {
+            display: -webkit-box;
+            -webkit-line-clamp: var(--preview-line-number);
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: left;
+            font-size: 10px;
+        }
+
+.preview-icon-default:hover {
+    cursor: pointer;
+}

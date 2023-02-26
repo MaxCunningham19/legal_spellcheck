@@ -1,0 +1,12 @@
+.Explorer {
+    composes: Explorer from '../App.module.css';
+    background-color: var(--light-background);
+}
+
+    .explorer-container {
+        composes: Explorer;
+        
+    }
+
+
+

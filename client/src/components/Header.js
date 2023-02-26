@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import { Button } from './Button'
 import styles from './Header.module.css'
 
-function Header() {
+export const Header = ({ documentTitle }) => {
+
   const [saved, setSaved] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -19,8 +20,8 @@ function Header() {
     <>
       <header className={styles['Header']}>
         <div className={styles['header-container']}>
-          <div className={styles['empty-container']}>
-
+          <div className={styles['title-container']}>
+            {documentTitle}
           </div>
           <div className={styles['icons-container']}>
 

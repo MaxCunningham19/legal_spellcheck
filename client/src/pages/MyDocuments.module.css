@@ -6,21 +6,33 @@
     grid-template-columns: 260px 1fr;
     grid-template-rows: 70px 1fr;
     grid-template-areas: 
-      "title icon-explorer"
-      "navbar icon-explorer";
+      "title page-title"
+      "navbar explorer";
 }
 
 .Navbar {
     composes: Navbar from "../App.module.css";
     grid-area: navbar;
-  }
+}
   
-.IconExplorer {
-    composes: IconExplorer from "../App.module.css";
-    grid-area: icon-explorer;
+.Explorer {
+    composes: Explorer from "../App.module.css";
+    grid-area: explorer;
 }
   
 .title {
     composes: title from "../App.module.css";
     grid-area: title;
+}
+
+.page-title-container {
+    grid-area: page-title;
+    display: flex;
+    padding: 1rem;
+    padding-left: 4rem;
+    align-items: center;
+    color: var(--text-dark);
+    font-weight: 300;
+    font-size: 22px;
+    background-color: var(--light-background);
 }
