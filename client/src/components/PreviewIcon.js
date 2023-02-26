@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './PreviewIcon.module.css'
 
-const PREVIEW_CHAR_LIMIT = 130
+const PREVIEW_CHAR_LIMIT = 220
 
 export const PreviewIcon = ({
     onClick,

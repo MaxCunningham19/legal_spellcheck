@@ -1,5 +1,5 @@
 :root {
-    --preview-line-number: 8;
+    --preview-line-number: 11;
 }
 
 .preview-icon-default {
@@ -29,8 +29,7 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-align: left;
-            height: 140px;
-            hyphens: auto;
+            font-size: 10px;
         }
 
 .preview-icon-default:hover {
