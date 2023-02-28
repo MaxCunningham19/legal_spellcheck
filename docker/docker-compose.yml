@@ -24,6 +24,7 @@ services:
       - ../client:/var/www/apache/client:ro
       - ../server:/var/www/apache/server:ro
       - ../api:/var/www/apache/api:ro
+      - ../scripts:/var/www/apache/scripts:ro
     entrypoint: [ "bash", "scripts/run-local.bash" ]
 volumes:
   sweng-db:
