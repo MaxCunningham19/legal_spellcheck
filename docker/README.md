@@ -91,12 +91,24 @@ $ (env) manage sqlmigrate api 0001
 - Install ubuntu 22.04 on WSL.
 - Install Docker Desktop.
 
-#### Commands
+Install dependencies by running:
+
 ```
 sudo apt update
-sudo apt install python3 python3-venv postgresql-client-common
+sudo apt install python3 python3-venv postgresql-client-14
+```
+
+#### Commands to run migrations
+```
 (cd docker; docker compose up -d webserver-local)
+. scripts/install.sh
 . scripts/set-postgres-host.sh
 ```
 
 Now you can follow the steps above.
+For example, to run a database migration, I could run:
+
+```
+> (env) manage makemigrations
+> (env) manage migrate
+```
