@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo $* >> /var/log/on-change
+
 . scripts/install.sh
 
 case "$2/$3" in
