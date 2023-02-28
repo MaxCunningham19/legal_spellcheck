@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Button } from './Button'
 import styles from './Header.module.css'
 
-export const Header = ({ documentTitle }) => {
+export const Header = ({ headerTitle, iconHeader }) => {
 
   const [saved, setSaved] = useState(false);
   const [message, setMessage] = useState('');
@@ -21,15 +21,20 @@ export const Header = ({ documentTitle }) => {
       <header className={styles['Header']}>
         <div className={styles['header-container']}>
           <div className={styles['title-container']}>
-            {documentTitle}
+            {headerTitle}
           </div>
-          <div className={styles['icons-container']}>
+          { iconHeader && 
+              <>
+                <div className={styles['icons-container']}>
 
-          </div>
-          <div className={styles['action-container']}>
-            <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
-            <Button buttonStyle="actionbar-validate" text="Validate all"></Button>
-          </div>
+                </div>
+                <div className={styles['action-container']}>
+                  <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
+                  <Button buttonStyle="actionbar-validate" text="Validate all"></Button>
+                </div>
+              </>
+          }
+          
         </div>
         {saved && <div className={styles['message']}>{message}</div>}      
       </header>

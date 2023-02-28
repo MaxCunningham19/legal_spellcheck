@@ -11,7 +11,7 @@ export const Carousel = ({ data }) => {
   const onChangeInput = (e, id) => {
     const newContent = e.target.value;
     const editData = carouselData.map((item) => 
-      item.id === id ? {...item, content : newContent } : item
+      item.block_order === id ? {...item, block_content : newContent } : item
     )  
     setCarouselData(editData) 
   }
@@ -19,27 +19,26 @@ export const Carousel = ({ data }) => {
   const onAddParagraphClick = (e) => {
     setCarouselData([
       ...carouselData,
-      {id: carouselData.length, content: ""}
+      {block_order: carouselData.length, content: ""}
     ])
     mapCarouselComponents()
   }
 
   const onRemoveParagraphClick = (e, id) => {
-    console.log(id);
     setCarouselData(
       carouselData.filter(item =>
-        item.id !== id)
+        item.block_order !== id)
     )
     mapCarouselComponents()
   }
 
   const mapCarouselComponents = () => {
-    return carouselData.map(({ id, content }) => (
+    return carouselData.map(({ block_order, block_content }) => (
       <TextBox 
         boxStyle="paragraph-text-box"
-        key={id}
-        id={id}
-        content={content} 
+        key={block_order}
+        id={block_order}
+        content={block_content} 
         placeHolder="Start typing"
         onChangeInput={onChangeInput}
         onRemoveClick={onRemoveParagraphClick}
