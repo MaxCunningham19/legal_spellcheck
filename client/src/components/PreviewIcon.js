@@ -24,9 +24,9 @@ export const PreviewIcon = ({
                 className={styles[previewStyle]}
                 onClick={(e) => onClickPreview(e, title)}
             >
-                <div className={styles[previewStyle + "-title"]}>
+                <span className={styles[previewStyle + "-title"]}>
                     {title}
-                </div>
+                </span>
                 { body &&
                     <div className={styles[previewStyle + "-body"]}>
                         {adaptToPreview(body)}
