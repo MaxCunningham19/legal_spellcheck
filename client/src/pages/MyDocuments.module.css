@@ -17,7 +17,7 @@
   
 .Explorer {
     composes: Explorer from "../App.module.css";
-    grid-area: explorer;
+    grid-area: body;
 }
 
 .Header {
@@ -25,12 +25,12 @@
     grid-area: header;
 }
 
+.Editor {
+    composes: Editor from "../App.module.css";
+    grid-area: body;
+}
+
 .title {
     composes: title from "../App.module.css";
     grid-area: title;
-}
-  
-.body-container {
-    grid-area: body;
-    overflow: auto;
 }

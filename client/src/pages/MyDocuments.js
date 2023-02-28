@@ -58,20 +58,18 @@ export function MyDocuments() {
               iconHeader={(editorMode) ? true : false }
             />
             <Navbar className={styles['Navbar']}/>
-            <div className={styles['body-container']}>
-              { editorMode 
-                ?
-                  <Editor 
-                    className={styles['Editor']}
-                    document={clickedDocument}
-                  />
-                : <Explorer 
-                    className={styles['Explorer']}
-                    documentsData={documentsData}
-                    handleOnClickDocument={handleOnClickDocument}
-                  />
-              }
-            </div>   
+            { editorMode 
+              ?
+                <Editor 
+                  className={styles['Editor']}
+                  document={clickedDocument}
+                />
+              : <Explorer 
+                  className={styles['Explorer']}
+                  documentsData={documentsData}
+                  handleOnClickDocument={handleOnClickDocument}
+                />
+            }
           </div>
         </>
     );

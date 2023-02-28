@@ -5,20 +5,16 @@
 }
 
 .Navbar {
-  grid-area: navbar;
 }
 
 .Editor {
-  grid-area: editor;
   overflow: auto;
 }
 
 .Header {
-  grid-area: header;
 }
 
 .Explorer {
-  grid-area: explorer;
 }
 
 .title {
