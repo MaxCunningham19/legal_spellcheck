@@ -5,16 +5,18 @@ import { ReactComponent as PlusIcon } from '../icons/plus.svg'
 import { PreviewIcon } from './PreviewIcon'
 
 export const ExplorerPreview = ({
-  explorerData
+  explorerData,
+  onClickPreview
 }) => {
 
   const generatePreviews = () => {
     return explorerData.map(document => (
       <PreviewIcon
         previewStyle="preview-icon-explorer"
-        key={document.documentId}
+        key={document.title}
         title={document.title}
-        body={document.paragraphs[0].content}
+        body={document.blocks[0].block_content}
+        onClickPreview={onClickPreview}
       />
     ))
   }

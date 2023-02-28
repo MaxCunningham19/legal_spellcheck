@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import styles from './ExplorerPreview.module.css'
-import documentsData from '../data/documentsData.json'
 import { ExplorerPreview } from './ExplorerPreview'
 // TODO: import { ExplorerList } from './ExplorerList'
 
-function Explorer() {
+export const Explorer = ({
+  documentsData,
+  handleOnClickDocument
+}) => {
 
-  const [explorerData, setExplorerData] = useState(documentsData.documents)
+  const [explorerData, setExplorerData] = useState(documentsData)
 
   return (
     <>
@@ -14,6 +16,7 @@ function Explorer() {
         <div className={styles['explorer-container']}>
           <ExplorerPreview 
             explorerData={explorerData}
+            onClickPreview={handleOnClickDocument}
           />
           {/*TODO: ExplorerPreview can then be swapped to ExplorerList*/}
         </div>
