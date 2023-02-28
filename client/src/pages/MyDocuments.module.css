@@ -6,8 +6,8 @@
     grid-template-columns: 260px 1fr;
     grid-template-rows: 70px 1fr;
     grid-template-areas: 
-      "title page-title"
-      "navbar explorer";
+      "title header"
+      "navbar body";
 }
 
 .Navbar {
@@ -19,20 +19,18 @@
     composes: Explorer from "../App.module.css";
     grid-area: explorer;
 }
-  
+
+.Header {
+    composes: Header from "../App.module.css";
+    grid-area: header;
+}
+
 .title {
     composes: title from "../App.module.css";
     grid-area: title;
 }
-
-.page-title-container {
-    grid-area: page-title;
-    display: flex;
-    padding: 1rem;
-    padding-left: 4rem;
-    align-items: center;
-    color: var(--text-dark);
-    font-weight: 300;
-    font-size: 22px;
-    background-color: var(--light-background);
+  
+.body-container {
+    grid-area: body;
+    overflow: auto;
 }
