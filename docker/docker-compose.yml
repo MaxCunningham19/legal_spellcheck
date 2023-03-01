@@ -4,11 +4,13 @@ services:
     volumes:
       - sweng-db:/var/lib/postgresql/data
     environment: &environment
-      POSTGRES_HOST: ${POSTGRES_HOST:-database}
-      POSTGRES_USER: ${POSTGRES_USER:-dev}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dev}
-      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
-      POSTGRES_DB: ${POSTGRES_DB:-database}
+      POSTGRES_HOST: database
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: database
+    ports:
+      - 8081:5432
   webserver: &webserver
     build:
       context: ..
@@ -24,6 +26,7 @@ services:
       - ../client:/var/www/apache/client:ro
       - ../server:/var/www/apache/server:ro
       - ../api:/var/www/apache/api:ro
+      - ../scripts:/var/www/apache/scripts:ro
     entrypoint: [ "bash", "scripts/run-local.bash" ]
 volumes:
   sweng-db:
