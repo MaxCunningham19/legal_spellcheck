@@ -4,7 +4,16 @@
 
 Install docker compose.
 
-Create a webpack bundle in `../static/client/js/main.js`.
+A webpack bundle must be created.
+This can be done by executing the following commands:
+
+```
+. scripts/install.sh
+cd client
+webpack --mode development
+```
+
+A bundle will be created in `static/client/js/main.js`.
 This will be the initial javascript file served to the client.
 If building the production image, it will be the javascript file served to the user.
 
