@@ -4,7 +4,7 @@ import styles from './PreviewIcon.module.css'
 const PREVIEW_CHAR_LIMIT = 220
 
 export const PreviewIcon = ({
-    onClick,
+    onClickPreview,
     previewStyle,
     title,
     body
@@ -21,12 +21,12 @@ export const PreviewIcon = ({
     return (
         <>
             <button 
-            className={styles[previewStyle]}
-            onClick={(e) => onClick(e)}
+                className={styles[previewStyle]}
+                onClick={(e) => onClickPreview(e, title)}
             >
-                <div className={styles[previewStyle + "-title"]}>
+                <span className={styles[previewStyle + "-title"]}>
                     {title}
-                </div>
+                </span>
                 { body &&
                     <div className={styles[previewStyle + "-body"]}>
                         {adaptToPreview(body)}
