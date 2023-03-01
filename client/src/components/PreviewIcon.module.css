@@ -1,9 +1,14 @@
 :root {
-    --preview-line-number: 8;
+    --preview-line-number: 10;
 }
 
 .preview-icon-default {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 25px 1fr;
+    grid-template-areas:
+        "title"
+        "body";
     flex-direction: column;
     gap: 1em;
     color: var(--text-medium);
@@ -20,17 +25,21 @@
     }
 
         .preview-icon-explorer-title {
+            grid-area: title;
             font-weight: bold;
+            font-size: 11px;
+            text-overflow: ellipsis;
+            align-self: center;
         }
 
         .preview-icon-explorer-body {
+            grid-area: body;
             display: -webkit-box;
             -webkit-line-clamp: var(--preview-line-number);
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-align: left;
-            height: 140px;
-            hyphens: auto;
+            font-size: 10px;
         }
 
 .preview-icon-default:hover {

@@ -2,11 +2,8 @@ import React, {useState} from 'react'
 import { Button } from './Button'
 import Carousel from './Carousel'
 import styles from './Editor.module.css'
-import documentData from '../data/documentsData.json' 
 
 export const Editor = ({ document }) => {
-
-  console.log(document);
 
   return (
     <>
@@ -14,7 +11,7 @@ export const Editor = ({ document }) => {
         <div className={styles['editor-container']}>
           <Carousel 
             className={styles['Carousel']} 
-            data={document.paragraphs}
+            data={document.blocks}
           />
         </div>
       </section>

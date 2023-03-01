@@ -40,7 +40,7 @@ function MyAllMistakes({ text, highlighted }) {
 }
 
 
-export const Header = ({ documentTitle, onValidateAll }) => {
+export const Header = ({ headerTitle, onValidateAll, iconHeader }) => {
 
   const [saved, setSaved] = useState(false);
   const [message, setMessage] = useState('');
@@ -63,15 +63,19 @@ export const Header = ({ documentTitle, onValidateAll }) => {
       <header className={styles['Header']}>
         <div className={styles['header-container']}>
           <div className={styles['title-container']}>
-            {documentTitle}
+            {headerTitle}
           </div>
-          <div className={styles['icons-container']}>
+          { iconHeader && 
+              <>
+                <div className={styles['icons-container']}>
 
-          </div>
-          <div className={styles['action-container']}>
-            <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
-            <Button onClick={clickedValidateAll}buttonStyle="actionbar-validate" text="Validate all"></Button>
-          </div>
+                </div>
+                <div className={styles['action-container']}>
+                  <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
+                  <Button onClick={clickedValidateAll}buttonStyle="actionbar-validate" text="Validate all"></Button>
+                </div>
+              </>
+          }
         </div>
         {saved && <div className={styles['message']}>{message}</div>}      
       </header>
