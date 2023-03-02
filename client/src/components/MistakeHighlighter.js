@@ -21,6 +21,7 @@ export const MistakeHighlighter= ({ text }) => {
 
   let treshold = 0
 
+  // TODO: add another highlight style to deactivate highlight or find different way
   const fragments = mistakes.map(({ start, end }) => {
     const newFragment = (
       <>
