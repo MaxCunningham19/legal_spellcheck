@@ -89,14 +89,18 @@ class ApiTester(TestCase):
         self.assertEquals(data[1]['mistakes'][3]['word'], 'wrds')
         
     def test_add_document(self):
-        response = self.client.post(reverse('api:add_documents', data=self.post_docs, content_type='application/json'))
+        response = self.client.post(reverse('api:add_documents'), data=self.post_docs, content_type='application/json')
         self.assertEquals(response.status_code, 201)
-        document_list = self.client.get('api:get_documents')
-        data = json.loads(document_list.content)
-        self.assertEquals(len(data['title']), 2)
-        self.assertEquals(data[0]['block_content'][0], self.post_docs['documents']['blocks'][0])
-        self.assertEquals(data[0]['block_content'][1], self.post_docs['documents']['blocks'][1])
-        self.assertEquals(data[1]['block_content'], self.post_docs['documents']['blocks'])
+        document_list = self.client.get(reverse('api:get_documents'))
+        data = document_list.data
+        self.assertEquals(len(data), 2)
+        block_list = self.client.get(reverse('api:get_document_blocks', args=(data[0]['id'],)))
+        block_data = block_list.data
+        self.assertEquals(block_data[0]['block_content'], self.post_docs['documents'][0]['blocks'][0])
+        self.assertEquals(block_data[1]['block_content'], self.post_docs['documents'][0]['blocks'][1])
+        block_list = self.client.get(reverse('api:get_document_blocks', args=(data[1]['id'],)))
+        block_data = block_list.data
+        self.assertEquals(block_data[0]['block_content'], self.post_docs['documents'][1]['blocks'][0])
         
     
         
