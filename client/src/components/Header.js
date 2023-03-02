@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import { Button } from './Button'
 import styles from './Header.module.css'
 
-export const Header = ({ headerTitle, iconHeader }) => {
+
+export const Header = ({ headerTitle, onValidateAll, iconHeader }) => {
 
   const [saved, setSaved] = useState(false);
   const [message, setMessage] = useState('');
@@ -30,11 +31,10 @@ export const Header = ({ headerTitle, iconHeader }) => {
                 </div>
                 <div className={styles['action-container']}>
                   <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
-                  <Button buttonStyle="actionbar-validate" text="Validate all"></Button>
+                  <Button onClick={onValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
                 </div>
               </>
           }
-          
         </div>
         {saved && <div className={styles['message']}>{message}</div>}      
       </header>
