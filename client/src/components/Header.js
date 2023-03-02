@@ -17,10 +17,6 @@ export const Header = ({ headerTitle, onValidateAll, iconHeader }) => {
     }, 2000);
   };
 
-  const clickedValidateAll = () => {
-    onValidateAll();
-  };
-
   return (
     <>
       <header className={styles['Header']}>
@@ -35,7 +31,7 @@ export const Header = ({ headerTitle, onValidateAll, iconHeader }) => {
                 </div>
                 <div className={styles['action-container']}>
                   <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
-                  <Button onClick={clickedValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
+                  <Button onClick={onValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
                 </div>
               </>
           }

@@ -1,12 +1,5 @@
 import React, { useState } from 'react'
 import styles from './MistakeHighlighter.module.css'
-import { Button } from './Button'
-import { ReactComponent as PlusIcon } from '../icons/plus.svg'
-import { PreviewIcon } from './PreviewIcon'
-
-//so far added changes in header with connection to api we can add changes here
-
-//left this explorer preview as we might want to show it same way
 
 //TODO: creating my own constructor for now but should be passed from backend
 class Mistake {
@@ -18,15 +11,13 @@ class Mistake {
   }
 }
 
-//TODO: needs text to be added from api
+export const MistakeHighlighter= ({ text }) => {
 
-export const MistakeHighlighter= ({ text, highlighted }) => {
+  // TODO: this currently defaults every paragraph to track for the same ranges, this will change with API data and mistakes will passed as props
   const mistakes = [];
-
-  // create and push objects into the array
-  mistakes.push(new Mistake('Hi', 0, 1, 'Massimiliano'));
-  mistakes.push(new Mistake('Max', 7, 9, 'Massimiliano'));
-  mistakes.push(new Mistake('pasta', 33, 38, 'pizza'));
+  mistakes.push(new Mistake('', 0, 1, ''));
+  mistakes.push(new Mistake('', 7, 9, ''));
+  mistakes.push(new Mistake('', 33, 38, ''));
 
   let treshold = 0
 
@@ -44,8 +35,14 @@ export const MistakeHighlighter= ({ text, highlighted }) => {
   });
 
   return (
-    <div>
-      <div>{fragments}</div>
-    </div>
-  );
+    <>
+      { text.length > 0 &&
+        <>
+          {fragments}
+          <span>{text.substring(treshold, text.length)}</span>
+        </>
+      }
+    </>
+  )
+
 }

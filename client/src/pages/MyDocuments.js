@@ -14,6 +14,7 @@ export function MyDocuments() {
     const [documentsData, setDocumentsData] = useState(mockAPIData.documents)
     const [clickedDocument, setClickedDocument] = useState(null)
     const [editorMode, setEditorMode] = useState(false)
+    const [validateAll, setValidateAll] = useState(false)
     const didMount = useDidMount()
 
     useEffect(() => {
@@ -48,6 +49,10 @@ export function MyDocuments() {
       ))
     }
 
+    const handleOnValidateAll = () => {
+      setValidateAll(true)
+    }
+
     return (
         <>
           <div className={styles['MyDocuments']}>
@@ -56,6 +61,7 @@ export function MyDocuments() {
               className={styles['Header']}
               headerTitle={(editorMode) ? clickedDocument.title : "My Documents"}
               iconHeader={(editorMode) ? true : false }
+              onValidateAll={handleOnValidateAll}
             />
             <Navbar className={styles['Navbar']}/>
             { editorMode 
@@ -63,6 +69,7 @@ export function MyDocuments() {
                 <Editor 
                   className={styles['Editor']}
                   document={clickedDocument}
+                  validateAll={validateAll}
                 />
               : <Explorer 
                   className={styles['Explorer']}

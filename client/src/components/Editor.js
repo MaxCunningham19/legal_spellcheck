@@ -3,7 +3,7 @@ import { Button } from './Button'
 import Carousel from './Carousel'
 import styles from './Editor.module.css'
 
-export const Editor = ({ document }) => {
+export const Editor = ({ document, validateAll }) => {
 
   return (
     <>
@@ -12,6 +12,7 @@ export const Editor = ({ document }) => {
           <Carousel 
             className={styles['Carousel']} 
             data={document.blocks}
+            validateAll={validateAll}
           />
         </div>
       </section>

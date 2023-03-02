@@ -8,6 +8,11 @@ import mockAPIData from '../data/mockAPI.json';
 export function Browse() {
 
     const [documentsData, setDocumentsData] = useState(mockAPIData.documents)
+    const [validateAll, setValidateAll] = useState(false)
+
+    const handleOnValidateAll = () => {
+      setValidateAll(true)
+    }
 
     return (
         <>
@@ -17,11 +22,13 @@ export function Browse() {
               className={styles['Header']}
               iconHeader={true}
               headerTitle={documentsData[0].title}    // TODO: defaulted to 0
+              onValidateAll={handleOnValidateAll}
             />
             <Navbar className={styles['Navbar']}/>
             <Editor 
               className={styles['Editor']}
               document={documentsData[0]}               // TODO: defaulted to 0
+              validateAll={validateAll}
             />     
           </div>
         </>

@@ -3,6 +3,7 @@ import useAutosizeTextArea from '../hooks/useAutosizeTextArea'
 import { Button } from './Button'
 import styles from './TextBox.module.css'
 import { ReactComponent as CloseIcon } from "../icons/close.svg"
+import { MistakeHighlighter } from './MistakeHighlighter'
 
 export const TextBox = ({
     boxStyle,
@@ -10,14 +11,14 @@ export const TextBox = ({
     content,
     onChangeInput,
     onRemoveClick,
-    placeHolder
+    placeHolder,
+    validate
 }) => {
+
     
     const [isHovering, setIsHovering] = useState(false)
     const [onFocus, setOnFocus] = useState(false)
     const textAreaRef = useRef()
-
-    useAutosizeTextArea(textAreaRef.current, content)
     
     const handleMouseOver = () => {
       setIsHovering(true)
@@ -45,13 +46,21 @@ export const TextBox = ({
           onBlur={handleOutOfFocus}
         >
           <div className={ onFocus ? styles[boxStyle + "-onfocus"] : styles[boxStyle]}>
-            <textarea
-              className={styles['textarea']}
-              value={content}
-              onChange={(e) => onChangeInput(e, id)} 
-              placeHolder={placeHolder}
-              ref={textAreaRef}
-            /> 
+            <div className={styles[boxStyle + "-text-container"]}>
+              <span contentEditable
+                suppressContentEditableWarning={true}
+                className={styles['textarea']}    
+                placeHolder={placeHolder}
+                ref={textAreaRef}
+              >
+                { validate
+                  ? <MistakeHighlighter
+                      text={content}
+                    />
+                  : content
+                }
+              </span>
+            </div>
             <div className={styles['icons-container']}>
               {(isHovering || onFocus) && (
                 <Button 

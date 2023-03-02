@@ -4,7 +4,7 @@ import styles from './Carousel.module.css'
 import TextBox from './TextBox'
 import { ReactComponent as PlusIcon } from "../icons/plus.svg"
 
-export const Carousel = ({ data }) => {
+export const Carousel = ({ data, validateAll }) => {
 
   const [carouselData, setCarouselData] = useState(data)
 
@@ -19,7 +19,7 @@ export const Carousel = ({ data }) => {
   const onAddParagraphClick = (e) => {
     setCarouselData([
       ...carouselData,
-      {block_order: carouselData.length, content: ""}
+      {block_order: carouselData.length, block_content: ""}
     ])
     mapCarouselComponents()
   }
@@ -38,10 +38,11 @@ export const Carousel = ({ data }) => {
         boxStyle="paragraph-text-box"
         key={block_order}
         id={block_order}
-        content={block_content} 
+        content={block_content}
         placeHolder="Start typing"
         onChangeInput={onChangeInput}
         onRemoveClick={onRemoveParagraphClick}
+        validate={validateAll && true}
       /> 
     ))
   }
