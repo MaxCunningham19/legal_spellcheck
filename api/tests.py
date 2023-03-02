@@ -1,6 +1,7 @@
 # Create your tests here.
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework.response import Response
 from .models import *
 from .serializers import MistakeSerializer
 import json
@@ -18,6 +19,23 @@ class ApiTester(TestCase):
                 "Ths senence haas four incorrect wrds"
             ]
         }
+    }
+    post_docs = {
+        "documents": [
+            {
+                "title": "morning",
+                "blocks": [
+                    "it is morning",
+                    "Damn it's bright"
+                ]
+            },
+            {
+                "title": "evening",
+                "blocks": [
+                    "it cold"
+                ]
+            }
+        ]   
     }
 
     def test_document_has_correct_blocks(self):
@@ -69,4 +87,16 @@ class ApiTester(TestCase):
         self.assertEquals(data[1]['mistakes'][1]['word'], 'senence')
         self.assertEquals(data[1]['mistakes'][2]['word'], 'haas')
         self.assertEquals(data[1]['mistakes'][3]['word'], 'wrds')
-
+        
+    def test_add_document(self):
+        response = self.client.post(reverse('api:add_documents', data=self.post_docs, content_type='application/json'))
+        self.assertEquals(response.status_code, 201)
+        document_list = self.client.get('api:get_documents')
+        data = json.loads(document_list.content)
+        self.assertEquals(len(data['title']), 2)
+        self.assertEquals(data[0]['block_content'][0], self.post_docs['documents']['blocks'][0])
+        self.assertEquals(data[0]['block_content'][1], self.post_docs['documents']['blocks'][1])
+        self.assertEquals(data[1]['block_content'], self.post_docs['documents']['blocks'])
+        
+    
+        

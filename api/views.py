@@ -1,4 +1,6 @@
+import json
 import rest_framework
+from django.http import HttpRequest
 from django.shortcuts import render, get_list_or_404
 from rest_framework import generics
 from rest_framework.decorators import api_view
@@ -27,9 +29,15 @@ def check_document_blocks(request, pk):
                 for block in Block.objects.filter(block_document=pk)]
     return Response(mistakes, status=200)
 
-@api_view()
-def add_documents(request):
-    serializer = DocumentSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+@api_view(['POST'])
+def add_documents(request: HttpRequest):
+    doclist = json.loads(request.body.decode())
+    for document in doclist['documents']:
+        doc_object = Document.objects.create(title= document['title'])
+        for order, block in enumerate (document['blocks']):
+            doc_object.block_set.create(
+                block_document=doc_object,
+                block_content=block,
+                block_order=order
+            )
+    return Response(status=201)

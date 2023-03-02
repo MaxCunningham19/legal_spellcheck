@@ -21,7 +21,7 @@ class Block(models.Model):
     The text content of a block.
     """
     
-    block_order = models.IntegerField(default=0, unique=True)
+    block_order = models.IntegerField(default=0)
     """
     The index of a block within a document.
     """
