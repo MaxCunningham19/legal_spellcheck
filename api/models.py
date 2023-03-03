@@ -21,13 +21,16 @@ class Block(models.Model):
     The text content of a block.
     """
     
-    block_order = models.IntegerField(default=0, unique=True)
+    block_order = models.IntegerField(default=0)
     """
     The index of a block within a document.
     """
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['block_document', 'block_order']
 
     def __str__(self):
         return self.block_content
