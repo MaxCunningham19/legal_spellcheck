@@ -4,7 +4,7 @@
 # create a new docker image with each package.json update, which will
 # occupy hundreds of megabytes on your disk. This should only be used
 # in the CI/CD pipeline.
-ARG BUNDLE
+ARG BUNDLE=local
 
 FROM scratch AS local-bundle
 COPY ./static/client/js/main.js /var/www/apache/static/client/js/main.js
