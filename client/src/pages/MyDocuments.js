@@ -7,7 +7,6 @@ import styles from './MyDocuments.module.css';
 import mockAPIData from '../data/mockAPI.json';
 import { Link } from "react-router-dom"
 import axios from 'axios';
-import { useDidMount } from '../hooks/useIsMount';
 
 export function MyDocuments() {
 
@@ -64,16 +63,10 @@ export function MyDocuments() {
               iconHeader={false}
               onValidateAll={handleOnValidateAll}
             />
-            <Navbar className={styles['Navbar']} fromMyDocuments={currentDocument} />
-            {
-              /*
-                <Editor 
-                  className={styles['Editor']}
-                  document={clickedDocument}
-                  validateAll={validateAll}
-                />
-              */
-            }
+            <Navbar 
+              className={styles['Navbar']} 
+              fromMyDocuments={currentDocument} 
+            />
             <Explorer 
               className={styles['Explorer']}
               documentsData={documentsData}

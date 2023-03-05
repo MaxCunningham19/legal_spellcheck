@@ -35,13 +35,16 @@ export function EditorPage() {
             <Header 
               className={styles['Header']}
               iconHeader={true}
-              headerTitle={currentDocument.title}    // TODO: defaulted to 0
+              headerTitle={currentDocument.title}
               onValidateAll={handleOnValidateAll}
             />
-            <Navbar className={styles['Navbar']} fromEditor={currentDocument} />
+            <Navbar 
+              className={styles['Navbar']} 
+              fromEditor={currentDocument} 
+            />
             <Editor 
               className={styles['Editor']}
-              document={currentDocument}               // TODO: defaulted to 0
+              document={currentDocument}
               validateAll={validateAll}
             />     
           </div>
