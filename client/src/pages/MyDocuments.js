@@ -15,20 +15,11 @@ export function MyDocuments() {
     const location = useLocation()
     const [clickedDocument, setClickedDocument] = useState(null)
     const [currentDocument, setCurrentDocument] = useState(documentsData[0])
-    const [editorMode, setEditorMode] = useState(false)
     const [validateAll, setValidateAll] = useState(false)
-    const didMount = useDidMount()
-
 
     useEffect(() => {
       getDocumentsData()
     },[])
-
-    useEffect(() => {
-      if (didMount) {
-        setEditorMode(true)
-      }
-    }, [clickedDocument, didMount])
 
     useEffect(() => {
       if( location.state !== null) {
