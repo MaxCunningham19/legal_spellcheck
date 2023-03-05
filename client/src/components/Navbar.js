@@ -13,7 +13,7 @@ export const Navbar = ( { fromEditor, fromMyDocuments }) => {
       <nav className={styles['Navbar']}>
           <div className={styles['navbar-container']}>
             <div className={styles['buttons-container']}>
-              <NavLink to="/my-documents" state={{ fromEditor: fromEditor }}>
+              <NavLink to="/" state={{ fromEditor: fromEditor }}>
                 {({ isActive }) => 
                   <Button 
                     buttonStyle={isActive ? "icon-navbar-selected" : "icon-navbar-plain"} 

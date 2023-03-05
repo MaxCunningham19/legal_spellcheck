@@ -11,7 +11,7 @@ function App() {
     <>
       <Routes>
         <Route path="/editor" element={<EditorPage />} />
-        <Route path="/my-documents" element={<MyDocuments />} />
+        <Route path="/" element={<MyDocuments />} />
       </Routes>
     </>
   );
