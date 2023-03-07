@@ -18,7 +18,10 @@ class DocumentDetail(generics.RetrieveAPIView):
 
 @api_view()
 def get_document_blocks(request, pk):
-    blocks = Block.objects.filter(block_document=pk)
+    try:
+        blocks = Block.objects.filter(block_document=pk)
+    except Block.DoesNotExist:
+        return HttpResponse('Document not found')
     serializer = BlockSerializer(blocks, many=True)
     return Response(serializer.data, status=200)
 
