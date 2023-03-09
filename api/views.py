@@ -9,9 +9,19 @@ class DocumentList(generics.ListAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
+@api_view()
+def post_documents(request):
+    serializer = BlockSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
+
+
 class DocumentDetail(generics.RetrieveAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+
 
 @api_view()
 def get_document_blocks(request, pk):
@@ -20,8 +30,30 @@ def get_document_blocks(request, pk):
     return rest_framework.response.Response(serializer.data, status=200)
 
 @api_view()
+def put_document_blocks(request, pk):
+    block = Block.objects.get(pk=pk)
+    serializer = DocumentSerializer(block, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return rest_framework.response.Response(serializer.data, status=200)
+    return rest_framework.response.Response(serializer.errors, status=400)
+
+@api_view(['DELETE'])
+def delete_document_blocks( request, pk):
+    try:    
+        block = Block.objects.get(pk=pk)
+        block.delete()
+        return rest_framework.response.Response(status=204)
+    except Block.DoesNotExist:
+        return rest_framework.response.Response(status=404)
+
+    
+@api_view()
 def check_document_blocks(request, pk):
     mistakes = [dict(block_order=block.block_order,
                      mistakes=MistakeSerializer(block.spellcheck(), many=True).data) \
                 for block in Block.objects.filter(block_document=pk)]
     return rest_framework.response.Response(mistakes, status=200)
+
+
+
