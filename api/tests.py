@@ -23,7 +23,7 @@ class ApiTester(TestCase):
 
     def test_document_has_correct_blocks(self):
         document = self.create_document_from_template('Test Document 2')
-        document_blocks = self.client.get(reverse('api:get_document_blocks', args=(document.id,)))
+        document_blocks = self.client.get(reverse('api:document_view', args=(document.id,)))
         data = json.loads(document_blocks.content)
         self.assertEquals(len(data), 2)
         self.assertEquals(data[0]['block_content'], self.documents['Test Document 2']['blocks'][0])
@@ -58,44 +58,47 @@ class ApiTester(TestCase):
             serializer = MistakeSerializer(data=block['mistakes'], many=True)
             self.assertTrue(serializer.is_valid())
 
-    def test_put_document(self):
-        data = {
-            'Test Document 3': {
-                'blocks': [
-                    "This sjhjljlhjkjkl haas two incorrect wrds",
-                    "Ths senence haas four incorrect wrds"
-                ]
-            }
-        }
-        document = self.create_document_from_template('Test Document 1')
-        response = self.client.put(reverse('api:put_document_blocks', data))
-        self.assertEqual(response.status_code, 200)
-        doc = json.loads(response.content)
-        doc_str = json.dumps(doc)
-        self.assertEqual(Block.objects.filter(block_document=doc_str).exists())
-
     def test_delete_document(self):
         document = self.create_document_from_template('Test Document 1')
-        response = self.client.delete(reverse('api:delete_document_blocks', args=(document.id,)))
+        response = self.client.delete(reverse('api:document_view', args=(document.id,)))
         self.assertEqual(response.status_code, 204)
         self.assertFalse(Block.objects.filter(block_document=document).exists())
+    
+    def test_delete_block(self):
+        document = self.create_document_from_template('Test Document 2')
+        response = self.client.delete(reverse('api:block_view', args=(document.id, 0,)))
+        self.assertEquals(response.status_code, 204)
+        doc_data = self.client.get(reverse('api:document_view', args=(document.id,)))
+        data = doc_data.data
+        self.assertEquals(data[0]['block_content'], self.documents['Test Document 2']['blocks'][1])
+        self.assertEquals(len(data), 1)
+        response = self.client.delete(reverse('api:block_view', args=(document.id, 3,)))
+        self.assertEquals(response.status_code, 409)
 
-    def test_post_document(self):
-        data = {
-            'Test Document 3': {
-                'blocks': [
-                    "This sjhjljlhjkjkl haas two incorrect wrds",
-                    "Ths senence haas four incorrect wrds"
-                ]
-            }
-        }
-        document = self.create_document_from_template('Test Document 1')
-        response = self.client.post(reverse('api:post_documents', data))
-        self.assertEqual(response.status_code, 201)
-        doc = json.loads(response.content)
-        doc_str = json.dumps(doc)
-        self.assertEqual(Block.objects.filter(block_document=doc_str).exists())
-            
+    
+    def test_replace_block(self):
+        document = self.create_document_from_template('Test Document 2')
+        response = self.client.put(reverse('api:block_view', args=(document.id, 0,)), data = 'Hello world', content_type='utf-8')
+        self.assertEquals(response.status_code, 204)
+        doc_data = self.client.get(reverse('api:document_view', args=(document.id,)))
+        data = doc_data.data
+        self.assertEquals(data[0]['block_content'], 'Hello world')
+        self.assertEquals(len(data), 2)
+        response = self.client.put(reverse('api:block_view', args=(document.id, 3,)), data = 'Hello world', content_type='utf-8')
+        self.assertEquals(response.status_code, 404)
+    
+    def test_post_block(self):
+        document = self.create_document_from_template('Test Document 2')
+        response = self.client.post(reverse('api:block_view', args=(document.id, 0,)), data = 'Hello world', content_type='utf-8')
+        self.assertEquals(response.status_code, 201)
+        response = self.client.post(reverse('api:block_view', args=(document.id, 5,)), data = 'Hello post world', content_type='utf-8')
+        self.assertEquals(response.status_code, 201)
+        doc_data = self.client.get(reverse('api:document_view', args=(document.id,)))
+        data = doc_data.data
+        self.assertEquals(data[0]['block_content'], 'Hello world')
+        self.assertEquals(data[3]['block_content'], 'Hello post world')
+        self.assertEquals(len(data), 4)
+
     def test_document_blocks_have_correct_mistakes(self):
         document = self.create_document_from_template('Test Document 2')
         response = self.client.get(reverse('api:check_document_blocks', args=(document.id,)))

@@ -31,6 +31,7 @@ class Block(models.Model):
 
     class Meta:
         unique_together = ['block_document', 'block_order']
+        ordering = ['block_order']
 
     def __str__(self):
         return self.block_content
