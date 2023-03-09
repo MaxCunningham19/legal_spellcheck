@@ -153,6 +153,15 @@ class ApiTester(TestCase):
         block_list = self.client.get(reverse('api:document_view', args=(data[1]['id'],)))
         block_data = block_list.data
         self.assertEquals(block_data[0]['block_content'], self.post_docs['documents'][1]['blocks'][0])
+    
+    def test_put_document(self):
+        document = self.create_document_from_template('Test Document 2')
+        response = self.client.put(reverse('api:document_view', args=(document.id,)), data = 'New Title', content_type='utf-8')
+        self.assertEqual(response.status_code, 201)
+        doc = self.client.get(reverse('api:get_documents'))
+        data = doc.data
+        self.assertEqual(data[0]['title'], 'New Title')
+                
         
     
         

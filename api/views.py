@@ -1,4 +1,5 @@
 import json
+from django.db import IntegrityError
 import rest_framework
 from django.http import HttpRequest
 from django.shortcuts import render, get_list_or_404
@@ -20,11 +21,11 @@ class DocumentDetail(generics.RetrieveAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET', 'DELETE', 'PUT'])
 def document_view(request, pk):
+    if not Document.objects.filter(id=pk):                  # Empty lists are considered false in python. not Document.objects.filter(id=pk) will be true only if filter returns an empty list, i.e. document does not exist.
+        return Response('Document not found', status=404)
     if request.method == 'GET':
-        if not Document.objects.filter(id=pk):                  # Empty lists are considered false in python. not Document.objects.filter(id=pk) will be true only if filter returns an empty list, i.e. document does not exist.
-          return Response('Document not found', status=404)
         blocks = Block.objects.filter(block_document=pk)
         serializer = BlockSerializer(blocks, many=True)
         return Response(serializer.data, status=200)
@@ -35,6 +36,14 @@ def document_view(request, pk):
             return Response(status=204)
         except Block.DoesNotExist:
             return rest_framework.response.Response(status=404)
+    if request.method == 'PUT':
+        document = Document.objects.get(id=pk)
+        try:
+            document.title = request.body.decode()
+            document.save()
+            return Response(status=201)
+        except IntegrityError:
+            return Response(status=400)
 
 @api_view(['DELETE', 'PUT', 'POST'])
 def block_view(request, pk, bo):
