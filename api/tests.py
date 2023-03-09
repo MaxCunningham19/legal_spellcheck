@@ -1,6 +1,7 @@
 # Create your tests here.
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework.response import Response
 from .models import *
 from .serializers import MistakeSerializer
 import json
@@ -17,7 +18,27 @@ class ApiTester(TestCase):
                 "This sentence haas two incorrect wrds",
                 "Ths senence haas four incorrect wrds"
             ]
+        },
+        'Test Document 3':{
+            'blocks' : []
         }
+    }
+    post_docs = {
+        "documents": [
+            {
+                "title": "morning",
+                "blocks": [
+                    "it is morning",
+                    "Damn it's bright"
+                ]
+            },
+            {
+                "title": "evening",
+                "blocks": [
+                    "it cold"
+                ]
+            }
+        ]   
     }
 
     def test_document_has_correct_blocks(self):
@@ -27,6 +48,13 @@ class ApiTester(TestCase):
         self.assertEquals(len(data), 2)
         self.assertEquals(data[0]['block_content'], self.documents['Test Document 2']['blocks'][0])
         self.assertEquals(data[1]['block_content'], self.documents['Test Document 2']['blocks'][1])
+        document_blocks = self.client.get(reverse('api:get_document_blocks', args=(13,)))
+        self.assertEquals(document_blocks.status_code, 404)
+        document = self.create_document_from_template('Test Document 3')
+        document_blocks = self.client.get(reverse('api:get_document_blocks', args=(document.id,)))
+        self.assertEquals(document_blocks.status_code, 200)
+        self.assertEquals(document_blocks.data, [])
+        
     
     def create_document_from_template(self, title):
         try:
@@ -69,4 +97,20 @@ class ApiTester(TestCase):
         self.assertEquals(data[1]['mistakes'][1]['word'], 'senence')
         self.assertEquals(data[1]['mistakes'][2]['word'], 'haas')
         self.assertEquals(data[1]['mistakes'][3]['word'], 'wrds')
-
+        
+    def test_add_document(self):
+        response = self.client.post(reverse('api:add_documents'), data=self.post_docs, content_type='application/json')
+        self.assertEquals(response.status_code, 201)
+        document_list = self.client.get(reverse('api:get_documents'))
+        data = document_list.data
+        self.assertEquals(len(data), 2)
+        block_list = self.client.get(reverse('api:get_document_blocks', args=(data[0]['id'],)))
+        block_data = block_list.data
+        self.assertEquals(block_data[0]['block_content'], self.post_docs['documents'][0]['blocks'][0])
+        self.assertEquals(block_data[1]['block_content'], self.post_docs['documents'][0]['blocks'][1])
+        block_list = self.client.get(reverse('api:get_document_blocks', args=(data[1]['id'],)))
+        block_data = block_list.data
+        self.assertEquals(block_data[0]['block_content'], self.post_docs['documents'][1]['blocks'][0])
+        
+    
+        
