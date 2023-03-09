@@ -18,6 +18,9 @@ class ApiTester(TestCase):
                 "This sentence haas two incorrect wrds",
                 "Ths senence haas four incorrect wrds"
             ]
+        },
+        'Test Document 3':{
+            'blocks' : []
         }
     }
     post_docs = {
@@ -45,6 +48,13 @@ class ApiTester(TestCase):
         self.assertEquals(len(data), 2)
         self.assertEquals(data[0]['block_content'], self.documents['Test Document 2']['blocks'][0])
         self.assertEquals(data[1]['block_content'], self.documents['Test Document 2']['blocks'][1])
+        document_blocks = self.client.get(reverse('api:get_document_blocks', args=(13,)))
+        self.assertEquals(document_blocks.status_code, 404)
+        document = self.create_document_from_template('Test Document 3')
+        document_blocks = self.client.get(reverse('api:get_document_blocks', args=(document.id,)))
+        self.assertEquals(document_blocks.status_code, 200)
+        self.assertEquals(document_blocks.data, [])
+        
     
     def create_document_from_template(self, title):
         try:

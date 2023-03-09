@@ -7,4 +7,5 @@ urlpatterns = [
     path('document/', DocumentList.as_view(), name='get_documents'),
     path('document/<int:pk>', get_document_blocks, name='get_document_blocks'),
     path('check/document/<int:pk>', check_document_blocks, name='check_document_blocks'),
-    path('documents/', add_documents, name='add_documents')]
+    path('documents/', add_documents, name='add_documents')
+]

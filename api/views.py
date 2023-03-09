@@ -18,10 +18,9 @@ class DocumentDetail(generics.RetrieveAPIView):
 
 @api_view()
 def get_document_blocks(request, pk):
-    try:
-        blocks = Block.objects.filter(block_document=pk)
-    except Block.DoesNotExist:
-        return HttpResponse('Document not found')
+    if not Document.objects.filter(id=pk):                  # Empty lists are considered false in python. not Document.objects.filter(id=pk) will be true only if filter returns an empty list, i.e. document does not exist.
+        return Response('Document not found', status=404)
+    blocks = Block.objects.filter(block_document=pk)
     serializer = BlockSerializer(blocks, many=True)
     return Response(serializer.data, status=200)
 
