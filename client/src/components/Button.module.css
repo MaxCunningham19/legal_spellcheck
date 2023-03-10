@@ -129,14 +129,23 @@
                 height: 30px;
             }
 
-                .icon-single-textbox-icon {
+                .icon-single-textbox-icon-passive {
                     height: 20px;
                     width: 20px;
                     fill: var(--passive-button);
                 }
 
-                .icon-single-textbox-icon:hover {
+                .icon-single-textbox-icon-passive:hover {
                     fill: var(--text-dark);
+                }
+
+                .icon-single-textbox-icon-active {
+                    height: 20px;
+                    width: 20px;
+                    fill: var(--action-button);
+                }
+
+                .icon-single-textbox-icon-active:hover {
                 }
 
 

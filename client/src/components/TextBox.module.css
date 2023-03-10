@@ -54,8 +54,13 @@
     grid-area: icons;
     display: flex;
     justify-content: right;
+    flex-direction: row-reverse;
 }
 
-    .icon-single-textbox-icon {
-        composes: icon-single-textbox-icon from './Button.module.css';
+    .icon-single-textbox-icon-active {
+        composes: icon-single-textbox-icon-active from './Button.module.css';
+    }
+
+    .icon-single-textbox-icon-passive {
+        composes: icon-single-textbox-icon-passive from './Button.module.css';
     }

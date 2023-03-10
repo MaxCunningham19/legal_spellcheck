@@ -3,6 +3,8 @@ import useAutosizeTextArea from '../hooks/useAutosizeTextArea'
 import { Button } from './Button'
 import styles from './TextBox.module.css'
 import { ReactComponent as CloseIcon } from "../icons/close.svg"
+import { ReactComponent as ValidateFilled } from "../icons/validate-filled.svg"
+import { ReactComponent as Save } from "../icons/save.svg"
 import { MistakeHighlighter } from './MistakeHighlighter'
 
 export const TextBox = ({
@@ -66,8 +68,21 @@ export const TextBox = ({
                 <Button 
                   buttonStyle="icon-single-textbox" 
                   onClick={(e) => onRemoveClick(e, id)}
-                  icon={<CloseIcon className={styles['icon-single-textbox-icon']} />}
-                />  
+                  icon={<CloseIcon className={styles['icon-single-textbox-icon-passive']}/>}
+                />
+              )}
+              {(onFocus) && (
+                <Button 
+                  buttonStyle="icon-single-textbox" 
+                  icon={<ValidateFilled className={styles['icon-single-textbox-icon-active']} />}
+                />
+              )}
+              {(onFocus) && (
+                <Button 
+                  buttonStyle="icon-single-textbox" 
+                  onClick={(e) => onRemoveClick(e, id)}
+                  icon={<Save className={styles['icon-single-textbox-icon-passive']} />}
+                />
               )}
             </div>
           </div>
