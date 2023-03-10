@@ -53,6 +53,31 @@ export function MyDocuments() {
       setValidateAll(true)
     }
 
+    const createNewDocument = () => {
+      const newDocument = {
+        title: "New document", created_at: "", updated_at: "",
+          blocks: [
+            {
+              block_content: "",
+              block_order: 0
+            }
+          ]
+      }
+      setDocumentsData(prevDocumentsData => [...prevDocumentsData, newDocument])
+    }
+
+
+    const generateExplorer = () => {
+      return (
+        <Explorer 
+          className={styles['Explorer']}
+          documentsData={documentsData}
+          handleOnClickDocument={handleOnClickDocument}
+          handleOnClickAdd={createNewDocument}
+        />
+      )
+    }
+
     return (
         <>
           <div className={styles['MyDocuments']}>
@@ -67,11 +92,7 @@ export function MyDocuments() {
               className={styles['Navbar']} 
               fromMyDocuments={currentDocument} 
             />
-            <Explorer 
-              className={styles['Explorer']}
-              documentsData={documentsData}
-              handleOnClickDocument={handleOnClickDocument}
-            />
+            {generateExplorer()}
           </div>
         </>
     );

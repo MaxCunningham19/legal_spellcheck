@@ -1,4 +1,5 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useRef} from "react";
+import { useDidMount } from '../hooks/useDidMount'
 import { useLocation } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
@@ -12,9 +13,7 @@ export function EditorPage() {
     const location = useLocation()
     const [documentsData, setDocumentsData] = useState(mockAPIData.documents)
     const [currentDocument, setCurrentDocument] = useState(documentsData[0])
-
-    console.log(location);
-
+    const didMount = useDidMount()
 
     useEffect(() => {
       if( location.state !== null) {
@@ -38,15 +37,19 @@ export function EditorPage() {
               headerTitle={currentDocument.title}
               onValidateAll={handleOnValidateAll}
             />
-            <Navbar 
-              className={styles['Navbar']} 
-              fromEditor={currentDocument} 
-            />
-            <Editor 
-              className={styles['Editor']}
-              document={currentDocument}
-              validateAll={validateAll}
-            />     
+            { didMount &&
+              <>
+                <Navbar 
+                  className={styles['Navbar']} 
+                  fromEditor={currentDocument} 
+                />
+                <Editor 
+                  className={styles['Editor']}
+                  blocks={currentDocument.blocks}
+                  validateAll={validateAll}
+                />
+              </> 
+            }    
           </div>
         </>
     );
