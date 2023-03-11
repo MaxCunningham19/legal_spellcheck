@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react'
-import useAutosizeTextArea from '../hooks/useAutosizeTextArea'
 import { Button } from './Button'
 import styles from './TextBox.module.css'
 import { ReactComponent as CloseIcon } from "../icons/close.svg"
@@ -13,15 +12,21 @@ export const TextBox = ({
     content,
     onChangeInput,
     onRemoveClick,
+    onSaveClick,
+    onValidateClick,
     placeHolder,
     validate
 }) => {
-
     
     const [isHovering, setIsHovering] = useState(false)
     const [onFocus, setOnFocus] = useState(false)
+    const [isValidated, setIsValidated] = useState(validate)
     const textAreaRef = useRef()
     
+    useEffect(() => {
+      setIsValidated(() => validate)
+    },[validate])
+
     const handleMouseOver = () => {
       setIsHovering(true)
     }
@@ -55,7 +60,7 @@ export const TextBox = ({
                 placeHolder={placeHolder}
                 ref={textAreaRef}
               >
-                { validate
+                { isValidated
                   ? <MistakeHighlighter
                       text={content}
                     />
@@ -74,13 +79,14 @@ export const TextBox = ({
               {(onFocus) && (
                 <Button 
                   buttonStyle="icon-single-textbox" 
+                  onClick={(e) => onValidateClick(e, id)}
                   icon={<ValidateFilled className={styles['icon-single-textbox-icon-active']} />}
                 />
               )}
               {(onFocus) && (
                 <Button 
                   buttonStyle="icon-single-textbox" 
-                  onClick={(e) => onRemoveClick(e, id)}
+                  onClick={(e) => onSaveClick(e, id)}
                   icon={<Save className={styles['icon-single-textbox-icon-passive']} />}
                 />
               )}
