@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Button } from './Button'
 import styles from './TextBox.module.css'
 import { ReactComponent as CloseIcon } from "../icons/close.svg"
-import { ReactComponent as ValidateFilled } from "../icons/validate-filled.svg"
+import { ReactComponent as ValidateOutline } from "../icons/validate-outline.svg"
 import { ReactComponent as Save } from "../icons/save.svg"
 import { MistakeHighlighter } from './MistakeHighlighter'
 
@@ -80,7 +80,7 @@ export const TextBox = ({
                 <Button 
                   buttonStyle="icon-single-textbox" 
                   onClick={(e) => onValidateClick(e, id)}
-                  icon={<ValidateFilled className={styles['icon-single-textbox-icon-active']} />}
+                  icon={<ValidateOutline className={styles['icon-single-textbox-icon-active']} />}
                 />
               )}
               {(onFocus) && (
