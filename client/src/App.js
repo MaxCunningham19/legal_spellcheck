@@ -1,17 +1,16 @@
 import React from 'react'
 import { Route, Routes } from "react-router-dom";
-import { Browse } from "./pages/Browse";
+import { EditorPage } from "./pages/EditorPage";
 import { MyDocuments } from "./pages/MyDocuments";
 import styles from './App.module.css';
-import axios from "axios";
 
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<Browse />} />
-        <Route path="/my-documents" element={<MyDocuments />} />
+        <Route path="/editor" element={<EditorPage />} />
+        <Route path="/" element={<MyDocuments />} />
       </Routes>
     </>
   );
