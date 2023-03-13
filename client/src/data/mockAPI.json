@@ -1,6 +1,7 @@
 {
     "documents": [
         {
+            "id": 3,
             "title": "Irish Constitution",
             "created_at": "",
             "updated_at": "",
@@ -24,6 +25,7 @@
             ]
         },
         {
+            "id": 4,
             "title": "Declaration of Independence",
             "created_at": "",
             "updated_at": "",

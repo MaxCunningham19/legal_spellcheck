@@ -12,13 +12,13 @@ export const ExplorerPreview = ({
 }) => {
 
   const generatePreviews = () => {
-    return explorerData.map(document => (
-      <Link to="/editor" state={{ fromMyDocuments: document }}>
+    return explorerData.map((document) => (
+      <Link to="/editor" state={{ fromMyDocuments: "" }}>
         <PreviewIcon
           previewStyle="preview-icon-explorer"
-          key={document.title}
+          key={document.id} 
+          id={document.id}
           title={document.title}
-          body={document.blocks[0].block_content}
           onClickPreview={onClickPreview}
         />
       </Link>
