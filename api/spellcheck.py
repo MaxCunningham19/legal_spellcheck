@@ -1,7 +1,6 @@
 """
-Module for spell check related code. Currently only contains aspell integration
-for the MVP, but may be extended to use AWS Kendra, custom dictionaries,
-consistency checking .etc.
+Module for spell check related code. Currently we are using
+the bing spell check api as we have had troubles with AWS Kendra
 """
 import time
 import requests
