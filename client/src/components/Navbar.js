@@ -7,7 +7,6 @@ import styles from './Navbar.module.css'
 
 export const Navbar = ( { fromEditor, fromMyDocuments }) => {
 
-
   return (
     <>   
       <nav className={styles['Navbar']}>

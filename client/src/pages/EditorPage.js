@@ -18,7 +18,6 @@ export function EditorPage() {
     const didMount = useDidMount()
 
     useEffect(() => {
-      console.log(location.state);
       if( location.state !== null) {
         const { fromMyDocuments } = location.state
         fetchDocumentBlocks(fromMyDocuments)
