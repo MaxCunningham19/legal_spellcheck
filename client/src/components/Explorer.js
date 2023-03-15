@@ -5,8 +5,7 @@ import { ExplorerPreview } from './ExplorerPreview'
 
 export const Explorer = ({
   documentsData,
-  handleOnClickDocument,
-  handleOnClickAdd
+  handleOnClickDocument
 }) => {
 
   return (
@@ -15,8 +14,6 @@ export const Explorer = ({
         <div className={styles['explorer-container']}>
           <ExplorerPreview 
             explorerData={documentsData}
-            onClickPreview={handleOnClickDocument}
-            onClickAdd={handleOnClickAdd}
           />
           {/*TODO: ExplorerPreview can then be swapped to ExplorerList*/}
         </div>

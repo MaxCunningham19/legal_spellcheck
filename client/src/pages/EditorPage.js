@@ -5,23 +5,46 @@ import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import Editor from '../components/Editor';
 import styles from './EditorPage.module.css';
-import mockAPIData from '../data/mockAPI.json';
+import axios from 'axios'
 
 export function EditorPage() {
 
     const [validateAll, setValidateAll] = useState(false)
     const location = useLocation()
-    const [documentsData, setDocumentsData] = useState(mockAPIData.documents)
-    const [currentDocument, setCurrentDocument] = useState(documentsData[0])
+    const [currentDocument, setCurrentDocument] = useState({   
+      title: "New document",
+      blocks: [""]
+    })
     const didMount = useDidMount()
 
     useEffect(() => {
+      console.log(location.state);
       if( location.state !== null) {
         const { fromMyDocuments } = location.state
-        setCurrentDocument(fromMyDocuments)
+        fetchDocumentBlocks(fromMyDocuments)
       }
     },[location.state])
 
+    const fetchDocumentBlocks = (document) => {
+      axios
+        .get(`/api/document/${document.id}`)
+        .then((result) => {
+          setCurrentDocument(prevDocument => ({
+            ...prevDocument, title: document.title, blocks: parseBlocks(result.data)
+          }))
+        })
+        .catch((error) => { setCurrentDocument(prevDocument => ({
+          ...prevDocument, title: document.title, blocks: document.blocks
+        }))})
+    }
+
+    const parseBlocks = (result) => {
+      const parsedBlocks = []
+      result.map(block => {
+        parsedBlocks.push(block.block_content)
+      })
+      return parsedBlocks
+    }
 
     const handleOnValidateAll = () => {
       setValidateAll(true)

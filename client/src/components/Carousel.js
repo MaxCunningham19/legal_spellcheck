@@ -18,27 +18,32 @@ export const Carousel = ({ data, validateAll }) => {
 
   const onAddParagraphClick = (e) => {
     setCarouselData([
-      ...carouselData,
-      {block_order: carouselData.length, block_content: ""}
+      ...carouselData, ""
     ])
     mapCarouselComponents()
   }
 
   const onRemoveParagraphClick = (e, id) => {
     setCarouselData(
-      carouselData.filter(item =>
-        item.block_order !== id)
+      filterParagraph(id, id)
     )
     mapCarouselComponents()
   }
 
+  const filterParagraph = (start, end) => {
+    const left = carouselData.slice(0, start)
+    const right = carouselData.slice(end+1)
+    const filtered = left.concat(right)
+    return filtered
+  }
+
   const mapCarouselComponents = () => {
-    return carouselData.map(({ block_order, block_content }) => (
+    return carouselData.map((block, index ) => (
       <TextBox 
         boxStyle="paragraph-text-box"
-        key={block_order}
-        id={block_order}
-        content={block_content}
+        key={index}
+        id={index}
+        content={block}
         placeHolder="Start typing"
         onChangeInput={onChangeInput}
         onRemoveClick={onRemoveParagraphClick}
