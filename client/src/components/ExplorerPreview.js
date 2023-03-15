@@ -11,7 +11,11 @@ export const ExplorerPreview = ({
 
   const generatePreviews = () => {
     return explorerData.map((document) => (
-      <Link to="/editor" state={{ fromMyDocuments: document }}>
+      <Link 
+        to="/editor" 
+        state={{ fromMyDocuments: document }} 
+        className={styles['preview-link-a']}
+      >
         <PreviewIcon
           previewStyle="preview-icon-explorer"
           key={document.id} 
@@ -31,7 +35,8 @@ export const ExplorerPreview = ({
             state={{ fromMyDocuments: { 
               title: "New document",
               blocks: [""] 
-            } }}  
+            } }}
+            className={styles['preview-link-a']}  
           >
             <Button 
               buttonStyle="icon-add-component-document" 
