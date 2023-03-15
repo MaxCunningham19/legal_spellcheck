@@ -5,7 +5,6 @@ import { ExplorerPreview } from './ExplorerPreview'
 
 export const Explorer = ({
   documentsData,
-  handleOnClickDocument
 }) => {
 
   return (
