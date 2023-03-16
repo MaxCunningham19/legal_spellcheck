@@ -5,7 +5,7 @@ consistency checking .etc.
 """
 import time
 import requests
-
+import json
 
 class Mistake():
     def __init__(self, word: str, location: int, suggestions: list[str]):
@@ -40,36 +40,33 @@ def check(content: str) -> list[Mistake]:
     """
 
     endpoint = 'https://api.bing.microsoft.com/v7.0/spellcheck'
-    api_key = 'KEY_HERE'
-    max_suggestions = 5
+    # Set subscription key and endpoint
+    api_key = "apikey"
+    spell_check_endpoint = "https://api.bing.microsoft.com/v7.0/spellcheck"
 
-    mistakes = []
+# Set query parameters
+    params = {
+        "mkt": "en-US",
+        "mode": "proof",
+        "preContextText": "",
+        "postContextText": "",
+    }
+    text = "Ths is a testt to see if thre aree any mistakes in this sentence."
 
-    # Split the content into words
-    words = content.split()
+    data = {"text": text}
 
-    # Loop through each word and retrieve query suggestions
-    for i, word in enumerate(words):
-        time.sleep(1)
-        params = {
-            'mkt': 'en-US',
-            'mode': 'proof',
-            'text': word,
-            'preContextText': ' '.join(words[:i]),
-            'postContextText': ' '.join(words[i + 1:])
-        }
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Ocp-Apim-Subscription-Key': api_key
-        }
-        response = requests.post(endpoint, params=params, headers=headers).json()
+# Set headers
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Ocp-Apim-Subscription-Key": api_key,
+    }
 
-        # Check if the word has any suggestions
-        if not response['flaggedTokens']:
-            mistakes.append(Mistake(word, sum(len(w) + 1 for w in words[:i]), []))
-        else:
-            suggestions = [suggestion['suggestion'] for suggestion in
-                           response['flaggedTokens'][0]['suggestions'][:max_suggestions]]
-            mistakes.append(Mistake(word, sum(len(w) + 1 for w in words[:i]), suggestions))
+# Send request
+    response = requests.post(spell_check_endpoint, headers=headers, params=params, data=data)
+    json_response = response.json()
+    print(json.dumps(json_response, indent=4))
 
-    return mistakes
+#text = "Ths is a testt to see if thre aree any mistakes in this sentence."
+#mistakes = check(text)
+#print(mistakes)
+    
