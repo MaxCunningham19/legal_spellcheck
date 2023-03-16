@@ -6,20 +6,21 @@ import { PreviewIcon } from './PreviewIcon'
 import { Link } from 'react-router-dom'
 
 export const ExplorerPreview = ({
-  explorerData,
-  onClickPreview,
-  onClickAdd
+  explorerData
 }) => {
 
   const generatePreviews = () => {
-    return explorerData.map(document => (
-      <Link to="/editor" state={{ fromMyDocuments: document }}>
+    return explorerData.map((document) => (
+      <Link 
+        to="/editor" 
+        state={{ fromMyDocuments: document }} 
+        className={styles['preview-link-a']}
+      >
         <PreviewIcon
           previewStyle="preview-icon-explorer"
-          key={document.title}
+          key={document.id} 
+          id={document.id}
           title={document.title}
-          body={document.blocks[0].block_content}
-          onClickPreview={onClickPreview}
         />
       </Link>
     ))
@@ -30,16 +31,12 @@ export const ExplorerPreview = ({
       <section className={styles['ExplorerPreview']}>
         <div className={styles['explorer-container']}>
           <Link 
-            to="/editor" 
-            state={{ fromMyDocuments: {
-              title: "New document", created_at: "", updated_at: "",
-              blocks: [
-                {
-                  block_content: "",
-                  block_order: 0
-                }
-              ]
-            }}} 
+            to="/editor"
+            state={{ fromMyDocuments: { 
+              title: "New document",
+              blocks: [""] 
+            } }}
+            className={styles['preview-link-a']}  
           >
             <Button 
               buttonStyle="icon-add-component-document" 

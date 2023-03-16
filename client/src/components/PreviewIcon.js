@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import styles from './PreviewIcon.module.css'
+import axios from 'axios'
 
 const PREVIEW_CHAR_LIMIT = 220
 
@@ -7,14 +8,29 @@ export const PreviewIcon = ({
     onClickPreview,
     previewStyle,
     title,
-    body
+    id
 }) => {
 
-    const adaptToPreview = (body) => {
+    const [preview, setPreview] = useState("")
+
+    useLayoutEffect(() => {
+        fetchPreviewsData()
+    }, [])
+
+    const fetchPreviewsData = () => {
+        axios
+          .get(`/api/document/${id}`)
+          .then((result) => {
+            setPreview(result.data[0].block_content)
+          })
+          .catch((error) => {})
+    }
+
+    const adaptToPreview = (preview) => {
         return (
-            (body.length) > PREVIEW_CHAR_LIMIT 
-                ? body.substring(0, PREVIEW_CHAR_LIMIT)
-                : body
+            (preview.length) > PREVIEW_CHAR_LIMIT 
+                ? preview.substring(0, PREVIEW_CHAR_LIMIT)
+                : preview
         )
     }
 
@@ -27,9 +43,9 @@ export const PreviewIcon = ({
                 <span className={styles[previewStyle + "-title"]}>
                     {title}
                 </span>
-                { body &&
+                { 
                     <div className={styles[previewStyle + "-body"]}>
-                        {adaptToPreview(body)}
+                        {adaptToPreview(preview)}
                     </div>
                 }
             </button>

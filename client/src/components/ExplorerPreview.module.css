@@ -15,5 +15,9 @@
     composes: icon-add-component-document-icon from './Button.module.css';
 }
 
+.preview-link-a {
+    height: 192px;
+}
+
 
 
