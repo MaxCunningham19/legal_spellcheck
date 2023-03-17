@@ -1,5 +1,13 @@
+"""
+Module for spell check related code. Currently only contains aspell integration
+for the MVP, but may be extended to use Azure Spell Check, custom dictionaries,
+consistency checking .etc.
+"""
 import json
 import requests
+
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
 
 class Mistake():
@@ -21,30 +29,33 @@ class Mistake():
 
         self.suggestions = suggestions
         """
-        The suggestions returned by Azure Bing Spell Check.
+        The suggestions returned by aspell.
         """
 
     def __repr__(self) -> str:
         return str(self.__dict__)
 
 
-def get_key(self):
-    # KEY VAULT LOGIC TO RETRIEVE THE API KEY FOR BING SPELL CHECK
-    pass
+def get_key(secret_name):
+    # Key vault url
+    key_vault_url = f"https://spell-check-api-key.vault.azure.net"
+
+    # Create a SecretClient using the default credential
+    credential = DefaultAzureCredential(additionally_allowed_tenants=['*'])
+    client = SecretClient(vault_url=key_vault_url, credential=credential)
+
+    # Get the secret from the key vault
+    retrieved_secret = client.get_secret(secret_name).value
+
+    return retrieved_secret
 
 
-def check(content: str) -> list[Mistake]:
-    """
-    Takes a string and returns an array of mistake objects representing
-    the errors in that string.
-    """
+def call(content):
+    # Set subscription key and endpoint
+    api_key = get_key('bing-spell-check-api-key')
+    spell_check_endpoint = "https://api.bing.microsoft.com/v7.0/spellcheck"
 
-    endpoint = 'https://api.bing.microsoft.com/v7.0/spellcheck'  # barely changes so its a constant but you can make it dynamic
-    api_key = get_key() # get it from azure key vault (should be converted to str)
-
-    mistakes = [] # mistakes array
-
-    # Set query parameters (required for the POST request to the spell check endpoint)
+    # Set query parameters
     params = {
         "mkt": "en-US",
         "mode": "proof",
@@ -52,39 +63,51 @@ def check(content: str) -> list[Mistake]:
         "postContextText": "",
     }
 
-    data = {"text": content} # this is where the data is being passed in from 'content' and sent as a payload through the POST request
-
-    # Set headers (also essential to the spellcheck api)
+    # Set headers
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Ocp-Apim-Subscription-Key": api_key,
     }
 
+    data = {'text': content}
+
     # Send request
-    response = requests.post(endpoint, headers=headers, params=params, data=data) # The actual request
-    json_response = response.json() # parse as JSON
+    try:
+        response = requests.post(spell_check_endpoint,
+                                 headers=headers, params=params, data=data)
+        json_response = response.json()
+        return json_response
+    except requests.exceptions.RequestException as e:
+        print(f"Unexpected Request Error: {e}")
+        raise
+    except Exception as e:
+        print(f"Unexpected Error: {e}")
+        raise
 
-    for token in json_response['flaggedTokens']:    # loop through the objects
-        if token['type'] == 'UnknownToken':
-            mistakes.append(token['token']) # add it to the mistakes list
 
-    # another loop to get all the suggestions into their own list (OPTIONAL)
-    # if you decide that you need something like this, a function for calling the api should be separate,
-    # and another function for combing through the data and putting it into its own list or whatever
 
-    suggestions = []
-    for token in json_response["flaggedTokens"]:
-        for suggestion in token["suggestions"]:
-            suggestions.append(suggestion["suggestion"])
+def check(content: str) -> list[Mistake]:
+    """
+    Takes a string and returns an array of mistake, where they're located and suggestions objects representing
+    the errorrs in that string.
+    """
 
+    json_data = call(content)
+
+    mistakes = []
+
+    for flaggedToken in json_data["flaggedTokens"]:
+        mistake = {"offset": flaggedToken["offset"],
+                   "token": flaggedToken["token"], "suggestions": []}
+        for suggestion in flaggedToken["suggestions"]:
+            mistake["suggestions"].append(
+                {"suggestion": suggestion["suggestion"]})
+        mistakes.append(mistake)
 
     return mistakes
 
 
-
 # Tests
-#text = "Ths is a testt to see if thre aree any mistakes in this sentence."
-#mistakes = check(text)
-#print(mistakes)
-
-#print()
+# text = "Ths is a testt to see if thre aree any mistakes in this sentence."
+# mistakes = check(text)
+# print(mistakes)
