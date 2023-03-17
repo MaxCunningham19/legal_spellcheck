@@ -1,0 +1,36 @@
+.MyDocuments {
+    composes: App from "../App.module.css";
+    display: grid;
+    height: 100vh;
+    margin: -10px;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: 70px 1fr;
+    grid-template-areas: 
+      "title header"
+      "navbar body";
+}
+
+.Navbar {
+    composes: Navbar from "../App.module.css";
+    grid-area: navbar;
+}
+  
+.Explorer {
+    composes: Explorer from "../App.module.css";
+    grid-area: body;
+}
+
+.Header {
+    composes: Header from "../App.module.css";
+    grid-area: header;
+}
+
+.Editor {
+    composes: Editor from "../App.module.css";
+    grid-area: body;
+}
+
+.title {
+    composes: title from "../App.module.css";
+    grid-area: title;
+}

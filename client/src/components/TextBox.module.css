@@ -12,7 +12,7 @@
             grid-template-columns: 1fr;
             grid-template-rows: 1fr 20px;
             grid-template-areas:
-                "textarea"
+                "text"
                 "icons";
             padding: 2rem;
             padding-bottom: 1rem;
@@ -23,25 +23,44 @@
                 background-color: var(--medium-background);
             }
 
+            .paragraph-text-box-text-container {
+                grid-area: text;
+            }
+
 .textarea {
     grid-area: textarea;
     border: none;
-    resize: none;
+    height: fit-content;
     font-family: inherit;
     background-color: inherit;
     font-size: 17px;
+
+}
+
+.textarea:empty:before {
+    content: attr(placeHolder);
+    opacity: 0.6;
 }
 
 .textarea:focus {
     outline: none;
 }
 
+.textarea:hover {
+    cursor: text;
+}
+
 .icons-container {
     grid-area: icons;
     display: flex;
     justify-content: right;
+    flex-direction: row-reverse;
 }
 
-    .icon-single-textbox-icon {
-        composes: icon-single-textbox-icon from './Button.module.css';
+    .icon-single-textbox-icon-active {
+        composes: icon-single-textbox-icon-active from './Button.module.css';
+    }
+
+    .icon-single-textbox-icon-passive {
+        composes: icon-single-textbox-icon-passive from './Button.module.css';
     }

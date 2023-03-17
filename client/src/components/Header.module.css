@@ -10,11 +10,18 @@
         grid-template-columns: 1fr 150px 305px;
         grid-template-rows: 70px;
         grid-template-areas: 
-          "empty icons action"
+          "title icons action"
     }
 
-        .empty-container{
-            grid-area: empty;
+        .title-container {
+            grid-area: title;
+            display: flex;
+            padding: 1rem;
+            padding-left: 4rem;
+            align-items: center;
+            color: var(--text-dark);
+            font-weight: 300;
+            font-size: 22px;
         }
 
         .icons-container{

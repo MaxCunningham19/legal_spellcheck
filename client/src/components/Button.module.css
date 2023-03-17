@@ -72,12 +72,12 @@
             composes: icon-default;
             border: none;
             border-radius: 0px;
+            background-color: var(--area-button);
+            color: var(--text-medium);
         }
     
             .icon-add-component-textarea {
                 composes: icon-add-component-default;
-                background-color: var(--area-button);
-                color: var(--text-medium);
                 padding: 2rem;
                 height: 100px;
                 width: inherit;
@@ -96,6 +96,18 @@
 
                 .icon-add-component-textarea-text {
                 }
+
+            .icon-add-component-document {
+                composes: icon-add-component-default;
+                height: 192px;
+                width: 120px;
+            }
+
+                .icon-add-component-document-icon {
+                    height: 60px;
+                    width: 60px;
+                    fill: var(--text-medium);
+                } 
 
         .icon-single-default {
             composes: icon-default;
@@ -117,14 +129,24 @@
                 height: 30px;
             }
 
-                .icon-single-textbox-icon {
-                    height: 20px;
-                    width: 20px;
+                .icon-single-textbox-icon-passive {
+                    height: 22px;
+                    width: 22px;
                     fill: var(--passive-button);
                 }
 
-                .icon-single-textbox-icon:hover {
+                .icon-single-textbox-icon-passive:hover {
                     fill: var(--text-dark);
+                }
+
+                .icon-single-textbox-icon-active {
+                    height: 20px;
+                    width: 20px;
+                    stroke: var(--action-font);
+                }
+
+                .icon-single-textbox-icon-active:hover {
+                    stroke: var(--action-button);
                 }
 
 

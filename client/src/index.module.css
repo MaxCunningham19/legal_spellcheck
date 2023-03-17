@@ -6,7 +6,9 @@
     --dark-background: #1D3663;
     --light-background: #F0F7FA;
     --medium-background: #E0E9F6;
+    --darkest-background: #0d1f3f;
     --action-button: #F37A32;
+    --action-font: #f19864;
     --passive-button: #8BA3CC;
     --area-button: #b7c7e0;
     --text-medium: #455f8b;
@@ -18,3 +20,6 @@ body {
     overflow: hidden;
 }
 
+a {
+    text-decoration: none;
+}

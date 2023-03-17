@@ -3,7 +3,7 @@ name: CD to Docker Hub
 on:
   create:
     tags:
-      - "v*.*.*"
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - name: Set env
         id: env_task 
         run: |
-          echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+          echo "tag=$(git describe --tags)" >> $GITHUB_OUTPUT
 # steps.env_task.outputs.tag
       - name: Set up Docker Buildx
         id: buildx
@@ -36,5 +36,6 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/legal_spellcheck:${{ steps.env_task.outputs.tag }}
+          build-args: BUNDLE=production
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
