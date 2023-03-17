@@ -1,6 +1,6 @@
 import json
+import time
 import requests
-
 
 class Mistake():
     def __init__(self, word: str, location: int, suggestions: list[str]):
@@ -29,7 +29,7 @@ class Mistake():
 
 
 def get_key():
-    key = "27404fabab9c4380a5025e4574993594" # THE API KEY FOR BING SPELL CHECK
+    key = "KEY HERE" # THE API KEY FOR BING SPELL CHECK
     return key
 
 
@@ -38,7 +38,7 @@ def check(content: str) -> list[Mistake]:
     Takes a string and returns an array of mistake objects representing
     the errors in that string.
     """
-
+    time.sleep(0.33334)     # Limits us to our rate on MS Azure
     endpoint = 'https://api.bing.microsoft.com/v7.0/spellcheck'  # barely changes so its a constant but you can make it dynamic
     api_key = get_key() # get it from azure key vault (should be converted to str)
 
@@ -46,10 +46,9 @@ def check(content: str) -> list[Mistake]:
     mistakes_position = [] # position of the mistakes
     object_mistakes = [] # an array of the object mistakes
     suggestions = [] # suggestions array
-    sugg = ""
+    sugg = []
     position = [] # used for for loop
     count = 0 # used for indexing
-    i = 0
     
     # Set query parameters (required for the POST request to the spell check endpoint)
     params = {
@@ -77,11 +76,7 @@ def check(content: str) -> list[Mistake]:
             mistakes_position.append(token['offset'])
 
         for suggestion in token["suggestions"]:
-                if i == 0:
-                    sugg = (suggestion["suggestion"]) # stores suggestion to sugg
-                if i >= 1:
-                    sugg += ", "+(suggestion["suggestion"]) # if more than one suggestion add then on
-                i += 1
+                sugg.append([suggestion])
         suggestions.append(sugg) 
         position.append(count) # just putting numbers in eg [1, 2, 3, 4, ...] based on number of mistakes
         count+=1       
@@ -93,13 +88,3 @@ def check(content: str) -> list[Mistake]:
         object_mistakes.append(accident) # creates an array of mistakes to return
     
     return object_mistakes
-
-
-
-# Tests
-text = "Ths is a bax testt to see if thre aree any mistakes in this sentence ."
-mistakes = check(text)
-print(mistakes)
-
-
-print()

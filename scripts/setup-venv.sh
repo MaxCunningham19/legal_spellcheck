@@ -7,4 +7,4 @@ python3 -m venv env
 source env/bin/activate
 
 # Install django and djangorestframework
-pip3 install django djangorestframework psycopg2-binary
+pip3 install django djangorestframework psycopg2-binary requests
