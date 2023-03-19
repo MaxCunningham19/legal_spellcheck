@@ -14,7 +14,7 @@ export const TextBox = ({
     onRemoveClick,
     onSaveClick,
     onValidateClick,
-    placeHolder,
+    placeholder,
     validate,
     save,
     forwardedRef
@@ -64,7 +64,7 @@ export const TextBox = ({
               <span contentEditable
                 suppressContentEditableWarning={true}
                 className={styles['textarea']}    
-                placeHolder={placeHolder}
+                placeholder={placeholder}
                 ref={forwardedRef}
                 onInput={(e) => {onChangeInput(e, id)}}
               >

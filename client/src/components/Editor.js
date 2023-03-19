@@ -46,6 +46,7 @@ export const Editor = ({ blocks, validateAll, saveAll }) => {
   }
 
   const putDocument = () => {
+    /* TODO: need new API view to implement 
     const data = {
       title: document.title,
       blocks: document.blocks
@@ -53,7 +54,8 @@ export const Editor = ({ blocks, validateAll, saveAll }) => {
     axios
       .put(`/api/document/${document.id}`, data)
       .then((result) => { console.log(result) })
-      .catch((error) => {})
+      .catch((error) => {}) 
+    */
   }
 
   return (

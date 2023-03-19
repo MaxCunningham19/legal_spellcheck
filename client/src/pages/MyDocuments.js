@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext';;
+import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext';
 import Navbar from '../components/Navbar';
 import Explorer from '../components/Explorer';
 import Header from '../components/Header'

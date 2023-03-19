@@ -37,8 +37,7 @@ export const Carousel = ({ data, validateAll, saveAll, forwardedRef }) => {
         key={index}
         id={index}
         content={block}
-        placeHolder="Start typing"
-        onChangeInput={onChangeInput}
+        placeholder="Start typing"
         onRemoveClick={onRemoveParagraphClick}
         validate={validateAll && true}
         save={saveAll && true}
