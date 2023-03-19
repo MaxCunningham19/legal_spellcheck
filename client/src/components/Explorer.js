@@ -41,7 +41,7 @@ export const Explorer = ({
 
   const handleOnClickCreate = () => {
     updateDocument({
-      title: "New document",
+      title: "",
       blocks: [""],
       untracked: true
     })

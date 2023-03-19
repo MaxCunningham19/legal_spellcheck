@@ -14,7 +14,7 @@ export function useDocumentUpdate() {
 export function DocumentProvider({ children }) {
 
   const [document, setDocument] = useState({   
-		title: "New document",
+		title: "",
 		blocks: [""],
 		untracked: true
 	})
