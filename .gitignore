@@ -6,3 +6,4 @@
 /client/migrations
 /client/__pycache__
 /server/__pycache__
+/dist
