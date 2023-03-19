@@ -3,12 +3,13 @@ import { Button } from './Button'
 import styles from './Header.module.css'
 
 
-export const Header = ({ headerTitle, onValidateAll, iconHeader }) => {
+export const Header = ({ headerTitle, onValidateAll, onSaveAll, iconHeader }) => {
 
   const [saved, setSaved] = useState(false);
   const [message, setMessage] = useState('');
 
   const clickedSave = () => {
+    onSaveAll()
     setSaved(true);
     setMessage('All changes saved!');
     setTimeout(() => {

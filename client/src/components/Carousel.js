@@ -1,20 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Button } from './Button'
 import styles from './Carousel.module.css'
 import TextBox from './TextBox'
 import { ReactComponent as PlusIcon } from "../icons/plus.svg"
 
-export const Carousel = ({ data, validateAll }) => {
+export const Carousel = ({ data, validateAll, saveAll, forwardedRef }) => {
 
   const [carouselData, setCarouselData] = useState(data)
-
-  const onChangeInput = (e, id) => {
-    const newContent = e.target.value;
-    const editData = carouselData.map((item) => 
-      item.block_order === id ? {...item, block_content : newContent } : item
-    )  
-    setCarouselData(editData) 
-  }
+  const textAreaRef = useRef(null)
 
   const onAddParagraphClick = (e) => {
     setCarouselData([
@@ -48,6 +41,8 @@ export const Carousel = ({ data, validateAll }) => {
         onChangeInput={onChangeInput}
         onRemoveClick={onRemoveParagraphClick}
         validate={validateAll && true}
+        save={saveAll && true}
+        forwardedRef={textAreaRef}
       /> 
     ))
   }
@@ -55,8 +50,8 @@ export const Carousel = ({ data, validateAll }) => {
   return (
     <>
       <section className={styles['Carousel']}>
-        <div className={styles['carousel-container']}>
-          {mapCarouselComponents()}
+        <div className={styles['carousel-container']} ref={forwardedRef}>
+          { mapCarouselComponents() }
           <Button 
             buttonStyle="icon-add-component-textarea" 
             onClick={onAddParagraphClick}
