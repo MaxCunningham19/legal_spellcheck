@@ -24,6 +24,20 @@
             font-size: 22px;
         }
 
+        .title-input {
+            composes: title-container;
+            padding: 0rem;
+            padding-left: 0rem;
+            background-color: transparent;
+            border: none;
+            width: 1000px;
+        }
+
+            .title-input:focus {
+                outline: none;
+                color: var(--text-medium)
+            }
+
         .icons-container{
             grid-area: icons;
         }

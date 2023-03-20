@@ -14,18 +14,25 @@ export const TextBox = ({
     onRemoveClick,
     onSaveClick,
     onValidateClick,
-    placeHolder,
-    validate
+    placeholder,
+    validate,
+    save,
+    forwardedRef
 }) => {
     
     const [isHovering, setIsHovering] = useState(false)
     const [onFocus, setOnFocus] = useState(false)
+    const [isSaved, setIsSaved] = useState(save)
     const [isValidated, setIsValidated] = useState(validate)
     const textAreaRef = useRef()
     
     useEffect(() => {
       setIsValidated(() => validate)
     },[validate])
+
+    useEffect(() => {
+      setIsSaved(() => save)
+    },[save])
 
     const handleMouseOver = () => {
       setIsHovering(true)
@@ -57,8 +64,9 @@ export const TextBox = ({
               <span contentEditable
                 suppressContentEditableWarning={true}
                 className={styles['textarea']}    
-                placeHolder={placeHolder}
-                ref={textAreaRef}
+                placeholder={placeholder}
+                ref={forwardedRef}
+                onInput={(e) => {onChangeInput(e, id)}}
               >
                 { isValidated
                   ? <MistakeHighlighter

@@ -1,20 +1,14 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext';
 import Navbar from '../components/Navbar';
 import Explorer from '../components/Explorer';
 import Header from '../components/Header'
-import { useLocation } from 'react-router-dom';
-import { useDidMount } from '../hooks/useDidMount';
 import styles from './MyDocuments.module.css';
 import axios from 'axios';
 
 export function MyDocuments() {
 
     const [documentsData, setDocumentsData] = useState([])
-    const location = useLocation()
-    const [currentDocument, setCurrentDocument] = useState({   
-      title: "New document",
-      blocks: [""]
-    })
     const [validateAll, setValidateAll] = useState(false)
 
     useLayoutEffect(() => {
@@ -25,13 +19,6 @@ export function MyDocuments() {
         })
         .catch((error) => {})
     }, [])
-
-    useEffect(() => {
-      if( location.state !== null) {
-        const { fromEditor } = location.state
-        setCurrentDocument(fromEditor)
-      }
-    },[location.state])
 
     const handleOnValidateAll = () => {
       setValidateAll(true)
@@ -58,7 +45,6 @@ export function MyDocuments() {
             />
             <Navbar 
               className={styles['Navbar']} 
-              fromMyDocuments={currentDocument} 
             />
             {generateExplorer()}
           </div>

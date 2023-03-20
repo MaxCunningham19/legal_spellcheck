@@ -34,11 +34,10 @@
     font-family: inherit;
     background-color: inherit;
     font-size: 17px;
-
 }
 
 .textarea:empty:before {
-    content: attr(placeHolder);
+    content: attr(placeholder);
     opacity: 0.6;
 }
 
