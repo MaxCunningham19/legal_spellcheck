@@ -8,6 +8,9 @@ import json
 
 class ApiTester(TestCase):
     documents = {
+        'Empty Document 1' : {
+            'blocks' : []
+        },
         'Test Document 1' : {
             'blocks' : [
                 "This sentence haas two incorrect wrds"
@@ -127,6 +130,11 @@ class ApiTester(TestCase):
         self.assertEquals(data[3]['block_content'], 'Hello post world')
         self.assertEquals(len(data), 4)
 
+    def test_post_block_to_empty_document(self):
+        document = self.create_document_from_template('Empty Document 1')
+        response = self.client.post(reverse('api:block_view', args=(document.id, 0)))
+        self.assertEquals(response.status_code, 201)
+
     def test_document_blocks_have_correct_mistakes(self):
         document = self.create_document_from_template('Test Document 2')
         response = self.client.get(reverse('api:check_document_blocks', args=(document.id,)))
@@ -161,7 +169,4 @@ class ApiTester(TestCase):
         doc = self.client.get(reverse('api:get_documents'))
         data = doc.data
         self.assertEqual(data[0]['title'], 'New Title')
-                
-        
     
-        

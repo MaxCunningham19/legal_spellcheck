@@ -87,10 +87,11 @@ def block_view(request, pk, bo):
             )
             return Response(status=201)
         except Block.DoesNotExist:
-            blocks = Block.objects.filter(block_document=pk)
-            newest_block = blocks.aggregate(Max('block_order'))['block_order__max']
+            # Must account for the case where a block is posted to a
+            # document with no blocks so we use -1 as a fallback
+            newest_block = document.block_set.aggregate(Max('block_order'))['block_order__max'] or -1
             document.block_set.create(
-                block_order = (newest_block + 1),
+                block_order = newest_block + 1,
                 block_content = request.body.decode()
             )
             return Response(status=201)
