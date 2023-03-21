@@ -4,7 +4,7 @@ import styles from './Carousel.module.css'
 import TextBox from './TextBox'
 import { ReactComponent as PlusIcon } from "../icons/plus.svg"
 
-export const Carousel = ({ data, validateAll, saveAll, forwardedRef }) => {
+export const Carousel = ({ data, validateAll, forwardedRef }) => {
 
   const [carouselData, setCarouselData] = useState(data)
   const textAreaRef = useRef(null)
@@ -41,7 +41,6 @@ export const Carousel = ({ data, validateAll, saveAll, forwardedRef }) => {
         placeholder="Start typing"
         onRemoveClick={onRemoveParagraphClick}
         validate={validateAll && true}
-        save={saveAll && true}
         forwardedRef={textAreaRef}
       /> 
     ))

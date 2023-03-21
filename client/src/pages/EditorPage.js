@@ -6,19 +6,88 @@ import Editor from '../components/Editor';
 import styles from './EditorPage.module.css';
 import axios from 'axios'
 
+const END_BUTTON_CHILD = -1
+
 export function EditorPage() {
 
     const document = useDocument()
+    const updateDocument = useDocumentUpdate()
 
+    const carouselRef = useRef(null)
     const [validateAll, setValidateAll] = useState(false)
-    const [saveAll, setSaveAll] = useState(false)
 
     const handleOnValidateAll = () => {
       setValidateAll(true)
     }
 
     const handleOnSaveAll = () => {
-      setSaveAll(true)
+      updateBlocks()
+    }
+
+    const postOrPut = (document) => {
+      if (document.untracked) postDocument(document)
+      else putDocument(document)
+    }
+
+    const updateBlocks = () => {
+      const children = [...carouselRef.current.children].slice(0, END_BUTTON_CHILD)
+      const newBlocks = mapInnerTextsToBlocks(children)
+      const filtered = filterEmptyBlocks(newBlocks)
+      const finalBlocks = updateBlockOrder(filtered)
+      updateDocument((prevDocument) => { 
+        const updatedDocument = {...prevDocument, blocks: finalBlocks}
+        postOrPut(updatedDocument)
+        return updatedDocument
+      })
+    }
+
+    const mapInnerTextsToBlocks = (children) => {
+      return children.map((child, index) => {
+        if (child.innerText != "") return { 
+          id: (child.id != "") ? child.id : undefined,
+          block_content: child.innerText,
+          block_order: index
+        }
+      })
+    }
+
+    const filterEmptyBlocks = (newBlocks) => {
+      return newBlocks.filter((block) => {
+        return block !== undefined
+      })
+    }
+
+    const updateBlockOrder = (filtered) => {
+      return filtered.map((block, index) => (
+        { ...block, block_order: index })
+      )
+    }
+
+    const postDocument = (document) => {
+      const data = { documents: [
+        {...document, blocks: parseBlockContent(document.blocks)}
+      ] }
+      axios
+        .post(`/api/documents/`, data)
+        .then((result) => { console.log(result) })
+        .catch((error) => {})
+    }
+
+    const parseBlockContent = (unparsed) => {
+      return unparsed.map((block) => {
+        return block.block_content
+      })
+    }
+
+    const putDocument = (document) => {
+      const data = {
+        title: document.title,
+        blocks: document.blocks
+      }
+      axios
+        .put(`/api/document/${document.id}`, data)
+        .then((result) => { console.log(result) })
+        .catch((error) => {}) 
     }
 
     return (
@@ -39,7 +108,7 @@ export function EditorPage() {
               className={styles['Editor']}
               blocks={document.blocks}
               validateAll={validateAll}
-              saveAll={saveAll}
+              forwardedRef={carouselRef}
             /> 
           </div>
         </>
