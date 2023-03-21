@@ -31,19 +31,36 @@ export const Editor = ({ blocks, validateAll, saveAll }) => {
 
   const updateBlocks = () => {
     const children = [...carouselRef.current.children].slice(0, END_BUTTON_CHILD)
-    const newBlocks = children.map((child, index) => {
+    const newBlocks = mapInnerTextsToBlocks(children)
+    const filtered = filterEmptyBlocks(newBlocks)
+    const finalBlocks = updateBlockOrder(filtered)
+    updateDocument((prevDocument) => ({ 
+      ...prevDocument, 
+      blocks: finalBlocks
+    }))
+  }
+
+  const mapInnerTextsToBlocks = (children) => {
+    return children.map((child, index) => {
+      console.log(child.id + " " + child.innerText);
       if (child.innerText != "") return { 
         id: (child.id != "") ? child.id : undefined,
         block_content: child.innerText,
-        block_order: index 
+        block_order: index
       }
     })
-    updateDocument((prevDocument) => ({ 
-      ...prevDocument, 
-      blocks: newBlocks.filter((block) => {
-        return block !== undefined
-      }) 
-    }))
+  }
+
+  const filterEmptyBlocks = (newBlocks) => {
+    return newBlocks.filter((block) => {
+      return block !== undefined
+    })
+  }
+
+  const updateBlockOrder = (filtered) => {
+    return filtered.map((block, index) => (
+      { ...block, block_order: index })
+    )
   }
 
   const postDocument = () => {
