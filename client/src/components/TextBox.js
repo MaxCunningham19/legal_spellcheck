@@ -9,6 +9,7 @@ import { MistakeHighlighter } from './MistakeHighlighter'
 export const TextBox = ({
     boxStyle,
     id,
+    uniqueid,
     content,
     onChangeInput,
     onRemoveClick,
@@ -54,6 +55,7 @@ export const TextBox = ({
       <>
         <div 
           className={styles['TextBox']}
+          id={uniqueid}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
           onFocus={handleOnFocus}

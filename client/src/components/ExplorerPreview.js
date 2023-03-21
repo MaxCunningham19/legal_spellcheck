@@ -21,6 +21,7 @@ export const ExplorerPreview = ({
   }
 
   const generatePreviews = () => {
+    sortByCreated()
     return explorerData.map((document) => (
       <Link 
         to={"/editor"}
@@ -38,6 +39,12 @@ export const ExplorerPreview = ({
         />
       </Link>
     ))
+  }
+
+  const sortByCreated = () => {
+    explorerData.sort(function(a, b) {
+      return new Date(a.created_at) - new Date(b.created_at);  
+    })
   }
 
   return (

@@ -34,7 +34,7 @@ export const Explorer = ({
   const parseBlocks = (result) => {
     const parsedBlocks = []
     result.map(block => {
-      parsedBlocks.push(block.block_content)
+      parsedBlocks.push(block)
     })
     return parsedBlocks
   }
@@ -42,7 +42,7 @@ export const Explorer = ({
   const handleOnClickCreate = () => {
     updateDocument({
       title: "",
-      blocks: [""],
+      blocks: [{ block_content: "" }],
       untracked: true
     })
   }

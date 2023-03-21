@@ -15,7 +15,12 @@ export function DocumentProvider({ children }) {
 
   const [document, setDocument] = useState({   
 		title: "",
-		blocks: [""],
+		blocks: [
+      {
+        id: undefined,
+        block_content: ""
+      }
+    ],
 		untracked: true
 	})
 

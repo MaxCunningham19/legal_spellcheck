@@ -11,7 +11,7 @@ export const Carousel = ({ data, validateAll, saveAll, forwardedRef }) => {
 
   const onAddParagraphClick = (e) => {
     setCarouselData([
-      ...carouselData, ""
+      ...carouselData, { block_content: "" }
     ])
     mapCarouselComponents()
   }
@@ -36,7 +36,8 @@ export const Carousel = ({ data, validateAll, saveAll, forwardedRef }) => {
         boxStyle="paragraph-text-box"
         key={index}
         id={index}
-        content={block}
+        uniqueid={block.id}
+        content={block.block_content}
         placeholder="Start typing"
         onRemoveClick={onRemoveParagraphClick}
         validate={validateAll && true}

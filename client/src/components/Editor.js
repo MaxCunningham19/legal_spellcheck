@@ -32,21 +32,39 @@ export const Editor = ({ blocks, validateAll, saveAll }) => {
   const updateBlocks = () => {
     const children = [...carouselRef.current.children].slice(0, END_BUTTON_CHILD)
     const newBlocks = children.map((child, index) => {
-      return child.innerText;
+      if (child.innerText != "") return { 
+        id: (child.id != "") ? child.id : undefined,
+        block_content: child.innerText,
+        block_order: index 
+      }
     })
-    updateDocument((prevDocument) => ({ ...prevDocument, blocks: newBlocks }))
+    updateDocument((prevDocument) => ({ 
+      ...prevDocument, 
+      blocks: newBlocks.filter((block) => {
+        return block !== undefined
+      }) 
+    }))
   }
 
   const postDocument = () => {
-    const data = { documents: [document] }
+    console.log(document);
+    const data = { documents: [
+      {...document, blocks: parseBlockContent(document.blocks)}
+    ] }
     axios
       .post(`/api/documents/`, data)
       .then((result) => { console.log(result) })
       .catch((error) => {})
   }
 
+  const parseBlockContent = (unparsed) => {
+    return unparsed.map((block) => {
+      return block.block_content
+    })
+  }
+
   const putDocument = () => {
-    /* TODO: need new API view to implement 
+    console.log(document);
     const data = {
       title: document.title,
       blocks: document.blocks
@@ -55,7 +73,6 @@ export const Editor = ({ blocks, validateAll, saveAll }) => {
       .put(`/api/document/${document.id}`, data)
       .then((result) => { console.log(result) })
       .catch((error) => {}) 
-    */
   }
 
   return (
