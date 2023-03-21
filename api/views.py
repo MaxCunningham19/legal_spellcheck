@@ -46,7 +46,7 @@ def document_view(request, pk):
                 if serializer.data.get('title'):
                     document.title = serializer.data['title']
                     document.save()
-                if serializer.data.get('blocks'):
+                if serializer.data.get('blocks') is not None:
                     # We delete all requests that are not present in
                     # the request from the database
                     blocks_in_request = [block['id'] for block in serializer.data['blocks'] \
