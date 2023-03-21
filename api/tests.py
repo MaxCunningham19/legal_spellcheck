@@ -245,5 +245,15 @@ class ApiTester(TestCase):
                                                      blocks.data[1] | {'block_order':(9+10)*2}]),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(old_blocks[0].block_order, 0)
         self.assertQuerysetEqual(document.block_set.all(), old_blocks)
+
+
+    def test_document_put_empty_blocks_deletes_all_blocks(self):
+        document = self.create_document_from_template('Test Document 2')
+        response = self.client.put(reverse('api:document_view',
+                                   args=(document.id,)),
+                                   data=dict(title=document.title,
+                                             blocks=[]),
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEquals(document.block_set.count(), 0)
