@@ -2,8 +2,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.response import Response
-from .models import *
-from .serializers import MistakeSerializer
+from .models import (Document, Block)
+from .serializers import MistakeSerializer, BlockSerializer
 import json
 
 class ApiTester(TestCase):
@@ -58,9 +58,8 @@ class ApiTester(TestCase):
         document_blocks = self.client.get(reverse('api:document_view', args=(document.id,)))
         self.assertEquals(document_blocks.status_code, 200)
         self.assertEquals(document_blocks.data, [])
-        
     
-    def create_document_from_template(self, title):
+    def create_document_from_template(self, title: str) -> Document:
         try:
             template = self.documents[title]
         except KeyError:
@@ -164,9 +163,87 @@ class ApiTester(TestCase):
     
     def test_put_document(self):
         document = self.create_document_from_template('Test Document 2')
-        response = self.client.put(reverse('api:document_view', args=(document.id,)), data = 'New Title', content_type='utf-8')
+        response = self.client.put(reverse('api:document_view', args=(document.id,)), data = {'title':'New Title'}, content_type='application/json')
         self.assertEqual(response.status_code, 201)
         doc = self.client.get(reverse('api:get_documents'))
         data = doc.data
         self.assertEqual(data[0]['title'], 'New Title')
     
+    def test_put_identity_has_no_effect(self):
+        document = self.create_document_from_template('Test Document 2')
+        blocks = BlockSerializer(document.block_set, many=True)
+        response = self.client.put(reverse('api:document_view',
+                                   args=(document.id,)),
+                                   data=dict(title=document.title,
+                                             blocks=blocks.data),
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEquals(response.data['title'], document.title)
+        self.assertListEqual([(block['id'], block['block_order'], block['block_content']) \
+                              for block in response.data['blocks']],
+                             [(block['id'], block['block_order'], block['block_content']) \
+                              for block in blocks.data])
+
+    def test_put_in_center_can_create_new_document(self):
+        document = self.create_document_from_template('Test Document 2')
+        blocks = BlockSerializer(document.block_set, many=True)
+        response = self.client.put(reverse('api:document_view',
+                                   args=(document.id,)),
+                                   data=dict(title=document.title,
+                                             blocks=[blocks.data[0] | {'block_order':0},
+                                                     {
+                                                         'block_content':'Middle Child',
+                                                         'block_order'  :1,
+                                                     },
+                                                     blocks.data[1] | {'block_order':2}]),
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        created_block = Block.objects.get(block_document=document.id, block_order=1)
+        self.assertEquals(created_block.block_content, 'Middle Child')
+        self.assertEquals(created_block.block_order, 1)
+        self.assertEquals(len(response.data['blocks']), 3)
+
+    def test_put_deletes_blocks_not_in_request(self):
+        document = self.create_document_from_template('Test Document 2')
+        blocks = BlockSerializer(document.block_set, many=True)
+        response = self.client.put(reverse('api:document_view',
+                                   args=(document.id,)),
+                                   data=dict(blocks=[blocks.data[0]]),
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(len(response.data['blocks']), 1)
+        # Make sure that it was really deleted, since it was absent in the request
+        self.assertQuerysetEqual(Block.objects.filter(pk=blocks.data[1]['id']), [])
+
+    def test_document_put_fails_and_leaves_database_unchanged_on_block_that_doesnt_exist(self):
+        document = self.create_document_from_template('Test Document 2')
+        old_blocks = document.block_set.all()
+        blocks = BlockSerializer(document.block_set, many=True)
+        response = self.client.put(reverse('api:document_view',
+                                   args=(document.id,)),
+                                   data=dict(title=document.title,
+                                             blocks=[blocks.data[0] | {'id':666},
+                                                     {
+                                                         'block_content':'Middle Child',
+                                                         'block_order'  :1,
+                                                     },
+                                                     blocks.data[1]]),
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(old_blocks[0].block_order, 0)
+        self.assertQuerysetEqual(document.block_set.all(), old_blocks)
+        self.assertEquals(document.block_set.count(), 2)
+        
+    def test_document_put_fails_and_leaves_database_unchanged_on_bad_block_ordering(self):
+        document = self.create_document_from_template('Test Document 2')
+        old_blocks = document.block_set.all()
+        blocks = BlockSerializer(document.block_set, many=True)
+        response = self.client.put(reverse('api:document_view',
+                                   args=(document.id,)),
+                                   data=dict(title=document.title,
+                                             blocks=[blocks.data[0] | {'block_order':42},
+                                                     blocks.data[1] | {'block_order':(9+10)*2}]),
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(old_blocks[0].block_order, 0)
+        self.assertQuerysetEqual(document.block_set.all(), old_blocks)
