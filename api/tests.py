@@ -104,7 +104,7 @@ class ApiTester(TestCase):
         self.assertEquals(data[0]['block_content'], self.documents['Test Document 2']['blocks'][1])
         self.assertEquals(len(data), 1)
         response = self.client.delete(reverse('api:block_view', args=(document.id, 3,)))
-        self.assertEquals(response.status_code, 409)
+        self.assertEquals(response.status_code, 404)
 
     
     def test_replace_block(self):
