@@ -149,11 +149,29 @@
                     stroke: var(--action-button);
                 }
 
+            .icon-minus-mydocuments {
+                composes: icon-single-default;
+                background-color: transparent;
+                width: 20px;
+                border: none;
+                position: absolute;
+                right: -10px;
+                top: -10px;
+            }
+
+                .icon-minus-mydocuments-icon {
+                    fill: var(--passive-button);
+                    width: 20px;
+                }
+
+                .icon-minus-mydocuments-icon:hover {
+                    fill: var(--text-medium)
+                }
+
 
     
     .actionbar-default{
         composes: btn-default;
-        border-radius: 2px;
         color: var(--text-dark);
         font-weight: bold;
         font-size: 15px;
@@ -170,5 +188,27 @@
         }
         .actionbar-save{
             composes: actionbar-default;
+            background-color: var(--passive-button);
+        }
+
+    .mydocuments-delete {
+        composes: btn-default;
+        border-radius: 4px;
+        border: none;
+        color: var(--text-dark);
+        font-weight: bold;
+        font-size: 15px;
+        width: 80px;
+        height: 25px;
+        background-color: var(--passive-button);
+    }
+
+        .mydocuments-delete-cancel {
+            composes: mydocuments-delete;
+            background-color: var(--area-button);
+        }
+
+        .mydocuments-delete-edit {
+            composes: mydocuments-delete;
             background-color: var(--passive-button);
         }

@@ -22,5 +22,19 @@
     height: 192px;
 }
 
+.preview-icon-container {
+    display: flex;
+    width: 120px;
+    flex-direction: column;
+}
+
+    .minus-icon-container {
+        position: relative;
+        width: 120px;
+    }
+
+        .icon-minus-mydocuments-icon {
+            composes: icon-minus-mydocuments-icon from './Button.module.css';
+        }
 
 

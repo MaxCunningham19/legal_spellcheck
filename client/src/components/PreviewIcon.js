@@ -43,22 +43,22 @@ export const PreviewIcon = ({
 
   return (
     <>
-      <button 
-        className={(isLoading && clicked) ? styles[previewStyle + "-loading"] : styles[previewStyle]}
-        onClick={(e) => handleOnClickPreview(e, id, title)}
-      >
-        <span className={styles[previewStyle + "-title"]}>
-          {title}
-        </span>
-        { (isLoading && clicked)
-          ? <div className={styles["loading-icon-container"]}>
-              <ReactLoading type={"spin"} color={"#8BA3CC"} height={"50%"} width={"50%"} />
-            </div>
-          : <div className={styles[previewStyle + "-body"]}>
-              {adaptToPreview(preview)}
-            </div> 
-        }
-      </button>
+        <button 
+          className={(isLoading && clicked) ? styles[previewStyle + "-loading"] : styles[previewStyle]}
+          onClick={(e) => handleOnClickPreview(e, id, title)}
+        >
+          <span className={styles[previewStyle + "-title"]}>
+            {title}
+          </span>
+          { (isLoading && clicked)
+            ? <div className={styles["loading-icon-container"]}>
+                <ReactLoading type={"spin"} color={"#8BA3CC"} height={"50%"} width={"50%"} />
+              </div>
+            : <div className={styles[previewStyle + "-body"]}>
+                {adaptToPreview(preview)}
+              </div> 
+          }
+        </button>      
     </>
   )
 }

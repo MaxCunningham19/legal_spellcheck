@@ -5,6 +5,7 @@ import Explorer from '../components/Explorer';
 import Header from '../components/Header'
 import styles from './MyDocuments.module.css';
 import axios from 'axios';
+import { DeleteModeProvider } from '../hooks/DeleteModeContext';
 
 export function MyDocuments() {
 
@@ -35,19 +36,22 @@ export function MyDocuments() {
 
     return (
         <>
-          <div className={styles['MyDocuments']}>
-            <div className={styles['title']}>LEGAL SPELL CHECK</div>
-            <Header 
-              className={styles['Header']}
-              headerTitle={"My Documents"}
-              iconHeader={false}
-              onValidateAll={handleOnValidateAll}
-            />
-            <Navbar 
-              className={styles['Navbar']} 
-            />
-            {generateExplorer()}
-          </div>
+          <DeleteModeProvider>
+            <div className={styles['MyDocuments']}>
+              <div className={styles['title']}>LEGAL SPELL CHECK</div>
+              <Header 
+                className={styles['Header']}
+                headerTitle={"My Documents"}
+                iconHeader={false}
+                onValidateAll={handleOnValidateAll}
+              />
+              <Navbar 
+                className={styles['Navbar']} 
+              />
+              {generateExplorer()}
+            </div>
+          </DeleteModeProvider>
+          
         </>
     );
 }

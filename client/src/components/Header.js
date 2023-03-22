@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react'
 import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext'
+import { useDeleteMode, useDeleteModeUpdate} from '../hooks/DeleteModeContext'
 import { Button } from './Button'
 import axios from 'axios'
 import styles from './Header.module.css'
@@ -15,6 +16,8 @@ export const Header = ({
 
   const document = useDocument()
   const updateDocument = useDocumentUpdate()
+  const deleteMode = useDeleteMode()
+  const updateDeleteMode = useDeleteModeUpdate()
   const [saved, setSaved] = useState(false);
   const [message, setMessage] = useState('');
   const titleRef = useRef()
@@ -53,6 +56,10 @@ export const Header = ({
       .catch((error) => {}) 
   }
 
+  const handleOnClickEdit = () => {
+    updateDeleteMode()
+  }
+
   return (
     <>
       <header className={styles['Header']}>
@@ -80,6 +87,17 @@ export const Header = ({
                 <div className={styles['action-container']}>
                   <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
                   <Button onClick={onValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
+                </div>
+              </>
+          }
+          { !iconHeader &&
+              <>
+                <div className={styles['action-container']}>
+                  <Button 
+                    onClick={handleOnClickEdit} 
+                    buttonStyle={(deleteMode) ? "mydocuments-delete-cancel" : "mydocuments-delete-edit"} 
+                    text={(deleteMode) ? "Cancel" : "Edit"}>
+                  </Button>
                 </div>
               </>
           }
