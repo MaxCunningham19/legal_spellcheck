@@ -66,6 +66,10 @@
                     
                 }
 
+                .icon-navbar-plain:hover {
+                    background-color: var(--text-medium-dark);
+                }
+
 
 
         .icon-add-component-default {
@@ -97,6 +101,10 @@
                 .icon-add-component-textarea-text {
                 }
 
+                .icon-add-component-textarea:hover {
+                    opacity: 95%;
+                }
+
             .icon-add-component-document {
                 composes: icon-add-component-default;
                 height: 192px;
@@ -108,6 +116,10 @@
                     width: 60px;
                     fill: var(--text-medium);
                 } 
+
+                .icon-add-component-document:hover {
+                    opacity: 90%;
+                }
 
         .icon-single-default {
             composes: icon-default;
@@ -184,12 +196,20 @@
         .actionbar-validate{
             composes: actionbar-default;
             background-color: var(--action-button);
-
         }
+
+            .actionbar-validate:hover {
+                opacity: 95%;
+            }
+
         .actionbar-save{
             composes: actionbar-default;
             background-color: var(--passive-button);
         }
+
+            .actionbar-save:hover {
+                opacity: 95%;
+            }
 
     .mydocuments-delete {
         composes: btn-default;
@@ -211,4 +231,8 @@
         .mydocuments-delete-edit {
             composes: mydocuments-delete;
             background-color: var(--passive-button);
+        }
+
+        .mydocuments-delete:hover {
+            opacity: 90%;
         }

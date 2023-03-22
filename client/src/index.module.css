@@ -4,6 +4,7 @@
 
     /* palette */
     --dark-background: #1D3663;
+    --lightest-background: #edf6fa ;
     --light-background: #F0F7FA;
     --medium-background: #E0E9F6;
     --darkest-background: #0d1f3f;
@@ -12,6 +13,7 @@
     --passive-button: #8BA3CC;
     --area-button: #b7c7e0;
     --text-medium: #455f8b;
+    --text-medium-dark: #172f58;
     --text-dark: #10254A;
 }
 
