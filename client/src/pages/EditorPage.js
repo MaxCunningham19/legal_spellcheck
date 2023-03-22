@@ -21,7 +21,7 @@ export function EditorPage() {
     }
 
     const handleOnSaveAll = () => {
-      updateBlocks()
+      setTimeout(() => updateBlocks(), 500)
     }
 
     const postOrPut = (document) => {
@@ -35,8 +35,9 @@ export function EditorPage() {
       const filtered = filterEmptyBlocks(newBlocks)
       const finalBlocks = updateBlockOrder(filtered)
       updateDocument((prevDocument) => { 
-        const updatedDocument = {...prevDocument, blocks: finalBlocks}
+        let updatedDocument = {...prevDocument, blocks: finalBlocks}
         postOrPut(updatedDocument)
+        updatedDocument = {...prevDocument, untracked: false}
         return updatedDocument
       })
     }
@@ -64,9 +65,12 @@ export function EditorPage() {
     }
 
     const postDocument = (document) => {
-      const data = { documents: [
-        {...document, blocks: parseBlockContent(document.blocks)}
-      ] }
+      console.log(document);
+      const data = { documents: [{
+        ...document, 
+        title: (document.title !== "") ? document.title : "Untitled document",
+        blocks: parseBlockContent(document.blocks)
+      }] }
       axios
         .post(`/api/documents/`, data)
         .then((result) => { console.log(result) })
@@ -81,7 +85,7 @@ export function EditorPage() {
 
     const putDocument = (document) => {
       const data = {
-        title: document.title,
+        title: (document.title !== "") ? document.title : "Untitled document",
         blocks: document.blocks
       }
       axios

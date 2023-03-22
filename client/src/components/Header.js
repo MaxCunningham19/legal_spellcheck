@@ -51,7 +51,7 @@ export const Header = ({
   const putTitle = (newTitle) => {
     updateDocument((document) => ({...document, title: newTitle}))
     axios
-      .put(`/api/document/${document.id}`, newTitle)
+      .put(`/api/document/${document.id}`, {title: newTitle})
       .then((result) => { console.log(result) })
       .catch((error) => {}) 
   }
