@@ -5,7 +5,6 @@
 
     .editor-container {
         composes: Editor;
-
         
     }
 
