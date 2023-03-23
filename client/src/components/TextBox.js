@@ -127,14 +127,14 @@ export const TextBox = ({
                   icon={<CloseIcon className={styles['icon-single-textbox-icon-passive']}/>}
                 />
               )}
-              {(onFocus) && (
+              {(onFocus && !document.untracked) && (
                 <Button 
                   buttonStyle="icon-single-textbox" 
                   onClick={(e) => onValidateClick(e, id)}
                   icon={<ValidateOutline className={styles['icon-single-textbox-icon-active']} />}
                 />
               )}
-              {(onFocus) && (
+              {(onFocus && !document.untracked) && (
                 <Button 
                   buttonStyle="icon-single-textbox" 
                   onClick={(e) => onSaveClick(e, id)}
