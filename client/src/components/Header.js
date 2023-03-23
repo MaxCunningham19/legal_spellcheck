@@ -4,6 +4,7 @@ import { useDeleteMode, useDeleteModeUpdate} from '../hooks/DeleteModeContext'
 import { Button } from './Button'
 import axios from 'axios'
 import styles from './Header.module.css'
+import { LoadingMessage } from './LoadingMessage'
 
 export const TITLE_CHAR_LIMIT = 50
 
@@ -18,18 +19,22 @@ export const Header = ({
   const updateDocument = useDocumentUpdate()
   const deleteMode = useDeleteMode()
   const updateDeleteMode = useDeleteModeUpdate()
-  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const titleRef = useRef()
 
-  const clickedSave = () => {
-    onSaveAll()
-    setSaved(true);
-    setMessage('All changes saved!');
+  const setLoadingMessage = (message, timeout) => {
+    setSaving(true);
+    setMessage(message);
     setTimeout(() => {
-      setSaved(false);
+      setSaving(false);
       setMessage('');
-    }, 2000);
+    }, timeout);
+  }
+
+  const handleOnClickSaveAll = () => {
+    onSaveAll()
+    setLoadingMessage("Saving document", 1000)   
   };
 
   const handleOnKeyEnter = (e) => {
@@ -43,6 +48,7 @@ export const Header = ({
   }
 
   const handleOnTitleBlur = (e, titleRef) => {
+    setLoadingMessage("Updating title", 1000)
     const newTitle = titleRef.current.value
     if (newTitle === "") putTitle("Untitled document")
     if (document.title !== newTitle) putTitle(newTitle)
@@ -52,7 +58,10 @@ export const Header = ({
     updateDocument((document) => ({...document, title: newTitle}))
     axios
       .put(`/api/document/${document.id}`, {title: newTitle})
-      .then((result) => { console.log(result) })
+      .then((result) => { 
+        console.log(result) 
+
+      })
       .catch((error) => {}) 
   }
 
@@ -82,10 +91,19 @@ export const Header = ({
           { iconHeader && 
               <>
                 <div className={styles['icons-container']}>
-
+                { saving && 
+                  <LoadingMessage
+                    type="spin"
+                    color="#8BA3CC"
+                    percWidth="7%"
+                    percHeight="7%"
+                    message={message}
+                    messageStyle="header-loading"
+                  />
+                }
                 </div>
                 <div className={styles['action-container']}>
-                  <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
+                  <Button onClick={handleOnClickSaveAll} buttonStyle="actionbar-save" text="Save all"></Button>
                   <Button onClick={onValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
                 </div>
               </>
@@ -102,7 +120,6 @@ export const Header = ({
               </>
           }
         </div>
-        {saved && <div className={styles['message']}>{message}</div>}      
       </header>
     </>
   )

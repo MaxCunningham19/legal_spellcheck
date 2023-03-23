@@ -1,0 +1,18 @@
+.LoadingMessage {
+
+}
+
+.loading-message-container {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    align-items: center;
+    justify-content:end;
+    padding-right: 4rem;
+    gap: 7px;
+}   
+
+.header-loading {
+    color: var(--text-medium);
+    transform: translate(0px, -2px);
+}
