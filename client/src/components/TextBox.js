@@ -63,23 +63,28 @@ export const TextBox = ({
       else putBlock(newContent)
     }
 
-    const postBlock = (content) => {
-      if (document.untracked) return
-      const data = { block_content: content, block_order: id }
+    const postBlock = (content) => {                  // TODO: figuring out what's the best/safest way to do this
+      /** if (document.untracked) return
       axios
-        .post(`/api/document/${document.id}`, content)
+        .post(`/api/block/`, { block_content: content })
         .then((result) => { 
           console.log(result) 
           updateDocument((prevDocument) => ({
             ...prevDocument, 
             blocks: updateBlocks(prevDocument.blocks, result.id)
-          }))
+        })) 
         })
         .catch((error) => {})
+       */
     }
 
     const putBlock = (content) => {
-      console.log(content);
+      axios
+        .put(`/api/block/${uniqueid}`, { block_content: content })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {})
     }
 
     const updateBlocks = (prevBlocks, id) => {
