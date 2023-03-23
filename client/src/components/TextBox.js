@@ -57,6 +57,13 @@ export const TextBox = ({
       }
     }
 
+    /* Allows text to focus when pressing outside of editable span */
+    const handleOnMouseDown = () => {
+      textAreaRef.current && (
+        setTimeout(function() { textAreaRef.current.focus() }, 0)
+      )
+    }
+
     const onSaveClick = (e, id) => {
       const newContent = textAreaRef.current.innerText
       if (uniqueid === undefined) postBlock(newContent)
@@ -100,6 +107,7 @@ export const TextBox = ({
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
           onFocus={handleOnFocus}
+          onMouseDown={handleOnMouseDown}
           onBlur={(e) => handleOutOfFocus(e)}
         >
           <div className={ onFocus ? styles[boxStyle + "-onfocus"] : styles[boxStyle]}>
