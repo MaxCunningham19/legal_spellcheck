@@ -73,7 +73,9 @@ export function EditorPage() {
       }] }
       axios
         .post(`/api/documents/`, data)
-        .then((result) => { console.log(result) })
+        .then((result) => { 
+          updateDocument(() => result.data.documents[0]) 
+        })
         .catch((error) => {})
     }
 
