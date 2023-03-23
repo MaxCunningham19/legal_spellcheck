@@ -96,32 +96,32 @@ class ApiTester(TestCase):
     
     def test_delete_block(self):
         document = self.create_document_from_template('Test Document 2')
-        response = self.client.delete(reverse('api:block_view', args=(document.id, 0,)))
+        response = self.client.delete(reverse('api:document_block_view', args=(document.id, 0,)))
         self.assertEquals(response.status_code, 204)
         doc_data = self.client.get(reverse('api:document_view', args=(document.id,)))
         data = doc_data.data
         self.assertEquals(data[0]['block_content'], self.documents['Test Document 2']['blocks'][1])
         self.assertEquals(len(data), 1)
-        response = self.client.delete(reverse('api:block_view', args=(document.id, 3,)))
+        response = self.client.delete(reverse('api:document_block_view', args=(document.id, 3,)))
         self.assertEquals(response.status_code, 404)
 
     
     def test_replace_block(self):
         document = self.create_document_from_template('Test Document 2')
-        response = self.client.put(reverse('api:block_view', args=(document.id, 0,)), data = 'Hello world', content_type='utf-8')
+        response = self.client.put(reverse('api:document_block_view', args=(document.id, 0,)), data = 'Hello world', content_type='utf-8')
         self.assertEquals(response.status_code, 204)
         doc_data = self.client.get(reverse('api:document_view', args=(document.id,)))
         data = doc_data.data
         self.assertEquals(data[0]['block_content'], 'Hello world')
         self.assertEquals(len(data), 2)
-        response = self.client.put(reverse('api:block_view', args=(document.id, 3,)), data = 'Hello world', content_type='utf-8')
+        response = self.client.put(reverse('api:document_block_view', args=(document.id, 3,)), data = 'Hello world', content_type='utf-8')
         self.assertEquals(response.status_code, 404)
     
     def test_post_block(self):
         document = self.create_document_from_template('Test Document 2')
-        response = self.client.post(reverse('api:block_view', args=(document.id, 0,)), data = 'Hello world', content_type='utf-8')
+        response = self.client.post(reverse('api:document_block_view', args=(document.id, 0,)), data = 'Hello world', content_type='utf-8')
         self.assertEquals(response.status_code, 201)
-        response = self.client.post(reverse('api:block_view', args=(document.id, 5,)), data = 'Hello post world', content_type='utf-8')
+        response = self.client.post(reverse('api:document_block_view', args=(document.id, 5,)), data = 'Hello post world', content_type='utf-8')
         self.assertEquals(response.status_code, 201)
         doc_data = self.client.get(reverse('api:document_view', args=(document.id,)))
         data = doc_data.data
@@ -131,7 +131,7 @@ class ApiTester(TestCase):
 
     def test_post_block_to_empty_document(self):
         document = self.create_document_from_template('Empty Document 1')
-        response = self.client.post(reverse('api:block_view', args=(document.id, 0)))
+        response = self.client.post(reverse('api:document_block_view', args=(document.id, 0)))
         self.assertEquals(response.status_code, 201)
 
     def test_document_blocks_have_correct_mistakes(self):
@@ -257,3 +257,38 @@ class ApiTester(TestCase):
                                    content_type='application/json')
         self.assertEqual(response.status_code, 201)
         self.assertEquals(document.block_set.count(), 0)
+
+    def test_documents_post_returns_document_structure(self):
+        response = self.client.post(reverse('api:add_documents'),
+                                    data=dict(documents=[self.post_docs['documents'][0]]),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['documents'][0]['title'],
+                         self.post_docs['documents'][0]['title'])
+        self.assertEqual(len(response.data['documents'][0]['blocks']),
+                         len(self.post_docs['documents'][0]['blocks']))
+        
+
+    def test_put_block_content(self):
+        document = self.create_document_from_template('Test Document 1')
+        blocks = document.block_set.all()
+        response = self.client.put(reverse('api:block', args=(blocks[0].id,)),
+                                   data=dict(block_content="I'll be back"),
+                                   content_type="application/json")
+        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.data['block_content'], "I'll be back")
+        self.assertEqual(document.block_set.all()[0].block_content, "I'll be back")
+
+    def test_get_block(self):
+        document = self.create_document_from_template('Test Document 1')
+        blocks = document.block_set.all()
+        response = self.client.get(reverse('api:block', args=(blocks[0].id,)))
+        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.data['block_content'], blocks[0].block_content)
+
+    def test_delete_block(self):
+        document = self.create_document_from_template('Test Document 1')
+        blocks = document.block_set.all()
+        response = self.client.delete(reverse('api:block', args=(blocks[0].id,)))
+        self.assertEquals(response.status_code, 204)
+        self.assertQuerysetEqual(document.block_set.all(), [])

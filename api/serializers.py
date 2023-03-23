@@ -58,3 +58,8 @@ class PutDocumentSerializer(serializers.Serializer):
     left unchanged. If an empty list is provided, all blocks are
     deleted.
     """
+
+class PutBlockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Block
+        fields = ('block_content',)
