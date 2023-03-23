@@ -2,14 +2,17 @@ from django.db import IntegrityError
 from django.http import HttpRequest
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from rest_framework import generics
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from .models import Document, Block
 from rest_framework.response import Response
 from rest_framework.request import Request
 from django.db.models import Max, F
 from .serializers import (DocumentSerializer, BlockSerializer,
-                          MistakeSerializer, PutDocumentSerializer)
+                          MistakeSerializer, PutDocumentSerializer,
+                          PutBlockSerializer)
 from django.db import transaction
+import itertools
 
 class DocumentList(generics.ListAPIView):
     queryset = Document.objects.all()
@@ -89,8 +92,27 @@ def document_view(request, pk):
             return Response(str(e), status=400)
         return Response(DocumentSerializer(document).data, status=201)
 
+class BlockView(APIView):
+    def get(self, request: HttpRequest, pk: int):
+        block = get_object_or_404(Block, pk=pk)
+        return Response(BlockSerializer(block).data, status=200)
+    
+    def delete(self, request: HttpRequest, pk: int):
+        get_object_or_404(Block, pk=pk).delete()
+        return Response(status=204)
+    
+    def put(self, request: HttpRequest, pk: int):
+        serializer = PutBlockSerializer(data=request.data)
+        if serializer.is_valid():
+            block = get_object_or_404(Block, pk=pk)
+            block.block_content = serializer.data['block_content']
+            block.save()
+            return Response(BlockSerializer(block).data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+    
 @api_view(['DELETE', 'PUT', 'POST'])
-def block_view(request, pk, bo):
+def document_block_view(request, pk, bo):
     if request.method == 'DELETE':
         block = get_object_or_404(Block, block_document=pk, block_order=bo)
         block.delete()
@@ -133,12 +155,14 @@ def check_document_blocks(request, pk):
 
 @api_view(['POST'])
 def add_documents(request: HttpRequest):
-    for document in request.data['documents']:
-        doc_object = Document.objects.create(title= document['title'])
-        for order, block in enumerate (document['blocks']):
-            doc_object.block_set.create(
-                block_document=doc_object,
-                block_content=block,
-                block_order=order
-            )
-    return Response(status=201)
+    documents = [Document(title=document['title']) \
+                 for document in request.data['documents']]
+    blocks = [Block(block_document=documents[i],
+                    block_content=block_content,
+                    block_order=block_order) \
+              for i, document in enumerate(request.data['documents']) \
+              for block_order, block_content in enumerate(document['blocks'])]
+    Document.objects.bulk_create(documents)
+    Block.objects.bulk_create(blocks)
+    return Response({'documents':DocumentSerializer(documents, many=True).data},
+                    status=201)
