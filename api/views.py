@@ -2,13 +2,15 @@ from django.db import IntegrityError
 from django.http import HttpRequest
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from rest_framework import generics
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from .models import Document, Block
 from rest_framework.response import Response
 from rest_framework.request import Request
 from django.db.models import Max, F
 from .serializers import (DocumentSerializer, BlockSerializer,
-                          MistakeSerializer, PutDocumentSerializer)
+                          MistakeSerializer, PutDocumentSerializer,
+                          PutBlockSerializer, PostBlockSerializer)
 from django.db import transaction
 
 class DocumentList(generics.ListAPIView):
@@ -89,8 +91,32 @@ def document_view(request, pk):
             return Response(str(e), status=400)
         return Response(DocumentSerializer(document).data, status=201)
 
+class BlockView(APIView):
+    def get(self, request: HttpRequest, pk: int):
+        block = get_object_or_404(Block, pk=pk)
+        return Response(BlockSerializer(block).data, status=200)
+    
+    def delete(self, request: HttpRequest, pk: int):
+        get_object_or_404(Block, pk=pk).delete()
+        return Response(status=204)
+    
+    def put(self, request: HttpRequest, pk: int):
+        serializer = PutBlockSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        block = get_object_or_404(Block, pk=pk)
+        block.block_content = serializer.data['block_content']
+        block.save()
+        return Response(BlockSerializer(block).data, status=200)
+
+class AddBlockView(APIView):
+    def post(self, request: HttpRequest):
+        serializer = PostBlockSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        block = serializer.save() # Main logic is in serializer class
+        return Response(BlockSerializer(block).data, status=201)
+    
 @api_view(['DELETE', 'PUT', 'POST'])
-def block_view(request, pk, bo):
+def document_block_view(request, pk, bo):
     if request.method == 'DELETE':
         block = get_object_or_404(Block, block_document=pk, block_order=bo)
         block.delete()
@@ -107,22 +133,12 @@ def block_view(request, pk, bo):
         block.save()
         return Response(status=204)
     elif request.method == 'POST':
-        document = Document.objects.get(id=pk)
-        blocks = document.block_set.filter(block_order__gte=bo).order_by('-block_order')
-        for block in blocks:
-            block.block_order = block.block_order + 1
-            block.save(force_update=True)
-        # If we get an block order that is greater than the highest
-        # preceding block, we need to insert at that block order plus
-        # one rather than the given block order.
-        highest_preceding_block = document.block_set \
-                              .filter(block_order__lt=bo) \
-                              .aggregate(Max('block_order'))['block_order__max'] or -1
-        document.block_set.create(
-            block_order =  min(highest_preceding_block + 1, bo),
-            block_content = request.body.decode()
-        )
-        return Response(status=201)
+        serializer = PostBlockSerializer(data=dict(block_document=pk,
+                                                   block_content=request.body.decode(),
+                                                   block_order=bo))
+        serializer.is_valid(raise_exception=True)
+        block = serializer.save()
+        return Response(BlockSerializer(block).data, status=201)
    
 @api_view()
 def check_document_blocks(request, pk):
@@ -133,12 +149,14 @@ def check_document_blocks(request, pk):
 
 @api_view(['POST'])
 def add_documents(request: HttpRequest):
-    for document in request.data['documents']:
-        doc_object = Document.objects.create(title= document['title'])
-        for order, block in enumerate (document['blocks']):
-            doc_object.block_set.create(
-                block_document=doc_object,
-                block_content=block,
-                block_order=order
-            )
-    return Response(status=201)
+    documents = [Document(title=document['title']) \
+                 for document in request.data['documents']]
+    blocks = [Block(block_document=documents[i],
+                    block_content=block_content,
+                    block_order=block_order) \
+              for i, document in enumerate(request.data['documents']) \
+              for block_order, block_content in enumerate(document['blocks'])]
+    Document.objects.bulk_create(documents)
+    Block.objects.bulk_create(blocks)
+    return Response({'documents':DocumentSerializer(documents, many=True).data},
+                    status=201)
