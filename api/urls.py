@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (check_document_blocks, DocumentList, document_view,
-                    BlockView, add_documents, document_block_view)
+                    BlockView, add_documents, document_block_view,
+                    AddBlockView)
 
 app_name = 'api'
 
@@ -9,6 +10,7 @@ urlpatterns = [
     path('document/<int:pk>', document_view, name='document_view'),
     path('document/<int:pk>/<int:bo>', document_block_view, name='document_block_view'),
     path('block/<int:pk>', BlockView.as_view(), name='block'),
+    path('blocks', AddBlockView.as_view(), name='add_blocks'),
     path('check/document/<int:pk>', check_document_blocks, name='check_document_blocks'),
     path('documents/', add_documents, name='add_documents')
 ]

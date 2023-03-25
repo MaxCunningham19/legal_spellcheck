@@ -10,9 +10,8 @@ from rest_framework.request import Request
 from django.db.models import Max, F
 from .serializers import (DocumentSerializer, BlockSerializer,
                           MistakeSerializer, PutDocumentSerializer,
-                          PutBlockSerializer)
+                          PutBlockSerializer, PostBlockSerializer)
 from django.db import transaction
-import itertools
 
 class DocumentList(generics.ListAPIView):
     queryset = Document.objects.all()
@@ -103,13 +102,18 @@ class BlockView(APIView):
     
     def put(self, request: HttpRequest, pk: int):
         serializer = PutBlockSerializer(data=request.data)
-        if serializer.is_valid():
-            block = get_object_or_404(Block, pk=pk)
-            block.block_content = serializer.data['block_content']
-            block.save()
-            return Response(BlockSerializer(block).data, status=200)
-        else:
-            return Response(serializer.errors, status=400)
+        serializer.is_valid(raise_exception=True)
+        block = get_object_or_404(Block, pk=pk)
+        block.block_content = serializer.data['block_content']
+        block.save()
+        return Response(BlockSerializer(block).data, status=200)
+
+class AddBlockView(APIView):
+    def post(self, request: HttpRequest):
+        serializer = PostBlockSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        block = serializer.save() # Main logic is in serializer class
+        return Response(BlockSerializer(block).data, status=201)
     
 @api_view(['DELETE', 'PUT', 'POST'])
 def document_block_view(request, pk, bo):
@@ -129,22 +133,12 @@ def document_block_view(request, pk, bo):
         block.save()
         return Response(status=204)
     elif request.method == 'POST':
-        document = Document.objects.get(id=pk)
-        blocks = document.block_set.filter(block_order__gte=bo).order_by('-block_order')
-        for block in blocks:
-            block.block_order = block.block_order + 1
-            block.save(force_update=True)
-        # If we get an block order that is greater than the highest
-        # preceding block, we need to insert at that block order plus
-        # one rather than the given block order.
-        highest_preceding_block = document.block_set \
-                              .filter(block_order__lt=bo) \
-                              .aggregate(Max('block_order'))['block_order__max'] or -1
-        document.block_set.create(
-            block_order =  min(highest_preceding_block + 1, bo),
-            block_content = request.body.decode()
-        )
-        return Response(status=201)
+        serializer = PostBlockSerializer(data=dict(block_document=pk,
+                                                   block_content=request.body.decode(),
+                                                   block_order=bo))
+        serializer.is_valid(raise_exception=True)
+        block = serializer.save()
+        return Response(BlockSerializer(block).data, status=201)
    
 @api_view()
 def check_document_blocks(request, pk):

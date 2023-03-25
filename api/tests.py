@@ -292,3 +292,32 @@ class ApiTester(TestCase):
         response = self.client.delete(reverse('api:block', args=(blocks[0].id,)))
         self.assertEquals(response.status_code, 204)
         self.assertQuerysetEqual(document.block_set.all(), [])
+
+
+    def test_insert_after_block(self):
+        document = self.create_document_from_template('Test Document 2')
+        [first, second] = document.block_set.all()
+        response = self.client.post(reverse('api:add_blocks'),
+                             data=dict(block_content="Ω",
+                                       block_order={'after':first.id},
+                                       block_document=document.id),
+                                    content_type="application/json")
+        self.assertEquals(response.status_code, 201)
+        self.assertEquals(document.block_set.count(), 3)
+        self.assertEquals(document.block_set.get(block_order=1).block_content, "Ω")
+        self.assertEquals(response.data['block_content'], "Ω")
+
+    def test_insert_before_block(self):
+        document = self.create_document_from_template('Test Document 2')
+        [first, second] = document.block_set.all()
+        response = self.client.post(reverse('api:add_blocks'),
+                             data=dict(block_content="Alpha",
+                                       block_order={'before':first.id},
+                                       block_document=document.id),
+                                    content_type="application/json")
+        self.assertEquals(response.status_code, 201)
+        self.assertEquals(document.block_set.count(), 3)
+        self.assertEquals(document.block_set.get(block_order=0).block_content, "Alpha")
+        self.assertEquals(response.data['block_content'], "Alpha")
+        
+        
