@@ -10,8 +10,8 @@
         align-content: flex-start;
         column-gap: 30px;
         row-gap: 30px;
-        padding: 2rem;
-        padding-top: 1rem;
+        padding: 4rem;
+        padding-top: 2rem;
         overflow-y: scroll;
         scrollbar-width: none;
     }
@@ -39,8 +39,8 @@
         width: 120px;
     }
 
-        .icon-minus-mydocuments-icon {
-            composes: icon-minus-mydocuments-icon from './Button.module.css';
+        .icon-minus-mydocuments-previews-icon {
+            composes: icon-minus-mydocuments-previews-icon from './Button.module.css';
         }
 
 

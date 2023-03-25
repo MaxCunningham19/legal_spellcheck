@@ -166,20 +166,68 @@
                 background-color: transparent;
                 width: 20px;
                 border: none;
-                position: absolute;
-                right: -10px;
-                top: -10px;
             }
 
-                .icon-minus-mydocuments-icon {
-                    fill: var(--passive-button);
+                .icon-minus-mydocuments-previews {
+                    composes: icon-minus-mydocuments;
+                    position: absolute;
+                    right: -10px;
+                    top: -10px;
+                }
+
+                    .icon-minus-mydocuments-previews-icon {
+                        fill: var(--warning-activate);
+                        width: 20px;
+                    }
+
+                    .icon-minus-mydocuments-previews-icon:hover {
+                        fill: var(--warning-dark)
+                    }
+
+                .icon-minus-mydocuments-list {
+                    composes: icon-minus-mydocuments;
+                    width: 25px;
+                    margin-right: 5px;
+                }
+
+                    .icon-minus-mydocuments-list-icon {
+                        fill: var(--warning-activate);
+                        width: 25px;
+                        
+                    }
+
+                    .icon-minus-mydocuments-list-icon:hover {
+                        fill: var(--warning-dark)
+                    }
+
+        .icon-and-text {
+            composes: icon-default;
+            gap: 7px;
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+        
+            .icon-header-view {
+                composes: icon-and-text;
+                background-color: var(--area-button);
+                height: 35px;
+                width: 100px;
+                border-radius: 5px;
+                border: none;
+                align-content: center;
+            }
+
+                .icon-header-view-icon {
                     width: 20px;
+                    height: 20px;
+                    fill: var(--text-dark);
+                    transform: translate(0px, 1.5px);
                 }
 
-                .icon-minus-mydocuments-icon:hover {
-                    fill: var(--text-medium)
-                }
-
+            .icon-header-view:hover {
+                opacity: 90%;
+            }
 
     
     .actionbar-default{
@@ -219,18 +267,18 @@
         font-weight: bold;
         font-size: 15px;
         width: 80px;
-        height: 25px;
-        background-color: var(--passive-button);
+        height: 35px;
+        background-color: var(--warning-activate);
     }
 
         .mydocuments-delete-cancel {
             composes: mydocuments-delete;
-            background-color: var(--area-button);
+            background-color: var(--warning-deactivate);
         }
 
         .mydocuments-delete-edit {
             composes: mydocuments-delete;
-            background-color: var(--passive-button);
+            background-color: var(--warning-activate);
         }
 
         .mydocuments-delete:hover {

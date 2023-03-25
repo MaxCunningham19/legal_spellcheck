@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { DeleteModeProvider } from '../hooks/DeleteModeContext';
 import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext';
+import { useDocumentList, useDocumentListUpdate } from '../hooks/DocumentListContext'
 import Navbar from '../components/Navbar';
 import Explorer from '../components/Explorer';
 import Header from '../components/Header'
 import styles from './MyDocuments.module.css';
 import axios from 'axios';
-import { DeleteModeProvider } from '../hooks/DeleteModeContext';
 
 export function MyDocuments() {
 
-    const [documentsData, setDocumentsData] = useState([])
     const [validateAll, setValidateAll] = useState(false)
+    const updateDocumentList = useDocumentListUpdate()
 
     useLayoutEffect(() => {
       axios
         .get("/api/document")
         .then((result) => {
-          setDocumentsData(result.data)
+          updateDocumentList(result.data)
         })
         .catch((error) => {})
     }, [])
@@ -29,7 +30,6 @@ export function MyDocuments() {
       return (
         <Explorer 
           className={styles['Explorer']}
-          documentsData={documentsData}
         />
       )
     }
@@ -49,9 +49,8 @@ export function MyDocuments() {
                 className={styles['Navbar']} 
               />
               {generateExplorer()}
-            </div>
-          </DeleteModeProvider>
-          
+            </div> 
+          </DeleteModeProvider> 
         </>
     );
 }

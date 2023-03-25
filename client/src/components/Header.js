@@ -1,10 +1,13 @@
 import React, {useState, useRef, useEffect} from 'react'
+import { useExplorerView, useExplorerViewUpdate } from '../hooks/ExplorerViewContext'
 import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext'
 import { useDeleteMode, useDeleteModeUpdate} from '../hooks/DeleteModeContext'
 import { Button } from './Button'
 import axios from 'axios'
 import styles from './Header.module.css'
 import { LoadingMessage } from './LoadingMessage'
+import { ReactComponent as GridView} from '../icons/grid-view.svg'
+import { ReactComponent as ListView} from '../icons/list-view.svg'
 
 export const TITLE_CHAR_LIMIT = 50
 
@@ -19,6 +22,9 @@ export const Header = ({
   const updateDocument = useDocumentUpdate()
   const deleteMode = useDeleteMode()
   const updateDeleteMode = useDeleteModeUpdate()
+  const iconView = useExplorerView()
+  const updateExplorerView = useExplorerViewUpdate()
+
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const titleRef = useRef()
@@ -69,6 +75,10 @@ export const Header = ({
     updateDeleteMode()
   }
 
+  const handleOnClickChangeView = () => {
+    updateExplorerView()
+  }
+
   return (
     <>
       <header className={styles['Header']}>
@@ -110,7 +120,18 @@ export const Header = ({
           }
           { !iconHeader &&
               <>
-                <div className={styles['action-container']}>
+                <div className={styles['action-container-mydocuments']}>
+                  <Button 
+                    onClick={handleOnClickChangeView} 
+                    buttonStyle={"icon-header-view"} 
+                    text={"View"}
+                    icon={
+                      (iconView) 
+                      ? <GridView className={styles["icon-header-view-icon"]}/> 
+                      : <ListView className={styles["icon-header-view-icon"]} />
+                    }
+                  >  
+                  </Button>
                   <Button 
                     onClick={handleOnClickEdit} 
                     buttonStyle={(deleteMode) ? "mydocuments-delete-cancel" : "mydocuments-delete-edit"} 

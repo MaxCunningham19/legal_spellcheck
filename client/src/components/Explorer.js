@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { useExplorerView, useExplorerViewUpdate } from '../hooks/ExplorerViewContext'
 import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext'
 import { ExplorerPreview } from './ExplorerPreview'
-import styles from './ExplorerPreview.module.css'
-import axios from 'axios'
+import { ExplorerList } from './ExplorerList'
 import { INCREMENT_API_PROMISE_LOADING } from '../index'
-// TODO: import { ExplorerList } from './ExplorerList'
+import styles from './Explorer.module.css'
+import axios from 'axios'
 
-export const Explorer = ({
-  documentsData
-}) => {
+export const Explorer = ({}) => {
 
+  const iconView = useExplorerView()
+  const updateView = useExplorerViewUpdate()
   const updateDocument = useDocumentUpdate()
   const [isLoading, setIsLoading] = useState(false)
  
@@ -52,13 +53,18 @@ export const Explorer = ({
     <>
       <section className={styles['Explorer']}>
         <div className={styles['explorer-container']}>
-          <ExplorerPreview 
-            explorerData={documentsData}
-            onClickDocument={handleOnClickDocument}
-            onClickCreate={handleOnClickCreate}
-            isLoading={isLoading}
-          />
-          {/*TODO: ExplorerPreview can then be swapped to ExplorerList*/}
+          { (iconView)
+            ? <ExplorerPreview 
+                onClickDocument={handleOnClickDocument}
+                onClickCreate={handleOnClickCreate}
+                isLoading={isLoading}
+              />
+            : <ExplorerList
+                onClickDocument={handleOnClickDocument}
+                onClickCreate={handleOnClickCreate}
+                isLoading={isLoading}
+              />
+          }
         </div>
       </section>
     </>

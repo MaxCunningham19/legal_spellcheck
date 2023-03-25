@@ -56,6 +56,12 @@
             gap: 7px;
         }
 
+            .action-container-mydocuments {
+                composes: action-container;
+                justify-content: right;
+                padding-right: 4rem;
+            }
+
         .message {
             position: absolute;
             top: 5;
@@ -65,3 +71,7 @@
             padding: 10px;
             border: 1px solid var(--light-background);
           }
+
+.icon-header-view-icon {
+    composes: icon-header-view-icon from "./Button.module.css";
+}
