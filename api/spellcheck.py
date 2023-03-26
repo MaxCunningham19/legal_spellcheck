@@ -1,6 +1,7 @@
 import json
 import time
 import requests
+import os
 
 class Mistake():
     def __init__(self, word: str, location: int, suggestions: list[str]):
@@ -29,7 +30,7 @@ class Mistake():
 
 
 def get_key():
-    key = "KEY HERE" # THE API KEY FOR BING SPELL CHECK
+    key = os.environ.get('BING_API_KEY')
     return key
 
 
@@ -88,3 +89,4 @@ def check(content: str) -> list[Mistake]:
         object_mistakes.append(accident) # creates an array of mistakes to return
     
     return object_mistakes
+
