@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import re_path
 from .views import serve_app
 
 app_name = 'client'
 
 urlpatterns = [
-    path('', serve_app, name='serve_app')
+    re_path('', serve_app),
 ]

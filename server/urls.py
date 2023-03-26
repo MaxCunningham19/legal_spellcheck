@@ -3,5 +3,5 @@ from api import views
 
 urlpatterns = [
     path('api/', include('api.urls')),
-    re_path(r'.*', include('client.urls'))
+    path('', include('client.urls'))
 ]
