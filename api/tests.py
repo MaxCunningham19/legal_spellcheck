@@ -76,7 +76,7 @@ class ApiTester(TestCase):
         document = self.create_document_from_template('Test Document 1')
         response = self.client.get(reverse('api:check_document_blocks', args=(document.id,)))
         data = json.loads(response.content)
-        for block in data:
+        for block in data['errors']:
             serializer = MistakeSerializer(data=block['mistakes'], many=True)
             self.assertTrue(serializer.is_valid())
 
@@ -84,7 +84,7 @@ class ApiTester(TestCase):
         document = self.create_document_from_template('Test Document 2')
         response = self.client.get(reverse('api:check_document_blocks', args=(document.id,)))
         data = json.loads(response.content)
-        for block in data:
+        for block in data['errors']:
             serializer = MistakeSerializer(data=block['mistakes'], many=True)
             self.assertTrue(serializer.is_valid())
 
@@ -138,14 +138,14 @@ class ApiTester(TestCase):
         document = self.create_document_from_template('Test Document 2')
         response = self.client.get(reverse('api:check_document_blocks', args=(document.id,)))
         data = response.data
-        self.assertEquals(len(data[0]['mistakes']), 2)
-        self.assertEquals(data[0]['mistakes'][0]['word'], 'haas')
-        self.assertEquals(data[0]['mistakes'][1]['word'], 'wrds')
-        self.assertEquals(len(data[1]['mistakes']), 4)
-        self.assertEquals(data[1]['mistakes'][0]['word'], 'Ths')
-        self.assertEquals(data[1]['mistakes'][1]['word'], 'senence')
-        self.assertEquals(data[1]['mistakes'][2]['word'], 'haas')
-        self.assertEquals(data[1]['mistakes'][3]['word'], 'wrds')
+        self.assertEquals(len(data['errors'][0]['mistakes']), 2)
+        self.assertEquals(data['errors'][0]['mistakes'][0]['word'], 'haas')
+        self.assertEquals(data['errors'][0]['mistakes'][1]['word'], 'wrds')
+        self.assertEquals(len(data['errors'][1]['mistakes']), 4)
+        self.assertEquals(data['errors'][1]['mistakes'][0]['word'], 'Ths')
+        self.assertEquals(data['errors'][1]['mistakes'][1]['word'], 'senence')
+        self.assertEquals(data['errors'][1]['mistakes'][2]['word'], 'haas')
+        self.assertEquals(data['errors'][1]['mistakes'][3]['word'], 'wrds')
         
     def test_add_document(self):
         response = self.client.post(reverse('api:add_documents'), data=self.post_docs, content_type='application/json')

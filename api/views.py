@@ -4,11 +4,13 @@ from django.shortcuts import render, get_list_or_404, get_object_or_404
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
+
+from api.spellcheck import Metric
 from .models import Document, Block
 from rest_framework.response import Response
 from rest_framework.request import Request
 from django.db.models import Max, F
-from .serializers import (DocumentSerializer, BlockSerializer,
+from .serializers import (DocumentSerializer, BlockSerializer, MetricSerializer,
                           MistakeSerializer, PutDocumentSerializer,
                           PutBlockSerializer, PostBlockSerializer)
 from django.db import transaction
@@ -145,7 +147,21 @@ def check_document_blocks(request, pk):
     mistakes = [dict(block_order=block.block_order,
                      mistakes=MistakeSerializer(block.spellcheck(), many=True).data) \
                 for block in Block.objects.filter(block_document=pk)]
-    return Response(mistakes, status=200)
+    total_mistakes = 0
+    max_block_mistakes = 0
+    mistake_dict = {}
+    for bo, mistake in enumerate(mistakes):
+        block_mistakes = mistake['mistakes']
+        for block_mistake in block_mistakes:
+            total_mistakes += 1
+            if block_mistake['word'] not in mistake_dict:
+                mistake_dict[block_mistake['word']] = 1
+            else:
+                mistake_dict[block_mistake['word']] += 1
+        if len(block_mistakes) > max_block_mistakes:
+            max_block_mistakes = bo
+    metric = MetricSerializer(Metric(bo, max(mistake_dict, key=mistake_dict.get), total_mistakes)).data   
+    return Response({'errors': mistakes, 'metrics': metric}, status=200)
 
 @api_view(['POST'])
 def add_documents(request: HttpRequest):

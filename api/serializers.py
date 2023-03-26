@@ -25,6 +25,11 @@ class MistakeSerializer(serializers.Serializer):
         allow_empty=True
     )
 
+class MetricSerializer(serializers.Serializer):
+    word = serializers.CharField(max_length=200)
+    block = serializers.IntegerField()
+    count = serializers.IntegerField()
+
 class PutDocumentSerializer(serializers.Serializer):
     """
     This serializer contains a the data that needs to be provided

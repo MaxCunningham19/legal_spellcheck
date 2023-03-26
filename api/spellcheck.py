@@ -30,6 +30,23 @@ class Mistake():
 
     def __repr__(self) -> str:
         return str(self.__dict__)
+    
+class Metric():
+    def __init__(self, block:int, word:str, count:int):
+        self.word = word    
+        """
+        The most misspelled word
+        """
+        
+        self.block = block
+        """
+        The block with the most errors by block_order
+        """
+
+        self.count = count
+        """
+        The total errors in the document
+        """
 
 def check(content: str) -> list[Mistake]:
     """
