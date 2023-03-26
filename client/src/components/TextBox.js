@@ -12,6 +12,7 @@ export const TextBox = ({
     boxStyle,
     id,
     uniqueid,
+    after,
     content,
     onChangeInput,
     onRemoveClick,
@@ -30,6 +31,7 @@ export const TextBox = ({
     const [isSaved, setIsSaved] = useState(save)
     const [isValidated, setIsValidated] = useState(validate)
     const textAreaRef = useRef()
+    const [uniqueId, setUniqueId] = useState("")
     
     useEffect(() => {
       setIsValidated(() => validate)
@@ -38,6 +40,10 @@ export const TextBox = ({
     useEffect(() => {
       setIsSaved(() => save)
     },[save])
+
+    useEffect(() => {
+      setUniqueId(() => uniqueid)
+    }, [uniqueid])
 
     const handleMouseOver = () => {
       setIsHovering(true)
@@ -66,23 +72,38 @@ export const TextBox = ({
 
     const onSaveClick = (e, id) => {
       const newContent = textAreaRef.current.innerText
-      if (uniqueid === undefined) postBlock(newContent)
+      if (uniqueId === undefined) postBlock(newContent)
       else putBlock(newContent)
     }
 
     const postBlock = (content) => {                  // TODO: figuring out what's the best/safest way to do this
-      /** if (document.untracked) return
+      if (document.untracked) return
+      if (after === -1) postAtBeginning(content)
+      else postAfter(content)
+    }
+
+    const postAfter = (content) => {
       axios
-        .post(`/api/block/`, { block_content: content })
-        .then((result) => { 
-          console.log(result) 
-          updateDocument((prevDocument) => ({
-            ...prevDocument, 
-            blocks: updateBlocks(prevDocument.blocks, result.id)
-        })) 
+        .post(`/api/blocks`, { 
+          block_content: content, 
+          block_order: {after: after},
+          block_document: document.id
+        })
+        .then((result) => {
+          console.log(result.data.id);
+          setUniqueId(() => result.data.id)
         })
         .catch((error) => {})
-       */
+    }
+
+    const postAtBeginning = (content) => {
+      axios
+        .post(`/api/document/${document.id}/0`, content)
+        .then((result) => {
+          console.log(result.data.id);
+          setUniqueId(() => result.data.id)
+        })
+        .catch((error) => {})
     }
 
     const putBlock = (content) => {
@@ -94,15 +115,12 @@ export const TextBox = ({
         .catch((error) => {})
     }
 
-    const updateBlocks = (prevBlocks, id) => {
-      return prevBlocks.map((block) => {/* update unique id */})
-    }
-
     return (
       <>
         <div 
           className={styles['TextBox']}
           id={uniqueid}
+          after={after}
           tabIndex={0}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}

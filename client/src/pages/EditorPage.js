@@ -13,6 +13,10 @@ export function EditorPage() {
     const document = useDocument()
     const updateDocument = useDocumentUpdate()
 
+    useEffect(() => {
+      console.log(document);
+    }, [document])
+
     const carouselRef = useRef(null)
     const [validateAll, setValidateAll] = useState(false)
 
@@ -92,7 +96,7 @@ export function EditorPage() {
       }
       axios
         .put(`/api/document/${document.id}`, data)
-        .then((result) => { console.log(result) })
+        .then((result) => { updateDocument(() => result.data) })
         .catch((error) => {}) 
     }
 

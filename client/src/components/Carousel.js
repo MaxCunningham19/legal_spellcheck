@@ -3,40 +3,57 @@ import { Button } from './Button'
 import styles from './Carousel.module.css'
 import TextBox from './TextBox'
 import { ReactComponent as PlusIcon } from "../icons/plus.svg"
+import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext'
 
 export const Carousel = ({ data, validateAll, forwardedRef }) => {
 
   const [carouselData, setCarouselData] = useState(data)
   const textAreaRef = useRef(null)
+  const updateDocument = useDocumentUpdate()
+  const document = useDocument()
 
   const onAddParagraphClick = (e) => {
-    setCarouselData([
-      ...carouselData, { block_content: "" }
-    ])
+    updateDocument((prevData) => ({...prevData, blocks: addNewBlock(prevData.blocks)}))
+    // updateDocument((prevData) => ({...prevData, block_order: { after: getPreviousBlock(prevData.blocks)} }))
     mapCarouselComponents()
   }
 
+  const addNewBlock = (oldBlocks) => {
+    let newBlocks = [...oldBlocks]
+    newBlocks.push({block_content: "", after: getPreviousBlockId(oldBlocks)})
+    return newBlocks
+  }
+
+  const getPreviousBlockId = (oldBlocks) => {
+    if (oldBlocks.length < 1) return -1
+    for (let i = oldBlocks.length-1; i >= 0; i--) {
+      if (oldBlocks[i].id !== undefined) return oldBlocks[i].id
+    }
+    return -1
+  }
+
   const onRemoveParagraphClick = (e, id) => {
-    setCarouselData(
-      filterParagraph(id, id)
+    updateDocument((prevDocument) =>
+      ({...prevDocument, blocks: filterParagraph(id, id)})
     )
     mapCarouselComponents()
   }
 
   const filterParagraph = (start, end) => {
-    const left = carouselData.slice(0, start)
-    const right = carouselData.slice(end+1)
+    const left = document.blocks.slice(0, start)
+    const right = document.blocks.slice(end+1)
     const filtered = left.concat(right)
     return filtered
   }
 
   const mapCarouselComponents = () => {
-    return carouselData.map((block, index ) => (
+    return document.blocks.map((block, index) => (
       <TextBox 
         boxStyle="paragraph-text-box"
         key={index}
         id={index}
         uniqueid={block.id}
+        after={block.after}
         content={block.block_content}
         placeholder="Start typing"
         onRemoveClick={onRemoveParagraphClick}

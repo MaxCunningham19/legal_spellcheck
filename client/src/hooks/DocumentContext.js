@@ -18,7 +18,8 @@ export function DocumentProvider({ children }) {
 		blocks: [
       {
         id: undefined,
-        block_content: ""
+        block_content: "",
+        after: -1
       }
     ],
 		untracked: true
