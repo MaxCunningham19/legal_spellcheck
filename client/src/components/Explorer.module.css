@@ -5,7 +5,6 @@
 
     .explorer-container {
         composes: Explorer;
-        
     }
 
 

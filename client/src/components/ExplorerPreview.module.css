@@ -10,8 +10,14 @@
         align-content: flex-start;
         column-gap: 30px;
         row-gap: 30px;
-        padding: 2rem;
-        padding-top: 1rem;
+        padding: 4rem;
+        padding-top: 2rem;
+        overflow-y: scroll;
+        scrollbar-width: none;
+    }
+
+    .explorer-container::-webkit-scrollbar {
+        display: none;
     }
 
 .icon-add-component-document-icon {
@@ -22,5 +28,19 @@
     height: 192px;
 }
 
+.preview-icon-container {
+    display: flex;
+    width: 120px;
+    flex-direction: column;
+}
+
+    .minus-icon-container {
+        position: relative;
+        width: 120px;
+    }
+
+        .icon-minus-mydocuments-previews-icon {
+            composes: icon-minus-mydocuments-previews-icon from './Button.module.css';
+        }
 
 

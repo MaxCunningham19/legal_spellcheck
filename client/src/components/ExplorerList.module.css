@@ -1,0 +1,97 @@
+.ExplorerList {
+    composes: Explorer from './Explorer.module.css';
+    height: 100vh;
+}
+
+    .explorer-container {
+        composes: ExplorerList;
+        display: grid;
+        grid-template-rows: 35px 1fr;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "header"
+            "rows";
+        padding: 4rem;
+        padding-top: 2rem;
+        gap: 15px;
+    }
+
+.list-header-container {
+    grid-area: header;
+    position: sticky;
+    display: grid;
+    grid-template-columns: 1fr 150px 150px;
+    grid-template-rows: 35px;
+    grid-template-areas:
+        "title created updated";
+    align-items: center;
+    gap: 7px;
+    color: var(--text-medium-dark);
+}
+
+    .title-header {
+        grid-area: title;
+        background-color: var(--medium-background);
+        padding: 0.5rem;
+        padding-left: 1rem;
+        border-radius: 5px;
+    }
+
+    .created-header {
+        grid-area: created;
+        background-color: var(--medium-background);
+        border-radius: 5px;
+        padding: 0.5rem;
+        text-align: center;
+    }
+
+    .updated-header {
+        grid-area: updated;
+        background-color: var(--medium-background);
+        border-radius: 5px;
+        padding: 0.5rem;
+        text-align: center;
+    }
+
+.list-rows-container {
+    grid-area: rows;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.5rem;
+    gap: 12px; 
+    overflow-y: scroll;
+    margin-bottom: 10rem;
+    scrollbar-width: none;
+}
+
+    .list-rows-container::-webkit-scrollbar {
+        display: none;
+    } 
+
+.icon-add-component-document-icon {
+    composes: icon-add-component-document-icon from './Button.module.css';
+}
+
+
+
+.list-item-container {
+    display: flex;
+    flex-direction: row;
+}
+
+    .preview-link-a {
+        grid-area: link;
+        flex-grow: 1;
+        width: 25px;
+    }   
+
+    .minus-icon-container {
+        grid-area: delete;
+        align-self: center;
+    }
+
+        .icon-minus-mydocuments-list-icon {
+            composes: icon-minus-mydocuments-list-icon from './Button.module.css';
+        }
+
+

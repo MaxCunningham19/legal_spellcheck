@@ -1,8 +1,13 @@
 import React, {useState, useRef, useEffect} from 'react'
+import { useExplorerView, useExplorerViewUpdate } from '../hooks/ExplorerViewContext'
 import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext'
+import { useDeleteMode, useDeleteModeUpdate} from '../hooks/DeleteModeContext'
 import { Button } from './Button'
 import axios from 'axios'
 import styles from './Header.module.css'
+import { LoadingMessage } from './LoadingMessage'
+import { ReactComponent as GridView} from '../icons/grid-view.svg'
+import { ReactComponent as ListView} from '../icons/list-view.svg'
 
 export const TITLE_CHAR_LIMIT = 50
 
@@ -15,18 +20,27 @@ export const Header = ({
 
   const document = useDocument()
   const updateDocument = useDocumentUpdate()
-  const [saved, setSaved] = useState(false);
+  const deleteMode = useDeleteMode()
+  const updateDeleteMode = useDeleteModeUpdate()
+  const iconView = useExplorerView()
+  const updateExplorerView = useExplorerViewUpdate()
+
+  const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const titleRef = useRef()
 
-  const clickedSave = () => {
-    onSaveAll()
-    setSaved(true);
-    setMessage('All changes saved!');
+  const setLoadingMessage = (message, timeout) => {
+    setSaving(true);
+    setMessage(message);
     setTimeout(() => {
-      setSaved(false);
+      setSaving(false);
       setMessage('');
-    }, 2000);
+    }, timeout);
+  }
+
+  const handleOnClickSaveAll = () => {
+    onSaveAll()
+    setLoadingMessage("Saving document", 1000)   
   };
 
   const handleOnKeyEnter = (e) => {
@@ -40,6 +54,7 @@ export const Header = ({
   }
 
   const handleOnTitleBlur = (e, titleRef) => {
+    setLoadingMessage("Updating title", 1000)
     const newTitle = titleRef.current.value
     if (newTitle === "") putTitle("Untitled document")
     if (document.title !== newTitle) putTitle(newTitle)
@@ -48,9 +63,20 @@ export const Header = ({
   const putTitle = (newTitle) => {
     updateDocument((document) => ({...document, title: newTitle}))
     axios
-      .put(`/api/document/${document.id}`, newTitle)
-      .then((result) => { console.log(result) })
+      .put(`/api/document/${document.id}`, {title: newTitle})
+      .then((result) => { 
+        console.log(result) 
+
+      })
       .catch((error) => {}) 
+  }
+
+  const handleOnClickEdit = () => {
+    updateDeleteMode()
+  }
+
+  const handleOnClickChangeView = () => {
+    updateExplorerView()
   }
 
   return (
@@ -75,16 +101,46 @@ export const Header = ({
           { iconHeader && 
               <>
                 <div className={styles['icons-container']}>
-
+                { saving && 
+                  <LoadingMessage
+                    type="spin"
+                    color="#8BA3CC"
+                    percWidth="7%"
+                    percHeight="7%"
+                    message={message}
+                    messageStyle="header-loading"
+                  />
+                }
                 </div>
                 <div className={styles['action-container']}>
-                  <Button onClick={clickedSave} buttonStyle="actionbar-save" text="Save all"></Button>
+                  <Button onClick={handleOnClickSaveAll} buttonStyle="actionbar-save" text="Save all"></Button>
                   <Button onClick={onValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
                 </div>
               </>
           }
+          { !iconHeader &&
+              <>
+                <div className={styles['action-container-mydocuments']}>
+                  <Button 
+                    onClick={handleOnClickChangeView} 
+                    buttonStyle={"icon-header-view"} 
+                    text={"View"}
+                    icon={
+                      (iconView) 
+                      ? <GridView className={styles["icon-header-view-icon"]}/> 
+                      : <ListView className={styles["icon-header-view-icon"]} />
+                    }
+                  >  
+                  </Button>
+                  <Button 
+                    onClick={handleOnClickEdit} 
+                    buttonStyle={(deleteMode) ? "mydocuments-delete-cancel" : "mydocuments-delete-edit"} 
+                    text={(deleteMode) ? "Cancel" : "Edit"}>
+                  </Button>
+                </div>
+              </>
+          }
         </div>
-        {saved && <div className={styles['message']}>{message}</div>}      
       </header>
     </>
   )
