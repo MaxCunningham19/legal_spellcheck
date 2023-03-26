@@ -5,8 +5,6 @@ on: [ push ]
 jobs:
   django_test:
     runs-on: ubuntu-latest
-    env: 
-      AZURE_TOKEN: ${{secrets.AZURE_TOKEN}}
     steps:
       - name: Install Docker
         run: sudo apt-get -y install docker-compose curl nodejs
@@ -23,7 +21,7 @@ jobs:
         run: |
           cd docker
           sudo docker-compose up -d webserver
-          sudo docker-compose exec -T webserver bash -c '. scripts/install.sh; echo BING_API_KEY=$AZURE_TOKEN >> ~/.profile; echo -e "\nexport BING_API_KEY" >> ~/.profile; source ~/.profile; python3 manage.py test' > /tmp/django-test-result || error=1
+          sudo docker-compose exec -T webserver bash -c '. scripts/install.sh; echo BING_API_KEY=${{secrets.AZURE_TOKEN}} >> ~/.profile; echo -e "\nexport BING_API_KEY" >> ~/.profile; source ~/.profile; python3 manage.py test' > /tmp/django-test-result || error=1
           
           echo '# Django Test Output' > $GITHUB_STEP_SUMMARY
           echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
