@@ -6,28 +6,33 @@
     .editor-container {
         composes: Editor;
         display: flex;
-
+        flex-direction: row;
     }
 
 .Carousel {
-    width: 85%;
+    flex-grow: 1;
+    margin-right: 0px;
 }
 
-/*
-}.SideMistakeBar{
-    width: 15%;
 
+.SideMistakeBar{
+    flex-grow: 1;
 }
 
-.mistakeBox-container {
-    display: flex;
-    flex-direction: row;
-    padding: 5rem;
-    padding-top: 50rem;
-    margin-left: 158rem; 
-    margin-right: 3rem; 
+.button {
     margin-top: 2rem;
-    background-color: var(--passive-button);
+    width: 40px;
+    height: 50px;
+    border: none;
+    background-color: var(--text-dark);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    /* transition: all 0.5s ease-in-out; */
+  }
+  
+  .buttonShifted {
+    composes: button;
+  }
 
-}
-*/

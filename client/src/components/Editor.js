@@ -8,6 +8,12 @@ import { SideMistakeBar } from './SideMistakeBar'
 
 export const Editor = ({ blocks, forwardedRef, validateAll }) => {
 
+  const [showMistakeBar, setShowMistakeBar] = useState(false);
+
+  const toggleMistakeBar = () => {
+    setShowMistakeBar(() => !showMistakeBar);
+  }
+
   return (
     <>
       <section className={styles['Editor']}>
@@ -18,18 +24,21 @@ export const Editor = ({ blocks, forwardedRef, validateAll }) => {
             validateAll={validateAll}
             forwardedRef={forwardedRef}
           />
-          <SideMistakeBar
-            className={styles['SideMistakeBar']}
-          />
-          
+          { validateAll &&
+            <button 
+              className={(showMistakeBar) ? styles["buttonShifted"] : styles["button"]} 
+              onClick={toggleMistakeBar}
+            >
+            {showMistakeBar ? '>>' : '<<'}
+            </button>
+          }
+          { showMistakeBar &&
+            <SideMistakeBar
+              className={styles['SideMistakeBar']}
+            /> 
+          }
         </div>
-        
-
-
       </section>
-
-
-
     </>
   )
 }

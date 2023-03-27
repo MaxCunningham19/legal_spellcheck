@@ -1,43 +1,45 @@
 import React, { useState } from 'react';
+import { VictoryPie, VictoryTheme } from "victory"
 import styles from './SideMistakeBar.module.css';
 
-const SideMistakeBar = () => {
+export const SideMistakeBar = () => {
   const numOfMistakes = 55;
   const numOfMistakesPerc = 14;
   const problemParNum = [14, 23, 9, 5];
 
-  const [showMistakeBar, setShowMistakeBar] = useState(false);
-
-  const toggleMistakeBar = () => {
-    setShowMistakeBar(!showMistakeBar);
-  };
-
   return (
     <>
-      <button className={`${styles.button} ${showMistakeBar ? styles.buttonShifted : ''}`} onClick={toggleMistakeBar}>
-        {showMistakeBar ? '>>' : '<<'}
-      </button>
-      <div className={`${styles.container} ${showMistakeBar ? styles.show : ''}`}>
-        <div className={styles.wrapper}>
-          <div className={styles.title}>Mistake Report</div>
-        </div>
-        <div className={styles.label}>Total number of mistakes:</div>
-        <div className={styles.labelNoBold}>{numOfMistakes}</div>
-        <div className={styles.label}>Percentage of mistakes:</div>
-        <div className={styles.labelNoBold}>{numOfMistakesPerc}%</div>
-        <div className={styles.label}>Problem paragraphs:</div>
-        <div>
-          <div className={styles.labelNoBold}>{problemParNum.join(', ')}</div>
-        </div>
-        <div className={styles.label}>Most common mistakes:</div>
-        <div className={styles.mistakeList}>
-          <div className={styles.mistake}>Mistake 1</div>
-          <div className={styles.mistake}>Mistake 2</div>
-          <div className={styles.mistake}>Mistake 3</div>
+      <div className={styles["container"]}>
+        <div className={styles["title-container"]}>Spelling Report</div>
+        <div className={styles["body-container"]}>
+          <div className={styles["mistakes-statistics"]}>
+            <div className={styles["chart-container"]}>
+              <VictoryPie
+                padAngle={0}
+                labelComponent={<span/>}
+                innerRadius={80}
+                width={200} height={200}
+                data={[{'key': "", 'y': numOfMistakesPerc}, {'key': "", 'y': (100-numOfMistakesPerc)} ]}
+                colorScale={["#F37A32", "#172f58" ]}
+              />
+            </div>
+            <div className={styles["description-container"]}>
+              <div className={styles["description-item"]}>
+                <span className={styles["label"]}>MISTAKES</span>
+                <span className={styles["data"]}>{numOfMistakes}</span>
+              </div>
+              <div className={styles["description-item"]}>
+                <span className={styles["label"]}>ACCURACY</span>
+                <span className={styles["data"]}>{numOfMistakesPerc}</span>
+                <span className={styles["percentage"]}>%</span>
+              </div>
+            </div>
+          </div>
+          {/* <div className={styles["lists-statistics"]}>
+
+          </div> */}
         </div>
       </div>
     </>
   );
 };
-
-export {SideMistakeBar};
