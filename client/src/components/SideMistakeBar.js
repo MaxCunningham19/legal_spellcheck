@@ -15,7 +15,7 @@ const SideMistakeBar = () => {
   return (
     <>
       <button className={`${styles.button} ${showMistakeBar ? styles.buttonShifted : ''}`} onClick={toggleMistakeBar}>
-        {showMistakeBar ? 'Hide Mistake Bar' : 'Show Mistake bar'}
+        {showMistakeBar ? '>>' : '<<'}
       </button>
       <div className={`${styles.container} ${showMistakeBar ? styles.show : ''}`}>
         <div className={styles.wrapper}>

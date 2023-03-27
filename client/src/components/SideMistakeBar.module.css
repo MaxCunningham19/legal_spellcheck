@@ -67,10 +67,10 @@
 .button {
   position: absolute;
   right: 0;
-  top: 30%;
-  transform: translateY(-50%) rotate(-90deg); /* rotate the button 90 degrees clockwise */
+  top: 20%;
+  transform: translateY(-50%) ; /* rotate the button 90 degrees clockwise */
   padding: 0;
-  width: 200px; /* adjust width to fit vertically */
+  width: 40px; /* adjust width to fit vertically */
   height: 40px; /* adjust height to fit vertically */
   border: none;
   border-radius: 4px;
