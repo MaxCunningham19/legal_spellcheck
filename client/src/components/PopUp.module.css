@@ -4,9 +4,11 @@
     left: 50%;
     top: 105%;
     transform: translate(-50%, -150%);
-    width: 100px;
+    width: fit-content;
     height: 40px;
-    padding: 5px;
+    padding: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 2px;
     background-color: var(--validate-background);
 }
