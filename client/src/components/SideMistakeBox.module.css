@@ -1,0 +1,31 @@
+.mistakebox-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 200px;
+  background-color: blue;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.mistakebox-label {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.mistakebox-mistakeList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mistake {
+  font-size: 16px;
+  margin: 5px;
+}

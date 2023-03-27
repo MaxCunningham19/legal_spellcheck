@@ -66,16 +66,19 @@ export const Carousel = ({ data, validateAll, forwardedRef }) => {
   return (
     <>
       <section className={styles['Carousel']}>
-        <div className={styles['carousel-container']} ref={forwardedRef}>
-          { mapCarouselComponents() }
-          <Button 
-            buttonStyle="icon-add-component-textarea" 
-            onClick={onAddParagraphClick}
-            text="Click to add paragraph" 
-            icon={<PlusIcon className={styles['icon-add-component-textarea-icon']} />}
-          />
+          <div className={styles['carousel-container']} ref={forwardedRef}>
+            { mapCarouselComponents() }
+            <Button 
+              buttonStyle="icon-add-component-textarea" 
+              onClick={onAddParagraphClick}
+              text="Click to add paragraph" 
+              icon={<PlusIcon className={styles['icon-add-component-textarea-icon']} />}
+            />
+          </div>
+          <div className={styles['mistakeBox-container']}>
         </div>
       </section>
+
     </>
   )
 }

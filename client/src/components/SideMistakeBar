@@ -1,0 +1,17 @@
+import React from 'react'
+import styles from './SideMistakeBar.module.css'
+
+export const SideMistakeBar = ({
+    
+}) => {
+    return (
+        <div className={styles.container}>
+        <div className={styles.label}>Mistakes</div>
+        <div className={styles.mistakeList}>
+          <div className={styles.mistake}>Mistake 1</div>
+          <div className={styles.mistake}>Mistake 2</div>
+          <div className={styles.mistake}>Mistake 3</div>
+        </div>
+      </div>
+    )
+}
