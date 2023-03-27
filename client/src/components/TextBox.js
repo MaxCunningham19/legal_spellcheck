@@ -14,13 +14,10 @@ export const TextBox = ({
     uniqueid,
     after,
     content,
-    onChangeInput,
+    mistakes,
     onRemoveClick,
     onValidateClick,
-    placeholder,
-    validate,
-    save,
-    forwardedRef
+    placeholder
 }) => {
 
     const document = useDocument()
@@ -28,18 +25,15 @@ export const TextBox = ({
     
     const [isHovering, setIsHovering] = useState(false)
     const [onFocus, setOnFocus] = useState(false)
-    const [isSaved, setIsSaved] = useState(save)
-    const [isValidated, setIsValidated] = useState(validate)
+    const [isValidated, setIsValidated] = useState(true)
     const textAreaRef = useRef()
     const [uniqueId, setUniqueId] = useState("")
     
     useEffect(() => {
-      setIsValidated(() => validate)
-    },[validate])
-
-    useEffect(() => {
-      setIsSaved(() => save)
-    },[save])
+      if (mistakes === undefined) return
+      if (mistakes.length > 0) setIsValidated(() => true)
+      else setIsValidated(() => false)
+    },[mistakes])
 
     useEffect(() => {
       setUniqueId(() => uniqueid)
@@ -132,14 +126,15 @@ export const TextBox = ({
             <div className={styles[boxStyle + "-text-container"]}>
               <span contentEditable
                 suppressContentEditableWarning={true}
+                spellCheck={false}
                 className={styles['textarea']}    
                 placeholder={placeholder}
                 ref={textAreaRef}
-                onInput={(e) => {onChangeInput(e, id)}}
               >
-                { isValidated
+                { (isValidated && mistakes !== undefined)
                   ? <MistakeHighlighter
                       text={content}
+                      mistakes={mistakes}
                     />
                   : content
                 }

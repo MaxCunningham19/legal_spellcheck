@@ -55,6 +55,7 @@ export const Carousel = ({ data, validateAll, forwardedRef }) => {
         uniqueid={block.id}
         after={block.after}
         content={block.block_content}
+        mistakes={block.mistakes}
         placeholder="Start typing"
         onRemoveClick={onRemoveParagraphClick}
         validate={validateAll && true}

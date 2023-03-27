@@ -1,0 +1,9 @@
+.highlight {
+    background-color: var(--action-font);
+    display: inline-block;
+    border-radius: 2px;
+}
+
+.highlight:hover {
+  background-color: var(--action-button);
+}

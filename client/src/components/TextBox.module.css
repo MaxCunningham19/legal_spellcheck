@@ -28,9 +28,7 @@
             }
 
 .textarea {
-    grid-area: textarea;
     border: none;
-    height: fit-content;
     font-family: inherit;
     background-color: inherit;
     font-size: 17px;
