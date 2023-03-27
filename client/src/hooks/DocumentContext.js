@@ -22,7 +22,7 @@ export function DocumentProvider({ children }) {
         after: -1
       }
     ],
-		untracked: true
+		untracked: true,
 	})
 
   function updateDocument(newDocument) {

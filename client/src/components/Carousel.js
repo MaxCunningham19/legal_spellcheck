@@ -5,7 +5,7 @@ import TextBox from './TextBox'
 import { ReactComponent as PlusIcon } from "../icons/plus.svg"
 import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext'
 
-export const Carousel = ({ data, validateAll, forwardedRef }) => {
+export const Carousel = ({ data, onValidateClick, forwardedRef, validateAll }) => {
 
   const [carouselData, setCarouselData] = useState(data)
   const textAreaRef = useRef(null)
@@ -55,10 +55,11 @@ export const Carousel = ({ data, validateAll, forwardedRef }) => {
         uniqueid={block.id}
         after={block.after}
         content={block.block_content}
+        mistakes={block.mistakes}
         placeholder="Start typing"
         onRemoveClick={onRemoveParagraphClick}
-        validate={validateAll && true}
-        forwardedRef={textAreaRef}
+        onValidateClick={onValidateClick}
+        validateAll={validateAll}
       /> 
     ))
   }

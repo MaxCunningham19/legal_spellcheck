@@ -1,3 +1,7 @@
+.mistake-container {
+  position: relative;
+}
+
 .highlight {
     background-color: var(--action-font);
     display: inline-block;

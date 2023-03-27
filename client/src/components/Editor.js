@@ -6,7 +6,7 @@ import axios from 'axios'
 import styles from './Editor.module.css'
 import { SideMistakeBar } from './SideMistakeBar'
 
-export const Editor = ({ blocks, forwardedRef, validateAll }) => {
+export const Editor = ({ blocks, onValidateClick, forwardedRef, validateAll }) => {
 
   const [showMistakeBar, setShowMistakeBar] = useState(false);
 
@@ -21,8 +21,9 @@ export const Editor = ({ blocks, forwardedRef, validateAll }) => {
           <Carousel 
             className={styles['Carousel']} 
             data={blocks}
-            validateAll={validateAll}
+            onValidateClick={onValidateClick}
             forwardedRef={forwardedRef}
+            validateAll={validateAll}
           />
           { validateAll &&
             <button 

@@ -43,6 +43,11 @@ export const Header = ({
     setLoadingMessage("Saving document", 1000)   
   };
 
+  const handleOnClickValidateAll = () => {
+    onValidateAll()
+    setLoadingMessage("Validating", 1500)
+  }
+
   const handleOnKeyEnter = (e) => {
     if (e.keyCode === 13) {
       e.target.blur()
@@ -114,7 +119,7 @@ export const Header = ({
                 </div>
                 <div className={styles['action-container']}>
                   <Button onClick={handleOnClickSaveAll} buttonStyle="actionbar-save" text="Save all"></Button>
-                  <Button onClick={onValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
+                  <Button onClick={handleOnClickValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
                 </div>
               </>
           }

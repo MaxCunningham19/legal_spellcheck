@@ -13,24 +13,22 @@ export function EditorPage() {
     const document = useDocument()
     const updateDocument = useDocumentUpdate()
 
-    useEffect(() => {
-      console.log(document);
-    }, [document])
-
     const carouselRef = useRef(null)
     const [validateAll, setValidateAll] = useState(false)
 
     const handleOnValidateAll = () => {
+      setTimeout(() => updateBlocks(), 500)
+      setTimeout(() => checkDocument(), 1000)
       setValidateAll(true)
+    }
+
+    const handleOnValidateBlock = (e, id) => {
+      setTimeout(() => updateBlocks(), 500)
+      setTimeout(() => checkDocument(), 1000)
     }
 
     const handleOnSaveAll = () => {
       setTimeout(() => updateBlocks(), 500)
-    }
-
-    const postOrPut = (document) => {
-      if (document.untracked) postDocument(document)
-      else putDocument(document)
     }
 
     const updateBlocks = () => {
@@ -44,6 +42,11 @@ export function EditorPage() {
         updatedDocument = {...prevDocument, untracked: false}
         return updatedDocument
       })
+    }
+
+    const postOrPut = (document) => {
+      if (document.untracked) postDocument(document)
+      else putDocument(document)
     }
 
     const mapInnerTextsToBlocks = (children) => {
@@ -69,7 +72,6 @@ export function EditorPage() {
     }
 
     const postDocument = (document) => {
-      console.log(document);
       const data = { documents: [{
         ...document, 
         title: (document.title !== "") ? document.title : "Untitled document",
@@ -96,8 +98,37 @@ export function EditorPage() {
       }
       axios
         .put(`/api/document/${document.id}`, data)
-        .then((result) => { updateDocument(() => result.data) })
+        .then((result) => { 
+          updateDocument(() => (result.data))    // TODO: solves DOM bug but breaks post untracked paragraphs
+        })
         .catch((error) => {}) 
+    }
+
+    const checkDocument = () => {
+      axios
+        .get(`/api/check/document/${document.id}`)
+        .then((result) => { 
+          updateDocument((document) => ({
+            ...document, blocks: setMistakes(document.blocks, result.data)
+          }))
+        })
+        .catch((error) => console.log(error))
+    }
+
+    const setMistakes = (blocks, mistakes) => {
+      let newBlocks = []
+      let block, mistake
+      for (let b = 0; b < blocks.length; b++) {
+        block = blocks[b]
+        for (let m = 0; m < mistakes.length; m++) {
+          mistake = mistakes[m]
+          if (block.block_order === mistake.block_order) {
+            newBlocks.push({...block, mistakes: mistake.mistakes })
+            break
+          }
+        }
+      }
+      return newBlocks
     }
 
     return (
@@ -117,8 +148,9 @@ export function EditorPage() {
             <Editor 
               className={styles['Editor']}
               blocks={document.blocks}
-              validateAll={validateAll}
+              onValidateClick={handleOnValidateBlock}
               forwardedRef={carouselRef}
+              validateAll={validateAll}
             /> 
           </div>
         </>
