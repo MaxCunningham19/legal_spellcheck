@@ -14,7 +14,7 @@ const SideMistakeBar = () => {
 
   return (
     <>
-      <button className={`${styles.button} ${showMistakeBar ? styles.buttonOpen : ''}`} onClick={toggleMistakeBar}>
+      <button className={`${styles.button} ${showMistakeBar ? styles.buttonShifted : ''}`} onClick={toggleMistakeBar}>
         {showMistakeBar ? 'Hide Mistake Bar' : 'Show Mistake bar'}
       </button>
       <div className={`${styles.container} ${showMistakeBar ? styles.show : ''}`}>
@@ -39,6 +39,5 @@ const SideMistakeBar = () => {
     </>
   );
 };
-
 
 export {SideMistakeBar};

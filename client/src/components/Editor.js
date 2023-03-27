@@ -20,7 +20,6 @@ export const Editor = ({ blocks, forwardedRef, validateAll }) => {
           />
           <SideMistakeBar
             className={styles['SideMistakeBar']}
-
           />
           
         </div>

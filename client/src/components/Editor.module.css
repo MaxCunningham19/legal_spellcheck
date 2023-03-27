@@ -6,7 +6,6 @@
     .editor-container {
         composes: Editor;
         display: flex;
-        flex-direction: row;
 
     }
 
@@ -14,7 +13,8 @@
     width: 85%;
 }
 
-.SideMistakeBar{
+/*
+}.SideMistakeBar{
     width: 15%;
 
 }
@@ -30,4 +30,4 @@
     background-color: var(--passive-button);
 
 }
-
+*/
