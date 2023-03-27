@@ -1,0 +1,15 @@
+.highlight {
+    background-color: var(--action-font);
+    display: inline-block;
+    border-radius: 2px;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  0% { background-color: transparent; }
+  100% { background-color: var(--action-font);}
+}
+
+.highlight:hover {
+  background-color: var(--action-button);
+}

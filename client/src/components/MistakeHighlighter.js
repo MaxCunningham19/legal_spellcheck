@@ -3,8 +3,6 @@ import { Mistake } from './Mistake'
 import styles from './MistakeHighlighter.module.css'
 
 export const MistakeHighlighter= ({ text, mistakes }) => {
-
-  const highlightedSpans = useRef(null)
   
   let treshold = 0
 

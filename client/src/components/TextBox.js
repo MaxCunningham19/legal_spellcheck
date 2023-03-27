@@ -17,7 +17,8 @@ export const TextBox = ({
     mistakes,
     onRemoveClick,
     onValidateClick,
-    placeholder
+    placeholder,
+    validateAll
 }) => {
 
     const document = useDocument()
@@ -25,19 +26,18 @@ export const TextBox = ({
     
     const [isHovering, setIsHovering] = useState(false)
     const [onFocus, setOnFocus] = useState(false)
-    const [isValidated, setIsValidated] = useState(true)
+    const [isValidated, setIsValidated] = useState(false)
     const textAreaRef = useRef()
     const [uniqueId, setUniqueId] = useState("")
-    
-    useEffect(() => {
-      if (mistakes === undefined) return
-      if (mistakes.length > 0) setIsValidated(() => true)
-      else setIsValidated(() => false)
-    },[mistakes])
 
     useEffect(() => {
       setUniqueId(() => uniqueid)
     }, [uniqueid])
+
+    const handleOnValidateClick = () => {
+      onValidateClick()
+      setTimeout(() => setIsValidated(() => true), 500)
+    }
 
     const handleMouseOver = () => {
       setIsHovering(true)
@@ -70,7 +70,7 @@ export const TextBox = ({
       else putBlock(newContent)
     }
 
-    const postBlock = (content) => {                  // TODO: figuring out what's the best/safest way to do this
+    const postBlock = (content) => {
       if (document.untracked) return
       if (after === -1) postAtBeginning(content)
       else postAfter(content)
@@ -84,7 +84,6 @@ export const TextBox = ({
           block_document: document.id
         })
         .then((result) => {
-          console.log(result.data.id);
           setUniqueId(() => result.data.id)
         })
         .catch((error) => {})
@@ -94,7 +93,6 @@ export const TextBox = ({
       axios
         .post(`/api/document/${document.id}/0`, content)
         .then((result) => {
-          console.log(result.data.id);
           setUniqueId(() => result.data.id)
         })
         .catch((error) => {})
@@ -131,7 +129,7 @@ export const TextBox = ({
                 placeholder={placeholder}
                 ref={textAreaRef}
               >
-                { (isValidated && mistakes !== undefined)
+                { (isValidated || validateAll) && mistakes !== undefined
                   ? <MistakeHighlighter
                       text={content}
                       mistakes={mistakes}
@@ -151,7 +149,7 @@ export const TextBox = ({
               {(onFocus && !document.untracked) && (
                 <Button 
                   buttonStyle="icon-single-textbox" 
-                  onClick={(e) => onValidateClick(e, id)}
+                  onClick={(e) => handleOnValidateClick(e, uniqueid)}
                   icon={<ValidateOutline className={styles['icon-single-textbox-icon-active']} />}
                 />
               )}

@@ -13,14 +13,16 @@ export function EditorPage() {
     const document = useDocument()
     const updateDocument = useDocumentUpdate()
 
-    useEffect(() => {
-      console.log(document);
-    }, [document])
-
     const carouselRef = useRef(null)
     const [validateAll, setValidateAll] = useState(false)
 
     const handleOnValidateAll = () => {
+      setTimeout(() => updateBlocks(), 500)
+      setTimeout(() => checkDocument(), 1000)
+      setValidateAll(true)
+    }
+
+    const handleOnValidateBlock = (e, id) => {
       setTimeout(() => updateBlocks(), 500)
       setTimeout(() => checkDocument(), 1000)
     }
@@ -70,7 +72,6 @@ export function EditorPage() {
     }
 
     const postDocument = (document) => {
-      console.log(document);
       const data = { documents: [{
         ...document, 
         title: (document.title !== "") ? document.title : "Untitled document",
@@ -97,7 +98,9 @@ export function EditorPage() {
       }
       axios
         .put(`/api/document/${document.id}`, data)
-        .then((result) => { updateDocument(() => result.data) })
+        .then((result) => { 
+          updateDocument(() => (result.data))    // TODO: solves DOM bug but breaks post untracked paragraphs
+        })
         .catch((error) => {}) 
     }
 
@@ -145,7 +148,9 @@ export function EditorPage() {
             <Editor 
               className={styles['Editor']}
               blocks={document.blocks}
+              onValidateClick={handleOnValidateBlock}
               forwardedRef={carouselRef}
+              validateAll={validateAll}
             /> 
           </div>
         </>
