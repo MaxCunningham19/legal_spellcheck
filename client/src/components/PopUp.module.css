@@ -1,0 +1,28 @@
+.popup-container {
+    position: absolute;
+    z-index: 9999;
+    left: 50%;
+    top: 105%;
+    transform: translate(-50%, -150%);
+    width: 100px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 2px;
+    background-color: var(--validate-background);
+}
+
+.popup-description {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: gray;
+    margin-bottom: 2px;
+}
+
+.popup-suggestion {
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
