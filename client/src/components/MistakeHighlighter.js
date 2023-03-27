@@ -7,12 +7,13 @@ export const MistakeHighlighter= ({ text, mistakes }) => {
   let treshold = 0
 
   const mapFragments = () => {
-    return mistakes.map(({ start, end }) => {
+    return mistakes.map(({ word, start, end, suggestions }) => {
       const newFragment = (
         <>
           {text.substring(treshold, start)}
           <Mistake
             text={text.substring(start, end)}
+            suggestion={parseSuggestions(suggestions, word)}
           />
         </>
       )
@@ -21,8 +22,16 @@ export const MistakeHighlighter= ({ text, mistakes }) => {
     })
   }
 
-
-
+  /** Makes sure that suggestion do not end with punctuation symbols */
+  const parseSuggestions = (suggestions, word) => {
+    if (suggestions[0] === undefined) return word
+    let firstSuggestion = suggestions[0]
+    let filterEndingWithSymbols = /[.,:!?]$/
+    if (!!firstSuggestion.match(filterEndingWithSymbols)) {
+      firstSuggestion = firstSuggestion.substring(0, firstSuggestion.length-1)
+    }
+    return firstSuggestion
+  }
 
   return (
     <>
