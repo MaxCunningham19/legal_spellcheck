@@ -2,7 +2,6 @@
     composes: Carousel from './Editor.module.css';
     
 }
-
     .carousel-container {
         composes: Carousel;
         display: flex;
@@ -13,23 +12,7 @@
         margin-right: 15rem; 
     }
 
-    .MistakeBox {
-        composes: MistakeBox from './Editor.module.css';
-    }
-    
-        .mistakeBox-container {
-            composes: MistakeBox;
-            display: flex;
-            flex-direction: row;
-            padding: 5rem;
-            padding-top: 50rem;
-            margin-left: 158rem; 
-            margin-right: 3rem; 
-            margin-top: 2rem;
-            background-color: var(--passive-button);
-
-        }
-
+     
 
 .icon-add-component-textarea-icon {
     composes: icon-add-component-textarea-icon from './Button.module.css';

@@ -74,11 +74,8 @@ export const Carousel = ({ data, validateAll, forwardedRef }) => {
               text="Click to add paragraph" 
               icon={<PlusIcon className={styles['icon-add-component-textarea-icon']} />}
             />
-          </div>
-          <div className={styles['mistakeBox-container']}>
-        </div>
+          </div>       
       </section>
-
     </>
   )
 }

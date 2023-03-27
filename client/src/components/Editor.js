@@ -4,6 +4,7 @@ import { Button } from './Button'
 import Carousel from './Carousel'
 import axios from 'axios'
 import styles from './Editor.module.css'
+import { SideMistakeBar } from './SideMistakeBar'
 
 export const Editor = ({ blocks, forwardedRef, validateAll }) => {
 
@@ -17,8 +18,19 @@ export const Editor = ({ blocks, forwardedRef, validateAll }) => {
             validateAll={validateAll}
             forwardedRef={forwardedRef}
           />
+          <SideMistakeBar
+            className={styles['SideMistakeBar']}
+
+          />
+          
         </div>
+        
+
+
       </section>
+
+
+
     </>
   )
 }

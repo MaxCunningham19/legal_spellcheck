@@ -5,14 +5,29 @@
 
     .editor-container {
         composes: Editor;
-        
+        display: flex;
+        flex-direction: row;
+
     }
 
 .Carousel {
-    
+    width: 85%;
 }
 
-.MistakeBox{
-    
+.SideMistakeBar{
+    width: 15%;
+
+}
+
+.mistakeBox-container {
+    display: flex;
+    flex-direction: row;
+    padding: 5rem;
+    padding-top: 50rem;
+    margin-left: 158rem; 
+    margin-right: 3rem; 
+    margin-top: 2rem;
+    background-color: var(--passive-button);
+
 }
 
