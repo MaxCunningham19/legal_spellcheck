@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { VictoryPie, VictoryTheme } from "victory"
 import { Button } from './Button'
 import { ReactComponent as CloseIcon } from "../icons/close.svg"
@@ -11,6 +11,7 @@ export const SideMistakeBar = ({ isCompact, toggleMode }) => {
   const [mistakesNumber, setMistakesNumber] = useState(0)
   const [percAccuracy, setPercAccuracy] = useState(100)
   const [blockScores, setBlockScores] = useState([])
+  const [commonMistakes, setCommonMistakes] = useState([])
 
   const document = useDocument()
 
@@ -21,10 +22,7 @@ export const SideMistakeBar = ({ isCompact, toggleMode }) => {
   const computeStatistics = () => {
     setMistakesNumber(() => computeMistakeNumber())
     setPercAccuracy(() => computeAccuracy())
-    /* TODO: functions for more analytics
-    setBlockScores(() => attachParagraphContent())
-    setBlockScores(() => sortBlockScores()) 
-    */
+    setCommonMistakes(() => computeMostCommonMistakes())
   }
 
   const computeMistakeNumber = () => {
@@ -71,17 +69,41 @@ export const SideMistakeBar = ({ isCompact, toggleMode }) => {
     return Math.floor(sum / blockScores.length)
   }
 
-  const sortBlockScores = () => {
-    return blockScores.sort(function(a, b) {
-      return (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0)
+  const computeMostCommonMistakes = () => {
+    let words = []
+    let mostCommon = []
+    document.mistakes.map((block) => {
+      block.mistakes.map((mistake) => {
+        words.push(mistake.word)
+      })
     })
+    for (let i = 0; i < words.length; i++) {
+      let occurrences = 0
+      for (let j = 0; j < words.length; j++) {
+        if (words[i] === words[j]) {
+          occurrences++
+        }
+      }
+      mostCommon.push({ word: words[i], occurrences: occurrences })
+    }
+    mostCommon = mostCommon.filter((item, index) => {
+      let firstIndex = mostCommon.map(item => item.word).indexOf(item.word)
+      return index === firstIndex
+    })
+    mostCommon = mostCommon.sort((a, b) => b.occurrences - a.occurrences)
+    return mostCommon
+  }
+
+  const sortBlockScores = () => {
+
+    /* return blockScores.sort(function(a, b) {
+      return (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0)
+    }) */
   }
 
   const attachParagraphContent = () => {
     if (blockScores.length < 1) return blockScores
     return blockScores.map((score, index) => {
-      console.log(score);
-      console.log(document.blocks[index]);
       return {score: score, content: document.blocks[index]}
     })
   }
@@ -185,11 +207,37 @@ export const SideMistakeBar = ({ isCompact, toggleMode }) => {
                 </div>
               </div>
             </div>
+            <div className={styles["lists-statistics"]}>
+              <div className={styles["list-title"]}>MOST COMMON MISTAKES</div>
+              <div className={styles["list-items-container"]}>
+                { (commonMistakes[0] !== undefined) && 
+                  <div className={styles["list-item"]}>
+                    <span className={styles["number"]}>#{commonMistakes[0].occurrences}</span>
+                    <span className={styles["word"]}>{commonMistakes[0].word}</span>
+                  </div>
+                }
+                { (commonMistakes[1] !== undefined) &&
+                  <div className={styles["list-item"]}>
+                    <span className={styles["number"]}>#{commonMistakes[1].occurrences}</span>
+                    <span className={styles["word"]}>{commonMistakes[1].word}</span>
+                  </div>
+                }
+                { (commonMistakes[2] !== undefined) &&
+                  <div className={styles["list-item"]}>
+                    <span className={styles["number"]}>#{commonMistakes[2].occurrences}</span>
+                    <span className={styles["word"]}>{commonMistakes[2].word}</span>
+                  </div>
+                }
+                {/* {(commonMistakes[0] !== undefined) && <div><span>#1</span><span>{commonMistakes[0].word}</span></div>}
+                {(commonMistakes[1] !== undefined) && <div><span>#2</span><span>{commonMistakes[1].word}</span></div>}
+                {(commonMistakes[2] !== undefined) && <div><span>#3</span><span>{commonMistakes[2].word}</span></div>} */}
+              </div>
+            </div>
             {/* <div className={styles["lists-statistics"]}>
-              <div className={styles["list-title"]}>MOST PROBLEMATIC PARAGRAPHS</div>
-              {(blockScores[0] !== undefined) && <div><span>#1</span><span>{blockScores[0].content}</span></div>}
-              {(blockScores[1] !== undefined) && <div><span>#2</span><span>{blockScores[1].content}</span></div>}
-              {(blockScores[2] !== undefined) && <div><span>#3</span><span>{blockScores[2].content}</span></div>}
+              <div className={styles["list-title"]}>MOST COMMON PARAGRAPHS</div>
+              {(blockScores[0] !== undefined) && <div><span>#1</span><span>{blockScores[0]}</span></div>}
+              {(blockScores[1] !== undefined) && <div><span>#2</span><span>{blockScores[1]}</span></div>}
+              {(blockScores[2] !== undefined) && <div><span>#3</span><span>{blockScores[2]}</span></div>}
             </div> */}
           </div>
         </div>
