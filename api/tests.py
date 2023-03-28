@@ -24,6 +24,21 @@ class ApiTester(TestCase):
         },
         'Test Document 3':{
             'blocks' : []
+        },
+        'The Big Bad':{
+            'blocks' : [
+                "Ther once was a froh that  liked to eat jamacian peeple in the summer", 
+                "while the robot people killd all of the clocks in their village for no", 
+                "reason but then the frogs asked what the dogs were doing and that they were looking pretty sus,",
+                " so we then went to the store to buy some milk but then I found out that I forgot that I was",
+                "laktoes intallerant so we had pissa but because there was chese I had to empty my bowles in the toilet cause I laktoes.",
+                "In the ccity there are 26 disricts with each district being nubered from one to twenty six.", 
+                "In each district there is a masjor corperation which is also labeld from A to Z in correspondance ",
+                "to the districts and what makes these corparations so big and succsessful is their own unique singuarity,",
+                "a piece of ttechrology that only that corporotion can provide. For example the W carporaion is called ",
+                "W.A.R.P corp because its singularity is instantanious telportation, so they monitise it by runnng and ",
+                "instant train service where they warp trains"
+            ]
         }
     }
     post_docs = {
@@ -146,6 +161,20 @@ class ApiTester(TestCase):
         self.assertEquals(data[1]['mistakes'][1]['word'], 'senence')
         self.assertEquals(data[1]['mistakes'][2]['word'], 'haas')
         self.assertEquals(data[1]['mistakes'][3]['word'], 'wrds')
+        
+    def test_document_spellcheck_block_limit(self):
+        document = self.create_document_from_template('The Big Bad')
+        limit = document.blocklimit()
+        self.assertEquals(limit, 11)
+        
+    def test_document_spellcheck(self):
+        document = self.create_document_from_template('The Big Bad')
+        mistakes = document.spellcheck()
+        self.assertEquals(len(mistakes), 31)
+        self.assertEquals(mistakes[0].word, 'Ther')
+        self.assertEquals(mistakes[1].word, 'froh')
+        self.assertEquals(mistakes[2].word, 'jamacian')
+        
         
     def test_add_document(self):
         response = self.client.post(reverse('api:add_documents'), data=self.post_docs, content_type='application/json')

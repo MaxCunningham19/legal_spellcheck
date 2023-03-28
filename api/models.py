@@ -6,6 +6,30 @@ class Document(models.Model):
     title = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def spellcheck(self) -> list[spellcheck.Mistake]:
+        limit =  self.blocklimit()
+        content = ""
+        # Retrieve all the blocks that belong to the document
+        for order in Block.objects.filter(block_document=self):
+            if order.block_order <= limit:
+                content += order.block_content
+
+        return spellcheck.check(content)
+    
+    def blocklimit(self) -> int:
+        wordcount = 0
+        order = 0
+        # Retrieve all the blocks that belong to the document
+        for block in Block.objects.filter(block_document=self):
+            wordcount += len(block.block_content)
+            order += 1
+            if wordcount >= 10000:#if over the word count it will go back a block and return
+                order -= 1
+                return order
+        
+        return order
+
 
     def __str__(self):
         return self.title
