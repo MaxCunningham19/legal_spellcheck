@@ -6,7 +6,7 @@ import { SideMistakeBar } from './SideMistakeBar'
 
 export const Editor = ({ blocks, onValidateClick, forwardedRef, validateAll }) => {
 
-  const [isCompact, setIsCompact] = useState(false)
+  const [isCompact, setIsCompact] = useState(true)
   const [showMistakeBar, setShowMistakeBar] = useState(false)
 
   useEffect(() => {
