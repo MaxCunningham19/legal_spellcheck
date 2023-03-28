@@ -10,6 +10,10 @@ export const Editor = ({ blocks, onValidateClick, forwardedRef, validateAll }) =
 
   const [showMistakeBar, setShowMistakeBar] = useState(false);
 
+  useEffect(() => {
+    if (validateAll === true) setShowMistakeBar(true)
+  }, [validateAll])
+
   const toggleMistakeBar = () => {
     setShowMistakeBar(() => !showMistakeBar);
   }
@@ -33,7 +37,7 @@ export const Editor = ({ blocks, onValidateClick, forwardedRef, validateAll }) =
             {showMistakeBar ? '>>' : '<<'}
             </button>
           }
-          { showMistakeBar &&
+          { (showMistakeBar) &&
             <SideMistakeBar
               className={styles['SideMistakeBar']}
             /> 

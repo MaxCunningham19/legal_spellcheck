@@ -109,7 +109,7 @@ export function EditorPage() {
         .get(`/api/check/document/${document.id}`)
         .then((result) => { 
           updateDocument((document) => ({
-            ...document, blocks: setMistakes(document.blocks, result.data)
+            ...document, mistakes: result.data, blocks: setMistakes(document.blocks, result.data)
           }))
         })
         .catch((error) => console.log(error))
