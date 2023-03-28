@@ -18,9 +18,10 @@ jobs:
           cd docker
           sudo docker-compose build
       - name: Run Django Tests
+        env:
+          BING_API_KEY: "${{secrets.AZURE_TOKEN}}"
         run: |
           cd docker
-          export BING_API_KEY="${{secrets.AZURE_TOKEN}}"
           echo Length of API key is: ${#BING_API_KEY}
           sudo -E docker-compose up -d webserver
           sudo docker-compose exec -T webserver bash -c '. scripts/install.sh; python3 manage.py test' > /tmp/django-test-result || error=1
