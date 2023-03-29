@@ -3,7 +3,7 @@
 ## Connecting to the database:
 
 1. Open Docker Desktop and leave it running in the background.
-2. In Shell, move directory to ~/legal_spellcheck# and execute the following commands: 
+2. In Shell, move directory to ~/legal_spellcheck# and execute the following commands (you can find them in test.sh):
     #### cd docker
     #### sudo docker-compose build
     #### sudo docker-compose up -d webserver
@@ -27,3 +27,5 @@ NOTE:
     #### curl -X POST -H 'Content-Type: application/json' --data "@client/src/data/FILENAME.json" localhost:8080/api/documents/ > debug.html
 
 4. Refresh the browser page you've opened previously. You should see your file uploaded to the page.
+
+For more information regarding docker setup and running servers, please refer to the documentation provided in ~/docker/README.md
