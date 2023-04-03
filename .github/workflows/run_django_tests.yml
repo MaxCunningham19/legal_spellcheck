@@ -27,12 +27,12 @@ jobs:
           sudo docker-compose exec -T webserver bash -c '. scripts/install.sh; python3 manage.py test' > /tmp/django-test-result || error=1
           
           echo '# Django Test Output' > $GITHUB_STEP_SUMMARY
-          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           cat /tmp/django-test-result >> $GITHUB_STEP_SUMMARY
-          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           
           echo '# Webserver Output' >> $GITHUB_STEP_SUMMARY
-          echo '\`\`\`\' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           docker-compose logs webserver >> $GITHUB_STEP_SUMMARY
-          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           exit $error

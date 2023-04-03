@@ -19,7 +19,7 @@ RUN PATH=$PATH:node_modules/.bin webpack
 # production bundle.
 FROM $BUNDLE-bundle as final-bundle
 
-From alpine:latest AS setup-venv
+FROM alpine:latest AS setup-venv
 WORKDIR /var/www/apache
 COPY scripts/setup-venv.sh ./scripts/setup-venv.sh
 RUN apk add py3-pip python3 && sh ./scripts/setup-venv.sh
@@ -37,6 +37,7 @@ COPY --from=final-bundle \
     /var/www/apache/static/client/js/main.js \
     ./static/client/js/main.js
 COPY scripts ./scripts
+ENV BING_API_KEY=$BING_API_KEY
 COPY manage.py ./manage.py
 COPY server ./server
 COPY client ./client

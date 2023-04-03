@@ -1,3 +1,4 @@
+source ~/.bashrc
 mkdir -p static/client/js
 touch static/client/js/main.js
 cd docker
