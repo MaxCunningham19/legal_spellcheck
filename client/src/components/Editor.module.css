@@ -5,10 +5,17 @@
 
     .editor-container {
         composes: Editor;
-        
+        display: flex;
+        flex-direction: row;
     }
 
 .Carousel {
-    
+    flex-grow: 1;
+    margin-right: 0px;
+}
+
+
+.SideMistakeBar{
+    flex-grow: 1;
 }
 

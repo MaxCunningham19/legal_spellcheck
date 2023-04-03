@@ -1,11 +1,21 @@
 import React, {useState, useRef, useEffect} from 'react'
-import { useDocument, useDocumentUpdate } from '../hooks/DocumentContext'
-import { Button } from './Button'
 import Carousel from './Carousel'
 import axios from 'axios'
 import styles from './Editor.module.css'
+import { SideMistakeBar } from './SideMistakeBar'
 
 export const Editor = ({ blocks, onValidateClick, forwardedRef, validateAll }) => {
+
+  const [isCompact, setIsCompact] = useState(true)
+  const [showMistakeBar, setShowMistakeBar] = useState(false)
+
+  useEffect(() => {
+    if (validateAll === true) setTimeout(() => setShowMistakeBar(true), 1500)
+  }, [validateAll])
+
+  const toggleMode = () => {
+    setIsCompact(() => !isCompact);
+  }
 
   return (
     <>
@@ -18,6 +28,13 @@ export const Editor = ({ blocks, onValidateClick, forwardedRef, validateAll }) =
             forwardedRef={forwardedRef}
             validateAll={validateAll}
           />
+          { (showMistakeBar) &&
+            <SideMistakeBar
+              className={styles['SideMistakeBar']}
+              isCompact={isCompact}
+              toggleMode={toggleMode}
+            /> 
+          }
         </div>
       </section>
     </>
