@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set BING token
+        env:
+          BING_API_KEY: "${{ secrets.AZURE_TOKEN }}"
+          
       - name: Check Out Repo 
         uses: actions/checkout@v2
 
