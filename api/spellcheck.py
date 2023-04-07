@@ -1,12 +1,25 @@
-import json
 import time
 import requests
 import os
-import spellcheck_constants as const
+from . import spellcheck_constants as const
 
+class Suggestion():
+    def __init__(self, word: str, score: float):
+        self.word = word
+        '''
+        The word being suggested
+        '''
+        
+        self.score = score
+        '''
+        The confidence in suggestion. Ranges from 0 to 1
+        '''
+
+    def __repr__(self) -> str:
+        return str(self.__dict__)
 
 class Mistake():
-    def __init__(self, word: str, location: int, suggestions: list[str]):
+    def __init__(self, word: str, location: int, suggestions: list[Suggestion]):
         self.word = word
         '''
         The actual word that was misspelt.
@@ -30,11 +43,8 @@ class Mistake():
     def __repr__(self) -> str:
         return str(self.__dict__)
 
-
 def get_key():
-    key = os.environ.get('BING_API_KEY')
-    return key
-
+    return os.environ.get('BING_API_KEY')
 
 def check(content: str) -> list[Mistake]:
     '''
@@ -42,57 +52,27 @@ def check(content: str) -> list[Mistake]:
     the errors in that string.
     '''
     time.sleep(0.33334)  # Limits us to our rate on MS Azure
-    api_key = get_key()  # get key from Key Vault or ENV variables
 
-    # initalise variables to format response from Spellcheck API
-    mistakes = []
-    mistakes_position = []  # position of the mistakes
-    object_mistakes = []
-    suggestions = []
-    sugg = []
-    position = []  # used for for loop
-    count = 0  # used for indexing
-
-    # Set query parameters (required for the POST request to the spell check endpoint)
-    params = {
-        'mkt': 'en-US',
-        'mode': 'proof',
-        'preContextText': '',
-        'postContextText': '',
-    }
-
-    data = {'text': content}  # format json for API
-
-    # Set required headers
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Ocp-Apim-Subscription-Key': api_key,
-    }
-
-    # Send request & parse as JSON
-    response = requests.post(const.BING_ENDPOINT, headers=headers,
-                             params=params, data=data)
-    json_response = response.json()
-
-    for token in json_response[const.FLAGGED_TOKENS]:    # loop through mistakes
-        if token[const.MISTAKE_TYPE] == const.UNKOWN_TOKEN:
-            mistakes.append(token[const.TOKEN_VALUE])
-            mistakes_position.append(token[const.TOKEN_RELATIVE_POSITION])
-
-        for suggestion in token[const.SUGGESTIONS]:
-            sugg.append([suggestion])
-        suggestions.append(sugg) # just putting numbers in eg [1, 2, 3, 4, ...] based on number of mistakes
-        position.append(count)
-        count += 1
-
-    for count in position:
-        # creates object mistakes
-        accident = Mistake(
-            mistakes[count],
-            mistakes_position[count],
-            suggestions[count]
-        )
-        # creates an array of mistakes to return
-        object_mistakes.append(accident)
-
-    return object_mistakes
+    response = requests.post(
+        const.BING_ENDPOINT,
+        headers={
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Ocp-Apim-Subscription-Key': get_key(),
+        },
+        params={
+            'mkt': 'en-US',
+            'mode': 'proof',
+            'preContextText': '',
+            'postContextText': '',
+        },
+        data={
+            'text' : content
+        }
+    )
+    
+    return [Mistake(token[const.TOKEN_VALUE], token[const.TOKEN_RELATIVE_POSITION],
+                    [Suggestion(suggestion[const.SUGGESTION],
+                                suggestion[const.SCORE])
+                     for suggestion in token[const.SUGGESTIONS]]) \
+            for token in response.json()[const.FLAGGED_TOKENS] \
+            if token[const.MISTAKE_TYPE] == const.UNKOWN_TOKEN]

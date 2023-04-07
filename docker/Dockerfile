@@ -37,7 +37,6 @@ COPY --from=final-bundle \
     /var/www/apache/static/client/js/main.js \
     ./static/client/js/main.js
 COPY scripts ./scripts
-ENV BING_API_KEY=$BING_API_KEY
 COPY manage.py ./manage.py
 COPY server ./server
 COPY client ./client
