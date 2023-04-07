@@ -18,9 +18,12 @@ jobs:
           cd docker
           sudo docker-compose build
       - name: Run Django Tests
+        env:
+          BING_API_KEY: "${{ secrets.AZURE_TOKEN }}"
         run: |
           cd docker
-          sudo docker-compose up -d webserver
+          echo Length of API key is: ${#BING_API_KEY}
+          sudo -E docker-compose up -d webserver
           sudo docker-compose exec -T webserver bash -c '. scripts/install.sh; python3 manage.py test' > /tmp/django-test-result || error=1
           
           echo '# Django Test Output' > $GITHUB_STEP_SUMMARY
@@ -32,6 +35,4 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           docker-compose logs webserver >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-
           exit $error
-          

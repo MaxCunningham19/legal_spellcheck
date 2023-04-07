@@ -19,7 +19,7 @@ class DocumentSerializer(serializers.ModelSerializer):
 class MistakeSerializer(serializers.Serializer):
     word = serializers.CharField(max_length=200)
     start = serializers.IntegerField()
-    end = serializers.IntegerField()
+    end = serializers.IntegerField() 
     suggestions = serializers.ListField(
         child=serializers.CharField(max_length=200),
         allow_empty=True

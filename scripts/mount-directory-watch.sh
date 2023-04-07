@@ -19,4 +19,4 @@ scripts/mount-file-watch.sh
 # Spawn a new watch including all directories.
 find client server api -type d \! -name '*node_modules*' \
     | sed 's/$/:ny/' \
-    | xargs inotifyd $(realpath scripts/mount-watch.sh)
+    | xargs inotifyd $(realpath scripts/mount-directory-watch.sh)

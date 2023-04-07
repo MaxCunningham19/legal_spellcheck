@@ -17,7 +17,9 @@ services:
       dockerfile: docker/Dockerfile
       args:
         BUNDLE: local
-    environment: *environment
+    environment:
+      <<: *environment
+      BING_API_KEY: ${BING_API_KEY}
     ports:
       - 8080:80
     links:

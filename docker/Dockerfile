@@ -19,7 +19,7 @@ RUN PATH=$PATH:node_modules/.bin webpack
 # production bundle.
 FROM $BUNDLE-bundle as final-bundle
 
-From alpine:latest AS setup-venv
+FROM alpine:latest AS setup-venv
 WORKDIR /var/www/apache
 COPY scripts/setup-venv.sh ./scripts/setup-venv.sh
 RUN apk add py3-pip python3 && sh ./scripts/setup-venv.sh
