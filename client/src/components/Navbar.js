@@ -5,14 +5,14 @@ import { ReactComponent as BrowseIcon } from "../icons/folder-open.svg"
 import { NavLink } from 'react-router-dom'
 import styles from './Navbar.module.css'
 
-export const Navbar = ( { fromEditor, fromMyDocuments }) => {
+export const Navbar = () => {
 
   return (
     <>   
       <nav className={styles['Navbar']}>
           <div className={styles['navbar-container']}>
             <div className={styles['buttons-container']}>
-              <NavLink to="/" state={{ fromEditor: fromEditor }}>
+              <NavLink to="/" >
                 {({ isActive }) => 
                   <Button 
                     buttonStyle={isActive ? "icon-navbar-selected" : "icon-navbar-plain"} 
@@ -23,7 +23,7 @@ export const Navbar = ( { fromEditor, fromMyDocuments }) => {
                   />
                 }
               </NavLink>
-              <NavLink to="/editor" state={{ fromMyDocuments: fromMyDocuments }}>
+              <NavLink to="/editor" >
                 {({ isActive }) => 
                   <Button 
                     buttonStyle={isActive ? "icon-navbar-selected" : "icon-navbar-plain"} 

@@ -1,7 +1,7 @@
 .Carousel {
     composes: Carousel from './Editor.module.css';
+    
 }
-
     .carousel-container {
         composes: Carousel;
         display: flex;
@@ -10,6 +10,8 @@
         padding-top: 2rem;
         gap: 2rem;
     }
+
+     
 
 .icon-add-component-textarea-icon {
     composes: icon-add-component-textarea-icon from './Button.module.css';

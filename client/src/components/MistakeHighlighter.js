@@ -1,45 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { Mistake } from './Mistake'
 import styles from './MistakeHighlighter.module.css'
 
-//TODO: creating my own constructor for now but should be passed from backend
-class Mistake {
-  constructor(word, start, end, suggestion) {
-    this.word = word;
-    this.start = start;
-    this.end = end;
-    this.suggestion = suggestion;
-  }
-}
-
-export const MistakeHighlighter= ({ text }) => {
-
-  // TODO: this currently defaults every paragraph to track for the same ranges, this will change with API data and mistakes will passed as props
-  const mistakes = [];
-  mistakes.push(new Mistake('', 0, 1, ''));
-  mistakes.push(new Mistake('', 7, 9, ''));
-  mistakes.push(new Mistake('', 33, 38, ''));
-
+export const MistakeHighlighter= ({ text, mistakes }) => {
+  
   let treshold = 0
 
-  // TODO: add another highlight style to deactivate highlight or find different way
-  const fragments = mistakes.map(({ start, end }) => {
-    const newFragment = (
-      <>
-        {text.substring(treshold, start)}
-        <span className={styles["highlight"]} >
-          {text.substring(start, end+1)}
-        </span>
-      </>
-    )
-    treshold = end + 1;
-    return newFragment
-  });
+  const mapFragments = () => {
+    return mistakes.map(({ word, start, end, suggestions }) => {
+      const newFragment = (
+        <>
+          {text.substring(treshold, start)}
+          <Mistake
+            text={text.substring(start, end)}
+            suggestion={parseSuggestions(suggestions, word)}
+          />
+        </>
+      )
+      treshold = end;
+      return newFragment
+    })
+  }
+
+  /** Makes sure that suggestion do not end with punctuation symbols */
+  const parseSuggestions = (suggestions, word) => {
+    if (suggestions[0] === undefined) return word
+    let firstSuggestion = suggestions[0]
+    let filterEndingWithSymbols = /[.,:!?]$/
+    if (!!firstSuggestion.match(filterEndingWithSymbols)) {
+      firstSuggestion = firstSuggestion.substring(0, firstSuggestion.length-1)
+    }
+    return firstSuggestion
+  }
 
   return (
     <>
       { text.length > 0 &&
         <>
-          {fragments}
+          {mapFragments()}
           <span>{text.substring(treshold, text.length)}</span>
         </>
       }

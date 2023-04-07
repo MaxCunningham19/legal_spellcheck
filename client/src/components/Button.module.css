@@ -66,6 +66,10 @@
                     
                 }
 
+                .icon-navbar-plain:hover {
+                    background-color: var(--text-medium-dark);
+                }
+
 
 
         .icon-add-component-default {
@@ -97,6 +101,10 @@
                 .icon-add-component-textarea-text {
                 }
 
+                .icon-add-component-textarea:hover {
+                    opacity: 95%;
+                }
+
             .icon-add-component-document {
                 composes: icon-add-component-default;
                 height: 192px;
@@ -108,6 +116,10 @@
                     width: 60px;
                     fill: var(--text-medium);
                 } 
+
+                .icon-add-component-document:hover {
+                    opacity: 90%;
+                }
 
         .icon-single-default {
             composes: icon-default;
@@ -149,11 +161,116 @@
                     stroke: var(--action-button);
                 }
 
+            .icon-sidemistakebar-close {
+                composes: icon-single-default;
+                margin-left: auto;
+                width: 50px;
+                height: 50px;
+                border: none;
+                background-color: var(--text-dark);
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                white-space: nowrap;
+            }
+
+                .icon-sidemistakebar-close:hover {
+                    background-color: var(--text-medium-dark);
+                }
+
+            .icon-sidemistakebar-menu {
+                composes: icon-single-default;
+                width: 50px;
+                height: 50px;
+                border: none;
+                background-color: var(--text-dark);
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                white-space: nowrap;
+            }
+
+                .icon-sidemistakebar-menu:hover {
+                    background-color: var(--text-medium-dark);
+                }
+
+                .icon-sidemistakebar-icon {
+                    width: 20px;
+                    height: 20px;
+                    fill: white;
+                }
+
+            .icon-minus-mydocuments {
+                composes: icon-single-default;
+                background-color: transparent;
+                width: 20px;
+                border: none;
+            }
+
+                .icon-minus-mydocuments-previews {
+                    composes: icon-minus-mydocuments;
+                    position: absolute;
+                    right: -10px;
+                    top: -10px;
+                }
+
+                    .icon-minus-mydocuments-previews-icon {
+                        fill: var(--warning-activate);
+                        width: 20px;
+                    }
+
+                    .icon-minus-mydocuments-previews-icon:hover {
+                        fill: var(--warning-dark)
+                    }
+
+                .icon-minus-mydocuments-list {
+                    composes: icon-minus-mydocuments;
+                    width: 25px;
+                    margin-right: 5px;
+                }
+
+                    .icon-minus-mydocuments-list-icon {
+                        fill: var(--warning-activate);
+                        width: 25px;
+                        
+                    }
+
+                    .icon-minus-mydocuments-list-icon:hover {
+                        fill: var(--warning-dark)
+                    }
+
+        .icon-and-text {
+            composes: icon-default;
+            gap: 7px;
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+        
+            .icon-header-view {
+                composes: icon-and-text;
+                background-color: var(--area-button);
+                height: 35px;
+                width: 100px;
+                border-radius: 5px;
+                border: none;
+                align-content: center;
+            }
+
+                .icon-header-view-icon {
+                    width: 20px;
+                    height: 20px;
+                    fill: var(--text-dark);
+                    transform: translate(0px, 1.5px);
+                }
+
+            .icon-header-view:hover {
+                opacity: 90%;
+            }
 
     
     .actionbar-default{
         composes: btn-default;
-        border-radius: 2px;
         color: var(--text-dark);
         font-weight: bold;
         font-size: 15px;
@@ -166,9 +283,43 @@
         .actionbar-validate{
             composes: actionbar-default;
             background-color: var(--action-button);
-
         }
+
+            .actionbar-validate:hover {
+                opacity: 95%;
+            }
+
         .actionbar-save{
             composes: actionbar-default;
             background-color: var(--passive-button);
+        }
+
+            .actionbar-save:hover {
+                opacity: 95%;
+            }
+
+    .mydocuments-delete {
+        composes: btn-default;
+        border-radius: 4px;
+        border: none;
+        color: var(--text-dark);
+        font-weight: bold;
+        font-size: 15px;
+        width: 80px;
+        height: 35px;
+        background-color: var(--warning-activate);
+    }
+
+        .mydocuments-delete-cancel {
+            composes: mydocuments-delete;
+            background-color: var(--warning-deactivate);
+        }
+
+        .mydocuments-delete-edit {
+            composes: mydocuments-delete;
+            background-color: var(--warning-activate);
+        }
+
+        .mydocuments-delete:hover {
+            opacity: 90%;
         }

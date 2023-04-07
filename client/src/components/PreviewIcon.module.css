@@ -41,7 +41,20 @@
             text-align: left;
             font-size: 10px;
         }
+    
+        .preview-icon-explorer-loading {
+            composes: preview-icon-explorer;
+            background-color: var(--medium-background);
+        }
 
 .preview-icon-default:hover {
     cursor: pointer;
 }
+
+.loading-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
