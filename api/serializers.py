@@ -10,13 +10,12 @@ class BlockSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('block_order', 'block_content')
         model = models.Block
-
-class SuggestionSerializer(serializers.Serializer):
-    word = serializers.CharField(max_length=200)
-    score = serializers.FloatField()
         
 class MistakeSerializer(serializers.Serializer):
     word = serializers.CharField(max_length=200)
     start = serializers.IntegerField()
-    end = serializers.IntegerField()
-    suggestions = SuggestionSerializer(many=True)
+    end = serializers.IntegerField() 
+    suggestions = serializers.ListField(
+        child=serializers.CharField(max_length=200),
+        allow_empty=True
+    )

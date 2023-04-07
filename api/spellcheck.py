@@ -3,23 +3,8 @@ import requests
 import os
 from . import spellcheck_constants as const
 
-class Suggestion():
-    def __init__(self, word: str, score: float):
-        self.word = word
-        '''
-        The word being suggested
-        '''
-        
-        self.score = score
-        '''
-        The confidence in suggestion. Ranges from 0 to 1
-        '''
-
-    def __repr__(self) -> str:
-        return str(self.__dict__)
-
 class Mistake():
-    def __init__(self, word: str, location: int, suggestions: list[Suggestion]):
+    def __init__(self, word: str, location: int, suggestions: list[str]):
         self.word = word
         '''
         The actual word that was misspelt.
@@ -70,9 +55,9 @@ def check(content: str) -> list[Mistake]:
         }
     )
     
-    return [Mistake(token[const.TOKEN_VALUE], token[const.TOKEN_RELATIVE_POSITION],
-                    [Suggestion(suggestion[const.SUGGESTION],
-                                suggestion[const.SCORE])
-                     for suggestion in token[const.SUGGESTIONS]]) \
-            for token in response.json()[const.FLAGGED_TOKENS] \
+    return [Mistake(token[const.TOKEN_VALUE],
+                    token[const.TOKEN_RELATIVE_POSITION],
+                    [suggestion[const.SUGGESTION]
+                     for suggestion in token[const.SUGGESTIONS]])
+            for token in response.json()[const.FLAGGED_TOKENS]
             if token[const.MISTAKE_TYPE] == const.UNKOWN_TOKEN]
