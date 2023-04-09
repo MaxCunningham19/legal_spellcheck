@@ -45,7 +45,7 @@ export const Header = ({
 
   const handleOnClickValidateAll = () => {
     onValidateAll()
-    setLoadingMessage("Running spellcheck", 1500)
+    setLoadingMessage("Running spellcheck", 3500)
   }
 
   const handleOnKeyEnter = (e) => {
