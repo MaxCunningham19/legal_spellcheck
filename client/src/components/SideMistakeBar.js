@@ -213,19 +213,19 @@ export const SideMistakeBar = ({ isCompact, toggleMode }) => {
                 <div className={styles["list-items-container"]}>
                   { (commonMistakes[0] !== undefined) && 
                     <div className={styles["list-item"]}>
-                      <span className={styles["number"]}>#{commonMistakes[0].occurrences}</span>
+                      <span className={styles["number"]}>{commonMistakes[0].occurrences}x</span>
                       <span className={styles["word"]}>{commonMistakes[0].word}</span>
                     </div>
                   }
                   { (commonMistakes[1] !== undefined) &&
                     <div className={styles["list-item"]}>
-                      <span className={styles["number"]}>#{commonMistakes[1].occurrences}</span>
+                      <span className={styles["number"]}>{commonMistakes[1].occurrences}x</span>
                       <span className={styles["word"]}>{commonMistakes[1].word}</span>
                     </div>
                   }
                   { (commonMistakes[2] !== undefined) &&
                     <div className={styles["list-item"]}>
-                      <span className={styles["number"]}>#{commonMistakes[2].occurrences}</span>
+                      <span className={styles["number"]}>{commonMistakes[2].occurrences}x</span>
                       <span className={styles["word"]}>{commonMistakes[2].word}</span>
                     </div>
                   }
