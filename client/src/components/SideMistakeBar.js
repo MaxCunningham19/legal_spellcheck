@@ -207,32 +207,34 @@ export const SideMistakeBar = ({ isCompact, toggleMode }) => {
                 </div>
               </div>
             </div>
-            <div className={styles["lists-statistics"]}>
-              <div className={styles["list-title"]}>MOST COMMON MISTAKES</div>
-              <div className={styles["list-items-container"]}>
-                { (commonMistakes[0] !== undefined) && 
-                  <div className={styles["list-item"]}>
-                    <span className={styles["number"]}>#{commonMistakes[0].occurrences}</span>
-                    <span className={styles["word"]}>{commonMistakes[0].word}</span>
-                  </div>
-                }
-                { (commonMistakes[1] !== undefined) &&
-                  <div className={styles["list-item"]}>
-                    <span className={styles["number"]}>#{commonMistakes[1].occurrences}</span>
-                    <span className={styles["word"]}>{commonMistakes[1].word}</span>
-                  </div>
-                }
-                { (commonMistakes[2] !== undefined) &&
-                  <div className={styles["list-item"]}>
-                    <span className={styles["number"]}>#{commonMistakes[2].occurrences}</span>
-                    <span className={styles["word"]}>{commonMistakes[2].word}</span>
-                  </div>
-                }
-                {/* {(commonMistakes[0] !== undefined) && <div><span>#1</span><span>{commonMistakes[0].word}</span></div>}
-                {(commonMistakes[1] !== undefined) && <div><span>#2</span><span>{commonMistakes[1].word}</span></div>}
-                {(commonMistakes[2] !== undefined) && <div><span>#3</span><span>{commonMistakes[2].word}</span></div>} */}
+            { (document.mistakes !== undefined) && 
+              <div className={styles["lists-statistics"]}>
+                <div className={styles["list-title"]}>MOST COMMON MISTAKES</div>
+                <div className={styles["list-items-container"]}>
+                  { (commonMistakes[0] !== undefined) && 
+                    <div className={styles["list-item"]}>
+                      <span className={styles["number"]}>#{commonMistakes[0].occurrences}</span>
+                      <span className={styles["word"]}>{commonMistakes[0].word}</span>
+                    </div>
+                  }
+                  { (commonMistakes[1] !== undefined) &&
+                    <div className={styles["list-item"]}>
+                      <span className={styles["number"]}>#{commonMistakes[1].occurrences}</span>
+                      <span className={styles["word"]}>{commonMistakes[1].word}</span>
+                    </div>
+                  }
+                  { (commonMistakes[2] !== undefined) &&
+                    <div className={styles["list-item"]}>
+                      <span className={styles["number"]}>#{commonMistakes[2].occurrences}</span>
+                      <span className={styles["word"]}>{commonMistakes[2].word}</span>
+                    </div>
+                  }
+                  {/* {(commonMistakes[0] !== undefined) && <div><span>#1</span><span>{commonMistakes[0].word}</span></div>}
+                  {(commonMistakes[1] !== undefined) && <div><span>#2</span><span>{commonMistakes[1].word}</span></div>}
+                  {(commonMistakes[2] !== undefined) && <div><span>#3</span><span>{commonMistakes[2].word}</span></div>} */}
+                </div>
               </div>
-            </div>
+            }
             {/* <div className={styles["lists-statistics"]}>
               <div className={styles["list-title"]}>MOST COMMON PARAGRAPHS</div>
               {(blockScores[0] !== undefined) && <div><span>#1</span><span>{blockScores[0]}</span></div>}
