@@ -35,6 +35,12 @@ export const Editor = ({ blocks, onValidateClick, forwardedRef, validateAll }) =
               toggleMode={toggleMode}
             /> 
           }
+          { (showMistakeBar && isCompact) &&
+            <div className={styles["guideline-compact"]} />
+          }
+          { (showMistakeBar && !isCompact) &&
+            <div className={styles["guideline-expand"]} />
+          }
         </div>
       </section>
     </>
