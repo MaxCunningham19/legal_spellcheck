@@ -19,7 +19,7 @@ export function EditorPage() {
     const handleOnValidateAll = () => {
       setTimeout(() => updateBlocks(), 500)
       setTimeout(() => checkDocument(), 1000)
-      setTimeout(() => setValidateAll(true), 3500)
+      setTimeout(() => setValidateAll(true), 2500)
     }
 
     const handleOnValidateBlock = (e, id) => {

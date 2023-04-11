@@ -113,12 +113,12 @@ export const Header = ({
                     percWidth="7%"
                     percHeight="7%"
                     message={message}
-                    messageStyle="header-loading"
+                    messageStyle="header-loading" 
                   />
                 }
                 </div>
                 <div className={styles['action-container']}>
-                  <Button onClick={handleOnClickSaveAll} buttonStyle="actionbar-save" text="Save all"></Button>
+                  <Button onClick={handleOnClickSaveAll} buttonStyle="actionbar-save" text="Save All"></Button>
                   <Button onClick={handleOnClickValidateAll} buttonStyle="actionbar-validate" text="Spellcheck"></Button>
                 </div>
               </>

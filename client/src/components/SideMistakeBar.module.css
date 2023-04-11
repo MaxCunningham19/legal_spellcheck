@@ -1,11 +1,12 @@
 .container {
+  composes: SideMistakeBar from "./Editor.module.css";
   display: grid;
   grid-template-rows: 50px 280px;
   grid-template-columns: 350px;
   grid-template-areas: 
     "title"
     "body";
-  position: relative;
+  position: absolute;
   background-color: var(--mistake-bar-dark);
   color: var(--text-dark);
   flex-direction: column;
@@ -144,6 +145,7 @@
 
 
 .compact-container {
+  composes: SideMistakeBar from "./Editor.module.css";
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
@@ -151,6 +153,7 @@
   height: fit-content;
   background-color: var(--text-dark);
   font-weight: bold;
+
 }
 
   .compact-button {
