@@ -6,6 +6,7 @@ import { ReactComponent as CloseIcon } from "../icons/close.svg"
 import { ReactComponent as ValidateOutline } from "../icons/validate-outline.svg"
 import { ReactComponent as Save } from "../icons/save.svg"
 import { MistakeHighlighter } from './MistakeHighlighter'
+import ReactLoading from 'react-loading'
 import axios from 'axios'
 
 export const TextBox = ({
@@ -29,6 +30,8 @@ export const TextBox = ({
     const [isValidated, setIsValidated] = useState(false)
     const textAreaRef = useRef()
     const [uniqueId, setUniqueId] = useState("")
+    const [loadValidate, setLoadValidate] = useState(false)
+    const [loadSave, setLoadSave] = useState(false)
 
     useEffect(() => {
       setUniqueId(() => uniqueid)
@@ -36,6 +39,8 @@ export const TextBox = ({
 
     const handleOnValidateClick = () => {
       onValidateClick()
+      setLoadValidate(() => true)
+      setTimeout(() => setLoadValidate(() => false), 3000)
       setTimeout(() => setIsValidated(() => true), 500)
     }
 
@@ -65,6 +70,8 @@ export const TextBox = ({
     }
 
     const onSaveClick = (e, id) => {
+      setLoadSave(() => true)
+      setTimeout(() => setLoadSave(() => false), 1000)
       const newContent = textAreaRef.current.innerText
       if (uniqueId === undefined) postBlock(newContent)
       else putBlock(newContent)
@@ -150,14 +157,20 @@ export const TextBox = ({
                 <Button 
                   buttonStyle="icon-single-textbox" 
                   onClick={(e) => handleOnValidateClick(e, uniqueid)}
-                  icon={<ValidateOutline className={styles['icon-single-textbox-icon-active']} />}
+                  icon={(!loadValidate) 
+                    ? <ValidateOutline className={styles['icon-single-textbox-icon-active']}/> 
+                    : <ReactLoading type={"spin"} color={"#F37A32"} height={"20px"} width={"20px"} />
+                  }
                 />
               )}
               {(onFocus && !document.untracked) && (
                 <Button 
                   buttonStyle="icon-single-textbox" 
                   onClick={(e) => onSaveClick(e, id)}
-                  icon={<Save className={styles['icon-single-textbox-icon-passive']} />}
+                  icon={(!loadSave) 
+                    ? <Save className={styles['icon-single-textbox-icon-passive']} />
+                    : <ReactLoading type={"spin"} color={"#8BA3CC"} height={"20px"} width={"20px"} />
+                  }
                 />
               )}
             </div>
