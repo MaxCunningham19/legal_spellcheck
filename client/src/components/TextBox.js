@@ -40,7 +40,7 @@ export const TextBox = ({
     const handleOnValidateClick = () => {
       onValidateClick()
       setLoadValidate(() => true)
-      setTimeout(() => setLoadValidate(() => false), 3000)
+      setTimeout(() => setLoadValidate(() => false), 3750)
       setTimeout(() => setIsValidated(() => true), 500)
     }
 
