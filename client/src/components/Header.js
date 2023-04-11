@@ -45,7 +45,7 @@ export const Header = ({
 
   const handleOnClickValidateAll = () => {
     onValidateAll()
-    setLoadingMessage("Validating", 1500)
+    setLoadingMessage("Running spellcheck", 3500)
   }
 
   const handleOnKeyEnter = (e) => {
@@ -119,7 +119,7 @@ export const Header = ({
                 </div>
                 <div className={styles['action-container']}>
                   <Button onClick={handleOnClickSaveAll} buttonStyle="actionbar-save" text="Save all"></Button>
-                  <Button onClick={handleOnClickValidateAll} buttonStyle="actionbar-validate" text="Validate all"></Button>
+                  <Button onClick={handleOnClickValidateAll} buttonStyle="actionbar-validate" text="Spellcheck"></Button>
                 </div>
               </>
           }
